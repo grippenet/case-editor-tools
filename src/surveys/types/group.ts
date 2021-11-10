@@ -60,7 +60,8 @@ export abstract class Group {
     const hasDuplicates = keys.some((key, index) => {
       const isDuplicateKey = keys.indexOf(key) !== index;
       if (isDuplicateKey) {
-        throw new Error(`Duplicate key: ${key} is used twice (at index ${keys.indexOf(key)} and at index ${index})`);
+        Logger.error('Duplicate key:');
+        Logger.criticalError(`${key} is used twice (at index ${keys.indexOf(key)} and at index ${index})`);
       }
       return isDuplicateKey;
     });
