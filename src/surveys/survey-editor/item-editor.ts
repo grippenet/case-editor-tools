@@ -299,7 +299,7 @@ export class ItemEditor implements ItemEditorInt {
     }
 
     if ((obj as ItemGroupComponent).items.find(it => props.key === it.key)) {
-      Logger.criticalError('item already exists with key: ' + props.key);
+      Logger.criticalError('Duplicate key: ' + props.key);
       return undefined;
     }
 
@@ -363,7 +363,7 @@ export class ItemEditor implements ItemEditorInt {
     }
 
     if ((obj as ItemGroupComponent).items.find(it => newComp.key === it.key)) {
-      Logger.criticalError('item already exists with key: ' + newComp.key);
+      Logger.criticalError('Duplicate key: ' + newComp.key);
       return undefined;
     }
 
