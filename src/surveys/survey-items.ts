@@ -7,7 +7,7 @@ import { datePickerKey, dropDownKey, inputKey, likertScaleGroupKey, multipleChoi
 import { generateRandomKey } from "./utils/randomKeyGenerator";
 import { expWithArgs, generateHelpGroupComponent, generateLocStrings, generateTitleComponent } from "./utils/simple-generators";
 import { SimpleQuestionEditor } from "./utils/simple-question-editor";
-import { SurveyEngine } from "../expression-utils/surveyEngineExpressions";
+import { SurveyEngine } from "./survey-engine-expressions";
 import { OptionDef, StyledTextComponentProp } from "./types/item-properties";
 
 

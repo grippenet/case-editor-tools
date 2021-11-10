@@ -1,7 +1,7 @@
 import { Expression } from "survey-engine/lib/data_types"
 import { datePickerKey, inputKey, multipleChoiceKey, responseGroupKey, singleChoiceKey } from "../constants/key-definitions"
 import { Duration, durationObjectToSeconds } from "../types/duration"
-import { generateExpression } from "./expressionGen"
+import { generateExpression } from "../expression-utils/expressionGen"
 
 /**
  * Logical OR expression
