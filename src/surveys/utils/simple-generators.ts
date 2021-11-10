@@ -1,6 +1,6 @@
 import { LocalizedString, ItemComponent, ExpressionName, Expression, ItemGroupComponent, SurveySingleItem } from "survey-engine/lib/data_types";
 import { ComponentEditor } from "../survey-editor/component-editor";
-import { StyledTextComponentProp } from "./question-type-generator";
+import { StyledTextComponentProp } from "../types/item-properties";
 import { generateRandomKey } from "./randomKeyGenerator";
 
 export const generateLocStrings = (translations: Map<string, string>): LocalizedString[] => {
