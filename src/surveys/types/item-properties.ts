@@ -1,4 +1,5 @@
 import { ComponentProperties, Expression, ItemComponent, Validation } from "survey-engine/lib/data_types";
+import { Duration } from "../../types/duration";
 
 export interface StyledTextComponentProp {
   content: Map<string, string>;
@@ -52,6 +53,26 @@ export type NumericInputQuestionProps = GenericQuestionProps & NumericInputProps
 
 
 /**
+ * Date Input
+ */
+export interface DateInputProps {
+  dateInputMode: 'YMD' | 'YM' | 'Y';
+  inputLabelText?: Map<string, string>;
+  placeholderText?: Map<string, string>;
+  minRelativeDate?: {
+    reference?: number | Expression;
+    delta: Duration;
+  };
+  maxRelativeDate?: {
+    reference?: number | Expression;
+    delta: Duration;
+  };
+}
+
+export type DateInputQuestionProps = DateInputProps & GenericQuestionProps;
+
+
+/**
  * Text Input
  */
 export interface TextInputProps {
@@ -64,6 +85,12 @@ export interface TextInputProps {
 }
 
 export type TextInputQuestionProps = TextInputProps & GenericQuestionProps;
+
+export interface MultiLineTextInput extends GenericQuestionProps {
+  inputLabelText?: Map<string, string>;
+  placeholderText?: Map<string, string>;
+  maxLength?: number;
+}
 
 
 /**

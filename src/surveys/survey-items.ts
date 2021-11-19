@@ -2,13 +2,13 @@ import { ItemGroupComponent, Expression, ComponentProperties, LocalizedObject, I
 import { ComponentEditor } from "../surveys/survey-editor/component-editor";
 import { ItemEditor } from "../surveys/survey-editor/item-editor";
 import { ComponentGenerators } from "./utils/componentGenerators";
-import { Duration, durationObjectToSeconds } from "../types/duration";
+import { durationObjectToSeconds } from "../types/duration";
 import { datePickerKey, dropDownKey, inputKey, likertScaleGroupKey, multipleChoiceKey, numericInputKey, responseGroupKey, responsiveBipolarLikertArrayKey, responsiveSingleChoiceArrayKey, singleChoiceKey } from "../constants/key-definitions";
 import { generateRandomKey } from "./utils/randomKeyGenerator";
 import { expWithArgs, generateHelpGroupComponent, generateLocStrings, generateTitleComponent } from "./utils/simple-generators";
 import { SimpleQuestionEditor } from "./utils/simple-question-editor";
 import { SurveyEngine } from "./survey-engine-expressions";
-import { GenericQuestionProps, NumericInputQuestionProps, OptionDef, ResponsiveBipolarLikertArrayProps, ResponsiveBipolarLikertArrayQuestionProps, ResponsiveSingleChoiceArrayProps, ResponsiveSingleChoiceArrayQuestionProps, StyledTextComponentProp, TextInputQuestionProps } from "./types/item-properties";
+import { DateInputQuestionProps, GenericQuestionProps, MultiLineTextInput, NumericInputQuestionProps, OptionDef, ResponsiveBipolarLikertArrayProps, ResponsiveBipolarLikertArrayQuestionProps, ResponsiveSingleChoiceArrayProps, ResponsiveSingleChoiceArrayQuestionProps, StyledTextComponentProp, TextInputQuestionProps } from "./types/item-properties";
 
 
 interface OptionQuestionProps extends GenericQuestionProps {
@@ -462,28 +462,7 @@ const generateNumericSliderQuestion = (props: NumericSliderProps): SurveyItem =>
 }
 
 
-
-interface DatePickerInput extends GenericQuestionProps {
-  dateInputMode: 'YMD' | 'YM' | 'Y';
-  inputLabelText?: Map<string, string>;
-  placeholderText?: Map<string, string>;
-  minRelativeDate?: {
-    reference?: number | Expression;
-    delta: Duration;
-  };
-  maxRelativeDate?: {
-    reference?: number | Expression;
-    delta: Duration;
-  };
-}
-
-interface MultiLineTextInput extends GenericQuestionProps {
-  inputLabelText?: Map<string, string>;
-  placeholderText?: Map<string, string>;
-  maxLength?: number;
-}
-
-const generateDatePickerInput = (props: DatePickerInput): SurveyItem => {
+const generateDatePickerInput = (props: DateInputQuestionProps): SurveyItem => {
   const simpleEditor = new SimpleQuestionEditor(props.parentKey, props.itemKey, props.version ? props.version : 1);
 
   // QUESTION TEXT

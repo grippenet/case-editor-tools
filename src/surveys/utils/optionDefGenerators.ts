@@ -1,5 +1,7 @@
 import { Expression } from "survey-engine/lib/data_types";
-import { NumericInputProps, OptionDef, StyledTextComponentProp, TextInputProps } from "../types/item-properties";
+import { durationObjectToSeconds } from "../../types/duration";
+import { SurveyEngine } from "../survey-engine-expressions";
+import { ClozeProps, DateInputProps, NumericInputProps, OptionDef, StyledTextComponentProp, TextInputProps } from "../types/item-properties";
 
 interface CommonProps {
   key?: string,
@@ -7,10 +9,10 @@ interface CommonProps {
   displayCondition?: Expression;
 }
 
-interface OptionProps extends CommonProps {
-  key: string;
+interface OptionProps {
   disabled?: Expression;
   className?: string;
+  displayCondition?: Expression;
 }
 
 interface OptionTextProps extends CommonProps {
@@ -18,21 +20,21 @@ interface OptionTextProps extends CommonProps {
   className?: string;
 }
 
-const option = (props: OptionProps): OptionDef => {
+const option = (key: string, content: Map<string, string> | StyledTextComponentProp[], extraProps: OptionProps): OptionDef => {
   const styles = [];
-  if (props.className !== undefined) {
+  if (extraProps.className !== undefined) {
     styles.push({
-      key: 'className', value: props.className
+      key: 'className', value: extraProps.className
     })
   }
 
   return {
-    key: props.key,
+    key: key,
     role: 'option',
-    content: !Array.isArray(props.content) ? props.content : undefined,
-    items: Array.isArray(props.content) ? props.content : undefined,
-    displayCondition: props.displayCondition,
-    disabled: props.disabled,
+    content: !Array.isArray(content) ? content : undefined,
+    items: Array.isArray(content) ? content : undefined,
+    displayCondition: extraProps.displayCondition,
+    disabled: extraProps.disabled,
     style: styles,
   }
 }
@@ -53,7 +55,23 @@ const multipleChoiceOptionSubtitle = (props: OptionTextProps): OptionDef => {
   }
 }
 
-const textInput = (props: TextInputProps & { key: string, displayCondition: Expression }): OptionDef => {
+const markdown = (props: OptionTextProps): OptionDef => {
+  const styles = [];
+  if (props.className !== undefined) {
+    styles.push({
+      key: 'className', value: props.className
+    })
+  }
+  return {
+    key: props.key,
+    role: 'markdown',
+    content: !Array.isArray(props.content) ? props.content : undefined,
+    displayCondition: props.displayCondition,
+    style: styles,
+  }
+}
+
+const textInput = (props: TextInputProps & { key: string, displayCondition?: Expression }): OptionDef => {
   const style: Array<{ key: string; value: string }> = [];
   if (props.maxLength !== undefined) {
     style.push({ key: 'maxLength', value: props.maxLength.toFixed(0) })
@@ -76,7 +94,7 @@ const textInput = (props: TextInputProps & { key: string, displayCondition: Expr
   }
 }
 
-const numberInput = (props: NumericInputProps & { key: string, displayCondition: Expression }): OptionDef => {
+const numberInput = (props: NumericInputProps & { key: string, displayCondition?: Expression }): OptionDef => {
   const style: Array<{ key: string; value: string }> = [];
   if (props.inputMaxWidth !== undefined) {
     style.push({ key: 'inputMaxWidth', value: props.inputMaxWidth })
@@ -100,28 +118,71 @@ const numberInput = (props: NumericInputProps & { key: string, displayCondition:
   }
 }
 
-export const OptionTypes = {
-  generic: option,
-  singleChoice: {
-    subtitle: multipleChoiceOptionSubtitle,
-    textInput,
-    //dateInput,
-    numberInput,
-    //cloze,
-  },
-  multipleChoice: {
-    subtitle: multipleChoiceOptionSubtitle,
-    textInput,
-    // dateInput,
-    numberInput,
-    // cloze,
-  },
-  clozeItems: {
-    // text,
-    // markdown,
-    textInput,
-    // dateInput,
-    numberInput,
-    // dropDown,
+const dateInput = (props: DateInputProps & { key: string, displayCondition?: Expression }): OptionDef => {
+  return {
+    key: props.key,
+    role: 'dateInput',
+    optionProps: {
+      dateInputMode: { str: props.dateInputMode },
+      min: props.minRelativeDate ? {
+        dtype: 'exp', exp: SurveyEngine.timestampWithOffset(
+          props.minRelativeDate.delta,
+          props.minRelativeDate.reference
+        )
+      } : undefined,
+      max: props.maxRelativeDate ? {
+        dtype: 'exp', exp: SurveyEngine.timestampWithOffset(
+          props.maxRelativeDate.delta,
+          props.maxRelativeDate.reference ? props.maxRelativeDate.reference : undefined
+        )
+      } : undefined,
+    },
+    content: props.inputLabelText,
+    displayCondition: props.displayCondition,
   }
+}
+
+const dropDown = (props: { key: string, displayCondition?: Expression, options: Array<OptionDef> }): OptionDef => {
+  return {
+    key: props.key,
+    role: 'dropDownGroup',
+    displayCondition: props.displayCondition,
+    items: props.options,
+  }
+}
+
+
+const cloze = (props: ClozeProps & { key: string, displayCondition?: Expression }): OptionDef => {
+  return {
+    key: props.key,
+    role: 'cloze',
+    items: props.items,
+    displayCondition: props.displayCondition,
+  }
+}
+
+export const SingleChoiceOptionTypes = {
+  option,
+  textInput,
+  //dateInput,
+  numberInput,
+  cloze,
+}
+
+export const MultipleChoiceOptionTypes = {
+  option,
+  subtitle: multipleChoiceOptionSubtitle,
+  textInput,
+  // dateInput,
+  numberInput,
+  cloze,
+}
+
+export const ClozeItemTypes = {
+  text: multipleChoiceOptionSubtitle,
+  markdown,
+  textInput,
+  dateInput,
+  numberInput,
+  dropDown,
 }
