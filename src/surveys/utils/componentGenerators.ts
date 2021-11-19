@@ -1,58 +1,13 @@
 import { Expression, ItemComponent } from "survey-engine/lib/data_types"
-import { OptionDef, StyledTextComponentProp } from "../types/item-properties";
+import { StyledTextComponentProp } from "../types/item-properties";
 import { generateRandomKey } from "./randomKeyGenerator"
 import { generateLocStrings } from "./simple-generators"
+
 
 interface CommonProps {
   key?: string,
   content?: Map<string, string> | StyledTextComponentProp[];
   displayCondition?: Expression;
-}
-
-interface OptionProps extends CommonProps {
-  key: string;
-  disabled?: Expression;
-  className?: string;
-}
-
-interface OptionTextProps extends CommonProps {
-  key: string;
-  className?: string;
-}
-
-const option = (props: OptionProps): OptionDef => {
-  const styles = [];
-  if (props.className !== undefined) {
-    styles.push({
-      key: 'className', value: props.className
-    })
-  }
-
-  return {
-    key: props.key,
-    role: 'option',
-    content: !Array.isArray(props.content) ? props.content : undefined,
-    items: Array.isArray(props.content) ? props.content : undefined,
-    displayCondition: props.displayCondition,
-    disabled: props.disabled,
-    style: styles,
-  }
-}
-
-const multipleChoiceOptionSubtitle = (props: OptionTextProps): OptionDef => {
-  const styles = [];
-  if (props.className !== undefined) {
-    styles.push({
-      key: 'className', value: props.className
-    })
-  }
-  return {
-    key: props.key,
-    role: 'text',
-    content: !Array.isArray(props.content) ? props.content : undefined,
-    displayCondition: props.displayCondition,
-    style: styles,
-  }
 }
 
 interface TextProps extends CommonProps {
@@ -113,9 +68,8 @@ const footnote = (props: {
   }
 }
 
+
 export const ComponentGenerators = {
-  option,
-  multipleChoiceOptionSubtitle,
   footnote,
   text,
   markdown,

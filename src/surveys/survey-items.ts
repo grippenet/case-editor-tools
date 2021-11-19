@@ -1,4 +1,4 @@
-import { ItemGroupComponent, Expression, ComponentProperties, LocalizedObject, ItemComponent, SurveyItem, ExpressionArg, Validation } from "survey-engine/lib/data_types";
+import { ItemGroupComponent, Expression, ComponentProperties, LocalizedObject, ItemComponent, SurveyItem, ExpressionArg } from "survey-engine/lib/data_types";
 import { ComponentEditor } from "../surveys/survey-editor/component-editor";
 import { ItemEditor } from "../surveys/survey-editor/item-editor";
 import { ComponentGenerators } from "./utils/componentGenerators";
@@ -8,34 +8,8 @@ import { generateRandomKey } from "./utils/randomKeyGenerator";
 import { expWithArgs, generateHelpGroupComponent, generateLocStrings, generateTitleComponent } from "./utils/simple-generators";
 import { SimpleQuestionEditor } from "./utils/simple-question-editor";
 import { SurveyEngine } from "./survey-engine-expressions";
-import { OptionDef, StyledTextComponentProp } from "./types/item-properties";
+import { GenericQuestionProps, NumericInputQuestionProps, OptionDef, ResponsiveBipolarLikertArrayProps, ResponsiveBipolarLikertArrayQuestionProps, ResponsiveSingleChoiceArrayProps, ResponsiveSingleChoiceArrayQuestionProps, StyledTextComponentProp, TextInputQuestionProps } from "./types/item-properties";
 
-
-interface GenericQuestionProps {
-  parentKey: string;
-  itemKey: string;
-  version?: number;
-  questionText: Map<string, string> | Array<StyledTextComponentProp>;
-  questionSubText?: Map<string, string>;
-  titleClassName?: string;
-  helpGroupContent?: Array<{
-    content: Map<string, string>,
-    style?: Array<{ key: string, value: string }>,
-  }>;
-  condition?: Expression;
-  topDisplayCompoments?: Array<ItemComponent>;
-  bottomDisplayCompoments?: Array<ItemComponent>;
-  isRequired?: boolean;
-  footnoteText?: Map<string, string>;
-  customValidations?: Array<Validation>;
-}
-
-interface NumericInputQuestionProps extends GenericQuestionProps {
-  content: Map<string, string>;
-  contentBehindInput?: boolean;
-  componentProperties?: ComponentProperties;
-  inputMaxWidth?: string;
-}
 
 interface OptionQuestionProps extends GenericQuestionProps {
   responseOptions: Array<OptionDef>;
@@ -51,100 +25,6 @@ interface LikertGroupQuestionProps extends GenericQuestionProps {
   stackOnSmallScreen?: boolean;
 }
 
-type ResponsiveSingleChoiceArrayVariant = 'horizontal' | 'vertical' | 'table';
-type ResponsiveBipolarLikertArrayVariant = 'withLabelRow' | 'vertical' | 'table';
-
-interface ResponsiveSingleChoiceArrayProps {
-  scaleOptions: Array<{
-    key: string;
-    className?: string;
-    content: Map<string, string> | StyledTextComponentProp[];
-  }>,
-  rows: Array<{
-    key: string;
-    content: Map<string, string> | StyledTextComponentProp[];
-    horizontalModeProps?: {
-      labelPlacement?: 'none' | 'top' | 'bottom';
-      className?: string;
-    },
-    verticalModeProps?: {
-      className?: string;
-    }
-    tableModeProps?: {
-      className?: string;
-    }
-  }>,
-  defaultMode: ResponsiveSingleChoiceArrayVariant;
-  responsiveModes?: {
-    sm?: ResponsiveSingleChoiceArrayVariant;
-    md?: ResponsiveSingleChoiceArrayVariant;
-    lg?: ResponsiveSingleChoiceArrayVariant;
-    xl?: ResponsiveSingleChoiceArrayVariant;
-    xxl?: ResponsiveSingleChoiceArrayVariant;
-  },
-  rgClassName?: string;
-  tableModeProps?: {
-    className?: string;
-    layout?: "fixed";
-    firstColWidth?: string;
-    optionHeaderClassName?: string;
-    hideRowBorder?: boolean;
-  },
-  horizontalModeProps?: {
-    hideRowBorder?: boolean;
-  },
-  verticalModeProps?: {
-    hideRowBorder?: boolean;
-    useReverseOptionOrder?: boolean;
-  }
-}
-
-interface ResponsiveBipolarLikertArrayProps {
-  scaleOptions: Array<{
-    key: string;
-  }>,
-  rows: Array<{
-    key: string;
-    startLabel: Map<string, string> | StyledTextComponentProp[];
-    endLabel: Map<string, string> | StyledTextComponentProp[];
-    withLabelRowModeProps?: {
-      className?: string;
-    },
-    verticalModeProps?: {
-      className?: string;
-    }
-    tableModeProps?: {
-      className?: string;
-    }
-  }>,
-  defaultMode: ResponsiveBipolarLikertArrayVariant;
-  responsiveModes?: {
-    sm?: ResponsiveBipolarLikertArrayVariant;
-    md?: ResponsiveBipolarLikertArrayVariant;
-    lg?: ResponsiveBipolarLikertArrayVariant;
-    xl?: ResponsiveBipolarLikertArrayVariant;
-    xxl?: ResponsiveBipolarLikertArrayVariant;
-  },
-  rgClassName?: string;
-  tableModeProps?: {
-    className?: string;
-    layout?: "fixed";
-    labelColWidth?: string;
-    hideRowBorder?: boolean;
-  },
-  withLabelRowModeProps?: {
-    hideRowBorder?: boolean;
-    maxLabelWidth?: string;
-    useBottomLabel?: boolean;
-  },
-  verticalModeProps?: {
-    hideRowBorder?: boolean;
-  }
-}
-
-interface ResponsiveSingleChoiceArrayQuestionProps extends GenericQuestionProps, ResponsiveSingleChoiceArrayProps { }
-
-interface ResponsiveBipolarLikertArrayQuestionProps extends GenericQuestionProps, ResponsiveBipolarLikertArrayProps { }
 
 const generateNumericInputQuestion = (props: NumericInputQuestionProps): SurveyItem => {
   const simpleEditor = new SimpleQuestionEditor(props.parentKey, props.itemKey, props.version ? props.version : 1);
@@ -173,7 +53,7 @@ const generateNumericInputQuestion = (props: NumericInputQuestionProps): SurveyI
       key: 'inputMaxWidth', value: props.inputMaxWidth,
     })
   }
-  if (props.contentBehindInput) {
+  if (props.labelBehindInput) {
     style.push({ key: 'labelPlacement', value: 'after' });
   }
 
@@ -186,7 +66,7 @@ const generateNumericInputQuestion = (props: NumericInputQuestionProps): SurveyI
       max: props.componentProperties?.max !== undefined ? (typeof (props.componentProperties?.max) === 'number' ? { dtype: 'num', num: props.componentProperties.max } : props.componentProperties.max) : undefined,
       stepSize: props.componentProperties?.stepSize ? (typeof (props.componentProperties.stepSize) === 'number' ? { dtype: 'num', num: props.componentProperties.stepSize } : props.componentProperties.stepSize) : undefined,
     },
-    content: generateLocStrings(props.content),
+    content: generateLocStrings(props.inputLabel),
     style: style.length > 0 ? style : undefined,
   };
   simpleEditor.setResponseGroupWithContent(rg_inner);
@@ -600,6 +480,7 @@ interface DatePickerInput extends GenericQuestionProps {
 interface MultiLineTextInput extends GenericQuestionProps {
   inputLabelText?: Map<string, string>;
   placeholderText?: Map<string, string>;
+  maxLength?: number;
 }
 
 const generateDatePickerInput = (props: DatePickerInput): SurveyItem => {
@@ -661,6 +542,61 @@ const generateDatePickerInput = (props: DatePickerInput): SurveyItem => {
   return simpleEditor.getItem();
 }
 
+const generateTextInputQuestion = (props: TextInputQuestionProps): SurveyItem => {
+  const simpleEditor = new SimpleQuestionEditor(props.parentKey, props.itemKey, props.version ? props.version : 1);
+
+  // QUESTION TEXT
+  simpleEditor.setTitle(props.questionText, props.questionSubText, props.titleClassName);
+
+  if (props.condition) {
+    simpleEditor.setCondition(props.condition);
+  }
+
+  if (props.helpGroupContent) {
+    simpleEditor.editor.setHelpGroupComponent(
+      generateHelpGroupComponent(props.helpGroupContent)
+    )
+  }
+
+  if (props.topDisplayCompoments) {
+    props.topDisplayCompoments.forEach(comp => simpleEditor.addDisplayComponent(comp))
+  }
+
+  const style: Array<{ key: string; value: string }> = [];
+  if (props.maxLength !== undefined) {
+    style.push({ key: 'maxLength', value: props.maxLength.toFixed(0) })
+  }
+  if (props.className !== undefined) {
+    style.push({ key: 'className', value: props.className })
+  }
+  if (props.inputMaxWidth !== undefined) {
+    style.push({ key: 'inputMaxWidth', value: props.inputMaxWidth })
+  }
+
+  const rg_inner: ItemComponent = {
+    key: inputKey, role: 'input',
+    content: props.inputLabel ? generateLocStrings(props.inputLabel) : undefined,
+    description: props.placeholderText ? generateLocStrings(props.placeholderText) : undefined,
+    style: style.length > 0 ? [...style] : undefined,
+    disabled: props.disabled,
+  };
+  simpleEditor.setResponseGroupWithContent(rg_inner);
+
+  if (props.bottomDisplayCompoments) {
+    props.bottomDisplayCompoments.forEach(comp => simpleEditor.addDisplayComponent(comp))
+  }
+
+  if (props.isRequired) {
+    simpleEditor.addHasResponseValidation();
+  }
+
+  if (props.footnoteText) {
+    simpleEditor.addDisplayComponent(ComponentGenerators.footnote({ content: props.footnoteText }))
+  }
+
+  return simpleEditor.getItem();
+}
+
 const generateMultilineInput = (props: MultiLineTextInput): SurveyItem => {
   const simpleEditor = new SimpleQuestionEditor(props.parentKey, props.itemKey, props.version ? props.version : 1);
 
@@ -681,10 +617,12 @@ const generateMultilineInput = (props: MultiLineTextInput): SurveyItem => {
     props.topDisplayCompoments.forEach(comp => simpleEditor.addDisplayComponent(comp))
   }
 
+
   const rg_inner: ItemComponent = {
     key: inputKey, role: 'multilineTextInput',
     content: props.inputLabelText ? generateLocStrings(props.inputLabelText) : undefined,
     description: props.placeholderText ? generateLocStrings(props.placeholderText) : undefined,
+    style: props.maxLength !== undefined ? [{ key: 'maxLength', value: props.maxLength.toFixed(0) }] : undefined
   };
   simpleEditor.setResponseGroupWithContent(rg_inner);
 
@@ -735,21 +673,6 @@ const generateSurveyEnd = (parentKey: string, content: Map<string, string>, cond
   return editor.getItem();
 }
 
-export const SurveyItems = {
-  singleChoice: generateSingleChoiceQuestion,
-  responsiveSingleChoiceArray: generateResponsiveSingleChoiceArrayQuestion,
-  responsiveBipolarLikertArray: generateResponsiveBipolarLikertArray,
-  multipleChoice: generateMultipleChoiceQuestion,
-  simpleLikertGroup: generateSimpleLikertGroupQuestion,
-  dateInput: generateDatePickerInput,
-  multilineTextInput: generateMultilineInput,
-  dropDown: generateDropDownQuestion,
-  numericSlider: generateNumericSliderQuestion,
-  numericInput: generateNumericInputQuestion,
-  display: generateDisplay,
-  surveyEnd: generateSurveyEnd,
-}
-
 
 export const initSingleChoiceGroup = (
   key: string,
@@ -794,6 +717,79 @@ export const initSliderCategoricalGroup = (
   return initResponseGroup('sliderCategorical', key, optionItems, order, groupDisabled);
 }
 
+const optionDefToItemComponent = (optionDef: OptionDef): ItemComponent => {
+  const isGroup = optionDef.items && optionDef.items.length > 0;
+  const optEditor = new ComponentEditor(undefined, {
+    key: optionDef.key,
+    role: optionDef.role,
+    isGroup: isGroup
+  });
+  if (isGroup) {
+    optEditor.setOrder({
+      name: 'sequential'
+    });
+  }
+
+  if (optionDef.content) {
+    optEditor.setContent(generateLocStrings(optionDef.content));
+  }
+  if (optionDef.description) {
+    optEditor.setDescription(generateLocStrings(optionDef.description));
+  }
+  switch (optionDef.role) {
+    case 'date':
+      optEditor.setDType('date');
+      break;
+    case 'numberInput':
+      optEditor.setDType('number');
+      break;
+  }
+
+  if (optionDef.displayCondition) {
+    optEditor.setDisplayCondition(optionDef.displayCondition);
+  }
+  if (optionDef.disabled) {
+    optEditor.setDisabled(optionDef.disabled);
+  }
+  if (optionDef.style) {
+    optEditor.setStyles(optionDef.style);
+  }
+  if (optionDef.optionProps) {
+    if (typeof (optionDef.optionProps.min) === 'number') {
+      optionDef.optionProps.min = { dtype: 'num', num: optionDef.optionProps.min }
+    }
+    if (typeof (optionDef.optionProps.max) === 'number') {
+      optionDef.optionProps.max = { dtype: 'num', num: optionDef.optionProps.max }
+    }
+    if (typeof (optionDef.optionProps.stepSize) === 'number') {
+      optionDef.optionProps.stepSize = { dtype: 'num', num: optionDef.optionProps.stepSize }
+    }
+    optEditor.setProperties(optionDef.optionProps);
+  }
+
+  if (optionDef.items) {
+    if (optionDef.role === 'text') {
+      optionDef.items.forEach((item, index) => {
+        const textItem = item as StyledTextComponentProp;
+        optEditor.addItemComponent({
+          key: index.toFixed(),
+          role: 'text',
+          content: generateLocStrings(textItem.content),
+          style: textItem.className ? [{ key: 'className', value: textItem.className }] : undefined
+        });
+      })
+    } else {
+      optionDef.items.forEach((item) => {
+        const clozeItem = item as OptionDef;
+        const comp = optionDefToItemComponent(clozeItem);
+        optEditor.addItemComponent(comp);
+      })
+    }
+  }
+
+  return optEditor.getComponent();
+}
+
 const initResponseGroup = (
   type: 'singleChoiceGroup' | 'multipleChoiceGroup' | 'dropDownGroup' | 'sliderCategorical',
   key: string,
@@ -827,59 +823,9 @@ const initResponseGroup = (
 
   // add option items
   optionItems.forEach(optionDef => {
-    const optEditor = new ComponentEditor(undefined, {
-      key: optionDef.key,
-      role: optionDef.role,
-    });
-    if (optionDef.content) {
-      optEditor.setContent(generateLocStrings(optionDef.content));
-    }
-    if (optionDef.description) {
-      optEditor.setDescription(generateLocStrings(optionDef.description));
-    }
-    if (optionDef.items) {
-      optionDef.items.forEach((item, index) => {
-        optEditor.addItemComponent({
-          key: index.toFixed(),
-          role: 'text',
-          content: generateLocStrings(item.content),
-          style: item.className ? [{ key: 'className', value: item.className }] : undefined
-        });
-      })
-    }
-
-    switch (optionDef.role) {
-      case 'date':
-        optEditor.setDType('date');
-        break;
-      case 'numberInput':
-        optEditor.setDType('number');
-        break;
-    }
-
-    if (optionDef.displayCondition) {
-      optEditor.setDisplayCondition(optionDef.displayCondition);
-    }
-    if (optionDef.disabled) {
-      optEditor.setDisabled(optionDef.disabled);
-    }
-    if (optionDef.style) {
-      optEditor.setStyles(optionDef.style);
-    }
-    if (optionDef.optionProps) {
-      if (typeof (optionDef.optionProps.min) === 'number') {
-        optionDef.optionProps.min = { dtype: 'num', num: optionDef.optionProps.min }
-      }
-      if (typeof (optionDef.optionProps.max) === 'number') {
-        optionDef.optionProps.max = { dtype: 'num', num: optionDef.optionProps.max }
-      }
-      if (typeof (optionDef.optionProps.stepSize) === 'number') {
-        optionDef.optionProps.stepSize = { dtype: 'num', num: optionDef.optionProps.stepSize }
-      }
-      optEditor.setProperties(optionDef.optionProps);
-    }
-    groupEdit.addItemComponent(optEditor.getComponent());
+    groupEdit.addItemComponent(optionDefToItemComponent(optionDef));
   });
+
   return groupEdit.getComponent() as ItemGroupComponent;
 }
 
@@ -1497,4 +1443,24 @@ export const initLikertScaleItem = (
   });
 
   return groupEdit.getComponent() as ItemGroupComponent;
+}
+
+export const SurveyItems = {
+  singleChoice: generateSingleChoiceQuestion,
+  responsiveSingleChoiceArray: generateResponsiveSingleChoiceArrayQuestion,
+  responsiveBipolarLikertArray: generateResponsiveBipolarLikertArray,
+  multipleChoice: generateMultipleChoiceQuestion,
+  dateInput: generateDatePickerInput,
+  textInput: generateTextInputQuestion,
+  // eq5dSlider: todo,
+  // clozeQuestion: todo,
+  numericInput: generateNumericInputQuestion,
+  multilineTextInput: generateMultilineInput,
+  dropDown: generateDropDownQuestion,
+  numericSlider: generateNumericSliderQuestion,
+  display: generateDisplay,
+  surveyEnd: generateSurveyEnd,
+  old: {
+    simpleLikertGroup: generateSimpleLikertGroupQuestion,
+  }
 }
