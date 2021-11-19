@@ -2,6 +2,7 @@ import { Expression } from "survey-engine/lib/data_types";
 import { durationObjectToSeconds } from "../../types/duration";
 import { SurveyEngine } from "../survey-engine-expressions";
 import { ClozeProps, DateInputProps, NumericInputProps, OptionDef, StyledTextComponentProp, TextInputProps } from "../types/item-properties";
+import { generateRandomKey } from "./randomKeyGenerator";
 
 interface CommonProps {
   key?: string,
@@ -16,13 +17,12 @@ interface OptionProps {
 }
 
 interface OptionTextProps extends CommonProps {
-  key: string;
   className?: string;
 }
 
-const option = (key: string, content: Map<string, string> | StyledTextComponentProp[], extraProps: OptionProps): OptionDef => {
+const option = (key: string, content: Map<string, string> | StyledTextComponentProp[], extraProps?: OptionProps): OptionDef => {
   const styles = [];
-  if (extraProps.className !== undefined) {
+  if (extraProps?.className !== undefined) {
     styles.push({
       key: 'className', value: extraProps.className
     })
@@ -33,8 +33,8 @@ const option = (key: string, content: Map<string, string> | StyledTextComponentP
     role: 'option',
     content: !Array.isArray(content) ? content : undefined,
     items: Array.isArray(content) ? content : undefined,
-    displayCondition: extraProps.displayCondition,
-    disabled: extraProps.disabled,
+    displayCondition: extraProps?.displayCondition,
+    disabled: extraProps?.disabled,
     style: styles,
   }
 }
@@ -47,7 +47,7 @@ const multipleChoiceOptionSubtitle = (props: OptionTextProps): OptionDef => {
     })
   }
   return {
-    key: props.key,
+    key: props.key ? props.key : generateRandomKey(6),
     role: 'text',
     content: !Array.isArray(props.content) ? props.content : undefined,
     displayCondition: props.displayCondition,
@@ -63,7 +63,7 @@ const markdown = (props: OptionTextProps): OptionDef => {
     })
   }
   return {
-    key: props.key,
+    key: props.key ? props.key : generateRandomKey(6),
     role: 'markdown',
     content: !Array.isArray(props.content) ? props.content : undefined,
     displayCondition: props.displayCondition,
