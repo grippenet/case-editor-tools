@@ -3,12 +3,12 @@ import { ComponentEditor } from "../surveys/survey-editor/component-editor";
 import { ItemEditor } from "../surveys/survey-editor/item-editor";
 import { ComponentGenerators } from "./utils/componentGenerators";
 import { durationObjectToSeconds } from "../types/duration";
-import { datePickerKey, dropDownKey, inputKey, likertScaleGroupKey, multipleChoiceKey, numericInputKey, responseGroupKey, responsiveBipolarLikertArrayKey, responsiveSingleChoiceArrayKey, singleChoiceKey } from "../constants/key-definitions";
+import { clozeKey, datePickerKey, dropDownKey, inputKey, likertScaleGroupKey, multipleChoiceKey, numericInputKey, responseGroupKey, responsiveBipolarLikertArrayKey, responsiveSingleChoiceArrayKey, singleChoiceKey } from "../constants/key-definitions";
 import { generateRandomKey } from "./utils/randomKeyGenerator";
 import { expWithArgs, generateHelpGroupComponent, generateLocStrings, generateTitleComponent } from "./utils/simple-generators";
 import { SimpleQuestionEditor } from "./utils/simple-question-editor";
 import { SurveyEngine } from "./survey-engine-expressions";
-import { DateInputQuestionProps, GenericQuestionProps, MultiLineTextInput, NumericInputQuestionProps, OptionDef, ResponsiveBipolarLikertArrayProps, ResponsiveBipolarLikertArrayQuestionProps, ResponsiveSingleChoiceArrayProps, ResponsiveSingleChoiceArrayQuestionProps, StyledTextComponentProp, TextInputQuestionProps } from "./types/item-properties";
+import { ClozeQuestionProps, DateInputQuestionProps, GenericQuestionProps, MultiLineTextInput, NumericInputQuestionProps, OptionDef, ResponsiveBipolarLikertArrayProps, ResponsiveBipolarLikertArrayQuestionProps, ResponsiveSingleChoiceArrayProps, ResponsiveSingleChoiceArrayQuestionProps, StyledTextComponentProp, TextInputQuestionProps } from "./types/item-properties";
 
 
 interface OptionQuestionProps extends GenericQuestionProps {
@@ -620,6 +620,51 @@ const generateMultilineInput = (props: MultiLineTextInput): SurveyItem => {
   return simpleEditor.getItem();
 }
 
+
+const generateClozeQuestion = (props: ClozeQuestionProps): SurveyItem => {
+  const simpleEditor = new SimpleQuestionEditor(props.parentKey, props.itemKey, props.version ? props.version : 1);
+
+  // QUESTION TEXT
+  simpleEditor.setTitle(props.questionText, props.questionSubText, props.titleClassName);
+
+  if (props.condition) {
+    simpleEditor.setCondition(props.condition);
+  }
+
+  if (props.helpGroupContent) {
+    simpleEditor.editor.setHelpGroupComponent(
+      generateHelpGroupComponent(props.helpGroupContent)
+    )
+  }
+
+  if (props.topDisplayCompoments) {
+    props.topDisplayCompoments.forEach(comp => simpleEditor.addDisplayComponent(comp))
+  }
+
+  const rg_inner: ItemComponent = {
+    key: clozeKey, role: 'cloze',
+    items: props.items.map((item) => {
+      const clozeItem = item as OptionDef;
+      const comp = optionDefToItemComponent(clozeItem);
+      return comp;
+    })
+  };
+  simpleEditor.setResponseGroupWithContent(rg_inner);
+
+  if (props.bottomDisplayCompoments) {
+    props.bottomDisplayCompoments.forEach(comp => simpleEditor.addDisplayComponent(comp))
+  }
+
+  if (props.isRequired) {
+    simpleEditor.addHasResponseValidation();
+  }
+
+  if (props.footnoteText) {
+    simpleEditor.addDisplayComponent(ComponentGenerators.footnote({ content: props.footnoteText }))
+  }
+
+  return simpleEditor.getItem();
+}
 
 interface DisplayProps {
   parentKey: string;
@@ -1432,7 +1477,7 @@ export const SurveyItems = {
   dateInput: generateDatePickerInput,
   textInput: generateTextInputQuestion,
   // eq5dSlider: todo,
-  // clozeQuestion: todo,
+  clozeQuestion: generateClozeQuestion,
   numericInput: generateNumericInputQuestion,
   multilineTextInput: generateMultilineInput,
   dropDown: generateDropDownQuestion,

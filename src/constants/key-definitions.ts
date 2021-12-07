@@ -11,3 +11,4 @@ export const inputKey = "ic";
 export const numericInputKey = "num";
 export const datePickerKey = "date";
 export const matrixKey = "mat";
+export const clozeKey = "cloze";

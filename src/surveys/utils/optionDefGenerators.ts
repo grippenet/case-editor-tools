@@ -1,5 +1,4 @@
 import { Expression } from "survey-engine/lib/data_types";
-import { durationObjectToSeconds } from "../../types/duration";
 import { SurveyEngine } from "../survey-engine-expressions";
 import { ClozeProps, DateInputProps, NumericInputProps, OptionDef, StyledTextComponentProp, TextInputProps } from "../types/item-properties";
 import { generateRandomKey } from "./randomKeyGenerator";
@@ -161,6 +160,13 @@ const cloze = (props: ClozeProps & { key: string, displayCondition?: Expression 
   }
 }
 
+const clozeLineBreak = (): OptionDef => {
+  return {
+    key: generateRandomKey(5),
+    role: 'lineBreak',
+  }
+}
+
 export const SingleChoiceOptionTypes = {
   option,
   textInput,
@@ -183,6 +189,7 @@ export const ClozeItemTypes = {
   markdown,
   textInput,
   dateInput,
+  clozeLineBreak,
   numberInput,
   dropDown,
 }
