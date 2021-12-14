@@ -1,4 +1,4 @@
-import { Expression, ItemComponent } from "survey-engine/lib/data_types"
+import { Expression, ItemComponent } from "survey-engine/data_types"
 import { StyledTextComponentProp } from "../types/item-properties";
 import { generateRandomKey } from "./randomKeyGenerator"
 import { generateLocStrings } from "./simple-generators"

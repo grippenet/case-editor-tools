@@ -1,4 +1,4 @@
-import { Expression } from "survey-engine/lib/data_types";
+import { Expression } from "survey-engine/data_types";
 import { StudyRules } from "./studyRules";
 import { SurveyDefinition } from "../surveys/types/survey-definition";
 

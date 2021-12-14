@@ -1,4 +1,4 @@
-import { Expression } from "survey-engine/lib/data_types";
+import { Expression } from "survey-engine/data_types";
 import { SurveyEngine } from "../survey-engine-expressions";
 import { ClozeProps, DateInputProps, NumericInputProps, OptionDef, StyledTextComponentProp, TextInputProps } from "../types/item-properties";
 import { generateRandomKey } from "./randomKeyGenerator";

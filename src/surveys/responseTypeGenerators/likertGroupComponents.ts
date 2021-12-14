@@ -1,4 +1,4 @@
-import { Expression, ItemComponent, ItemGroupComponent } from "survey-engine/lib/data_types";
+import { Expression, ItemComponent, ItemGroupComponent } from "survey-engine/data_types";
 import { ComponentEditor } from "../survey-editor/component-editor";
 import { ResponsiveBipolarLikertArrayProps, ResponsiveSingleChoiceArrayProps } from "../types";
 import { generateRandomKey } from "../utils/randomKeyGenerator";

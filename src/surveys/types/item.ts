@@ -1,4 +1,4 @@
-import { Expression, SurveySingleItem } from "survey-engine/lib/data_types";
+import { Expression, SurveySingleItem } from "survey-engine/data_types";
 
 
 export abstract class Item {

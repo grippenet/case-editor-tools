@@ -36,10 +36,10 @@
     magic-string "^0.25.7"
     resolve "^1.17.0"
 
-"@rollup/plugin-node-resolve@^13.0.6":
-  version "13.0.6"
-  resolved "https://registry.yarnpkg.com/@rollup/plugin-node-resolve/-/plugin-node-resolve-13.0.6.tgz#29629070bb767567be8157f575cfa8f2b8e9ef77"
-  integrity sha512-sFsPDMPd4gMqnh2gS0uIxELnoRUp5kBl5knxD2EO0778G1oOJv4G1vyT2cpWz75OU2jDVcXhjVUuTAczGyFNKA==
+"@rollup/plugin-node-resolve@^13.1.1":
+  version "13.1.1"
+  resolved "https://registry.yarnpkg.com/@rollup/plugin-node-resolve/-/plugin-node-resolve-13.1.1.tgz#d38ba06e7b181ab4df64c75409b43d9bdc95ae34"
+  integrity sha512-6QKtRevXLrmEig9UiMYt2fSvee9TyltGRfw+qSs6xjUnxwjOzTOqy+/Lpxsgjb8mJn1EQNbCDAvt89O4uzL5kw==
   dependencies:
     "@rollup/pluginutils" "^3.1.0"
     "@types/resolve" "1.17.1"
@@ -670,10 +670,10 @@ rollup-plugin-typescript2@^0.31.1:
     resolve "1.20.0"
     tslib "2.2.0"
 
-rollup@^2.60.2:
-  version "2.60.2"
-  resolved "https://registry.yarnpkg.com/rollup/-/rollup-2.60.2.tgz#3f45ace36a9b10b4297181831ea0719922513463"
-  integrity sha512-1Bgjpq61sPjgoZzuiDSGvbI1tD91giZABgjCQBKM5aYLnzjq52GoDuWVwT/cm/MCxCMPU8gqQvkj8doQ5C8Oqw==
+rollup@^2.61.1:
+  version "2.61.1"
+  resolved "https://registry.yarnpkg.com/rollup/-/rollup-2.61.1.tgz#1a5491f84543cf9e4caf6c61222d9a3f8f2ba454"
+  integrity sha512-BbTXlEvB8d+XFbK/7E5doIcRtxWPRiqr0eb5vQ0+2paMM04Ye4PZY5nHOQef2ix24l/L0SpLd5hwcH15QHPdvA==
   optionalDependencies:
     fsevents "~2.3.2"
 
@@ -699,10 +699,10 @@ sourcemap-codec@^1.4.4:
   resolved "https://registry.yarnpkg.com/sourcemap-codec/-/sourcemap-codec-1.4.8.tgz#ea804bd94857402e6992d05a38ef1ae35a9ab4c4"
   integrity sha512-9NykojV5Uih4lgo5So5dtw+f0JgJX30KCNI8gwhz2J9A15wD0Ml6tjHKwf6fTSa6fAdVBdZeNOs9eJ71qCk8vA==
 
-survey-engine@^0.10.0:
-  version "0.10.0"
-  resolved "https://registry.yarnpkg.com/survey-engine/-/survey-engine-0.10.0.tgz#e9c9cdb2de38c33a9ec824d180b611d0d1321d6e"
-  integrity sha512-xGgbbLPZVeG7N2NbnWVnOx3bRTG0gB8PWupQnwj5KVJJQB9+voXZXK3671qwR1NAiUlVwD3rd2KTnTqH90DK4g==
+survey-engine@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/survey-engine/-/survey-engine-1.0.1.tgz#9c5307b0e56f8e19b42952b72eac8c691816d953"
+  integrity sha512-h8fj3uh12qNhuMJ8DpXxX9qFBsIH+07nLc1s4oYi104KmmsAM01EiMRMLjwCva+z+4Vo+8YPyH387nsTttT54w==
   dependencies:
     moment "2.24.0"
 

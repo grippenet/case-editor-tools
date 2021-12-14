@@ -1,14 +1,17 @@
-import { SurveyGroupItem, SurveyItem } from "survey-engine/lib/data_types";
+import { SurveyGroupItem, SurveyItem } from "survey-engine/data_types";
 import { Logger } from "../../logger/logger";
 import { ItemEditor } from "../survey-editor/item-editor";
 import { SurveyEditor } from "../survey-editor/survey-editor";
 import { generateLocStrings } from "../utils/simple-generators";
+
+export type SurveyAvailableFor = 'public' | 'temporary_participants' | 'active_participants';
 
 export interface SurveyProps {
   surveyKey: string;
   name: Map<string, string>;
   description: Map<string, string>;
   durationText: Map<string, string>;
+  availableFor?: SurveyAvailableFor;
   // max item per page
   // set prefill rules
   // set context rules
@@ -36,6 +39,8 @@ export abstract class SurveyDefinition {
     this.editor.setSurveyDuration(generateLocStrings(
       props.durationText
     ));
+
+    this.editor.setAvailableFor(props.availableFor);
 
     const rootItemEditor = new ItemEditor(this.editor.findSurveyItem(props.surveyKey) as SurveyGroupItem);
     rootItemEditor.setSelectionMethod({ name: 'sequential' });

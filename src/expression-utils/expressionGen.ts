@@ -1,4 +1,4 @@
-import { Expression, ExpressionName } from "survey-engine/lib/data_types"
+import { Expression, ExpressionName } from "survey-engine/data_types"
 
 
 export const generateExpression = (name: ExpressionName,

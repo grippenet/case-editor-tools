@@ -1,4 +1,4 @@
-import { ComponentProperties, Expression, ItemGroupComponent } from "survey-engine/lib/data_types";
+import { ComponentProperties, Expression, ItemGroupComponent } from "survey-engine/data_types";
 import { ComponentEditor } from "../survey-editor/component-editor";
 import { generateLocStrings } from "../utils/simple-generators";
 

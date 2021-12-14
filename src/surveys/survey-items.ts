@@ -1,4 +1,4 @@
-import { ItemGroupComponent, Expression, ItemComponent, SurveyItem, ExpressionArg, ResponseItem } from "survey-engine/lib/data_types";
+import { ItemGroupComponent, Expression, ItemComponent, SurveyItem, ExpressionArg, ResponseItem } from "survey-engine/data_types";
 import { ComponentEditor } from "../surveys/survey-editor/component-editor";
 import { ItemEditor } from "../surveys/survey-editor/item-editor";
 import { ComponentGenerators } from "./utils/componentGenerators";

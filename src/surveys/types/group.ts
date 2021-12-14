@@ -1,4 +1,4 @@
-import { Expression, SurveyGroupItem, SurveyItem } from "survey-engine/lib/data_types";
+import { Expression, SurveyGroupItem, SurveyItem } from "survey-engine/data_types";
 import { Logger } from "../../logger/logger";
 import { ItemEditor } from "../survey-editor/item-editor";
 import { generatePageBreak } from "../utils/simple-generators";

@@ -1,4 +1,4 @@
-import { Expression, ExpressionArg } from "survey-engine/lib/data_types";
+import { Expression, ExpressionArg } from "survey-engine/data_types";
 
 
 export const isExpression = (value: Expression | any): value is Expression => {

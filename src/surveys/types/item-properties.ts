@@ -1,4 +1,4 @@
-import { ComponentProperties, Expression, ItemComponent, Validation } from "survey-engine/lib/data_types";
+import { ComponentProperties, Expression, ItemComponent, Validation } from "survey-engine/data_types";
 import { Duration } from "../../types/duration";
 
 export interface StyledTextComponentProp {

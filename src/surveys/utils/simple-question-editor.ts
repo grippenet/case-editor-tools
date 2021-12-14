@@ -1,4 +1,4 @@
-import { Expression, ItemComponent } from "survey-engine/lib/data_types";
+import { Expression, ItemComponent } from "survey-engine/data_types";
 import { responseGroupKey } from "../../constants/key-definitions";
 import { ItemEditor } from "../survey-editor/item-editor";
 import { StyledTextComponentProp } from "../types/item-properties";

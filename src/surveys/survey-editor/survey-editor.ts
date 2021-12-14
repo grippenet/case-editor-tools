@@ -1,5 +1,6 @@
-import { Survey, LocalizedString, SurveyItem, isSurveyGroupItem, SurveyGroupItem, SurveyContextDef, Expression } from "survey-engine/lib/data_types";
+import { Survey, LocalizedString, SurveyItem, isSurveyGroupItem, SurveyGroupItem, SurveyContextDef, Expression } from "survey-engine/data_types";
 import { Logger } from "../../logger/logger";
+import { SurveyAvailableFor } from "../types";
 import { NewItemProps } from "./data-types";
 import { ItemEditor } from "./item-editor";
 
@@ -9,6 +10,7 @@ interface SurveyEditorInt {
   setSurveyDuration: (duration: Array<LocalizedString>) => void;
   setSurveyContextRules: (contextRules: SurveyContextDef) => void;
   setPrefillRules: (rules: Expression[]) => void;
+  setAvailableFor: (value?: SurveyAvailableFor) => void;
 
 
   changeItemKey: (oldKey: string, newKey: string) => void;
@@ -70,6 +72,10 @@ export class SurveyEditor implements SurveyEditorInt {
 
   setMaxItemPerPage(itemLimits: { small: number; large: number }) {
     this.survey.maxItemsPerPage = itemLimits;
+  }
+
+  setAvailableFor(value?: SurveyAvailableFor | undefined) {
+    this.survey.availableFor = value;
   }
 
   setSurveyContextRules(contextRules: SurveyContextDef) {
