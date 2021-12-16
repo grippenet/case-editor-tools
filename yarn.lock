@@ -699,10 +699,10 @@ sourcemap-codec@^1.4.4:
   resolved "https://registry.yarnpkg.com/sourcemap-codec/-/sourcemap-codec-1.4.8.tgz#ea804bd94857402e6992d05a38ef1ae35a9ab4c4"
   integrity sha512-9NykojV5Uih4lgo5So5dtw+f0JgJX30KCNI8gwhz2J9A15wD0Ml6tjHKwf6fTSa6fAdVBdZeNOs9eJ71qCk8vA==
 
-survey-engine@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/survey-engine/-/survey-engine-1.0.1.tgz#9c5307b0e56f8e19b42952b72eac8c691816d953"
-  integrity sha512-h8fj3uh12qNhuMJ8DpXxX9qFBsIH+07nLc1s4oYi104KmmsAM01EiMRMLjwCva+z+4Vo+8YPyH387nsTttT54w==
+survey-engine@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/survey-engine/-/survey-engine-1.0.2.tgz#25ce0f38efd8d79b3e12e075a3fd172232643d90"
+  integrity sha512-dXT7ogjCdWsRFdE4Khj0S79APv4QIGiJGpU5NzOFFsT47ESIifbba4tCJwRdQqIDqgE/GO6YzFh/1O6MLahPHQ==
   dependencies:
     moment "2.24.0"
 

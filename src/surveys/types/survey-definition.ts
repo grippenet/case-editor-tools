@@ -12,6 +12,7 @@ export interface SurveyProps {
   description: Map<string, string>;
   durationText: Map<string, string>;
   availableFor?: SurveyAvailableFor;
+  requireLoginBeforeSubmission?: boolean;
   // max item per page
   // set prefill rules
   // set context rules
@@ -41,6 +42,7 @@ export abstract class SurveyDefinition {
     ));
 
     this.editor.setAvailableFor(props.availableFor);
+    this.editor.setRequireLoginBeforeSubmission(props.requireLoginBeforeSubmission);
 
     const rootItemEditor = new ItemEditor(this.editor.findSurveyItem(props.surveyKey) as SurveyGroupItem);
     rootItemEditor.setSelectionMethod({ name: 'sequential' });

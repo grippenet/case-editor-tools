@@ -11,6 +11,7 @@ interface SurveyEditorInt {
   setSurveyContextRules: (contextRules: SurveyContextDef) => void;
   setPrefillRules: (rules: Expression[]) => void;
   setAvailableFor: (value?: SurveyAvailableFor) => void;
+  setRequireLoginBeforeSubmission: (value?: boolean) => void;
 
 
   changeItemKey: (oldKey: string, newKey: string) => void;
@@ -76,6 +77,10 @@ export class SurveyEditor implements SurveyEditorInt {
 
   setAvailableFor(value?: SurveyAvailableFor | undefined) {
     this.survey.availableFor = value;
+  }
+
+  setRequireLoginBeforeSubmission(value?: boolean | undefined) {
+    this.survey.requireLoginBeforeSubmission = value;
   }
 
   setSurveyContextRules(contextRules: SurveyContextDef) {
