@@ -40,15 +40,15 @@ const responseHasKeysAny = (itemKey: string, responseSlotKey: string, ...optionK
 const responseHasOnlyKeysOtherThan = (itemKey: string, responseSlotKey: string, ...optionKeys: string[]) => generateExpression('responseHasOnlyKeysOtherThan', undefined, itemKey, responseSlotKey, ...optionKeys)
 
 const getResponseValueAsNum = (itemKey: string, responseKey: string): Expression => {
-    return generateExpression('getResponseValueAsNum', 'float', itemKey, responseKey);
+  return generateExpression('getResponseValueAsNum', 'float', itemKey, responseKey);
 }
 
 const getResponseValueAsStr = (itemKey: string, responseKey: string): Expression => {
-    return generateExpression('getResponseValueAsStr', 'string', itemKey, responseKey);
+  return generateExpression('getResponseValueAsStr', 'string', itemKey, responseKey);
 }
 
 const countResponseItems = (itemKey: string, responseKey: string): Expression => {
-    return generateExpression('countResponseItems', undefined, itemKey, responseKey);
+  return generateExpression('countResponseItems', undefined, itemKey, responseKey);
 }
 
 /**
@@ -61,11 +61,11 @@ const countResponseItems = (itemKey: string, responseKey: string): Expression =>
  * @returns true/false
  */
 const checkConditionForOldResponses = (
-    condition: Expression,
-    checkType?: number | 'all' | 'any',
-    surveyKey?: string,
-    querySince?: number | Expression,
-    queryUntil?: number | Expression,
+  condition: Expression,
+  checkType?: number | 'all' | 'any',
+  surveyKey?: string,
+  querySince?: number | Expression,
+  queryUntil?: number | Expression,
 ): Expression => generateExpression('checkConditionForOldResponses', undefined, condition, checkType, surveyKey, querySince, queryUntil)
 
 /**
@@ -131,10 +131,10 @@ const gte = (val1: Expression | string | number, val2: Expression | string | num
  * @returns
  */
 const timestampWithOffset = (delta: Duration, reference?: number | Expression) => generateExpression(
-    'timestampWithOffset',
-    undefined,
-    durationObjectToSeconds(delta),
-    reference ? reference : undefined
+  'timestampWithOffset',
+  undefined,
+  durationObjectToSeconds(delta),
+  reference ? reference : undefined
 )
 
 /**
@@ -179,9 +179,9 @@ const UPDATE_FLAG = (key: string, newValue: string) => generateExpression('UPDAT
 const REMOVE_FLAG = (key: string) => generateExpression('REMOVE_FLAG', undefined, key);
 
 const ADD_NEW_SURVEY = (surveyKey: string,
-    category: 'prio' | 'normal' | 'optional',
-    activeFrom?: number | Expression,
-    activeUntil?: number | Expression) => generateExpression('ADD_NEW_SURVEY', undefined, surveyKey, activeFrom !== undefined ? activeFrom : 0, activeUntil !== undefined ? activeUntil : 0, category)
+  category: 'immediate' | 'prio' | 'normal' | 'optional',
+  activeFrom?: number | Expression,
+  activeUntil?: number | Expression) => generateExpression('ADD_NEW_SURVEY', undefined, surveyKey, activeFrom !== undefined ? activeFrom : 0, activeUntil !== undefined ? activeUntil : 0, category)
 
 const REMOVE_ALL_SURVEYS = () => generateExpression('REMOVE_ALL_SURVEYS')
 
@@ -193,27 +193,27 @@ const REMOVE_ALL_SURVEYS = () => generateExpression('REMOVE_ALL_SURVEYS')
 const ADD_REPORT = (itemKey: string) => generateExpression('ADD_REPORT', undefined, itemKey);
 
 const REMOVE_SURVEY_BY_KEY = (
-    surveyKey: string,
-    selector: 'first' | 'last' | 'all'
+  surveyKey: string,
+  selector: 'first' | 'last' | 'all'
 ) => {
-    if (selector === 'all') {
-        return generateExpression('REMOVE_SURVEYS_BY_KEY', undefined, surveyKey);
-    } else {
-        return generateExpression('REMOVE_SURVEY_BY_KEY', undefined, surveyKey, selector);
-    }
+  if (selector === 'all') {
+    return generateExpression('REMOVE_SURVEYS_BY_KEY', undefined, surveyKey);
+  } else {
+    return generateExpression('REMOVE_SURVEY_BY_KEY', undefined, surveyKey, selector);
+  }
 }
 
 const REMOVE_ALL_REPORTS = () => generateExpression('REMOVE_ALL_REPORTS')
 
 const REMOVE_REPORT_BY_KEY = (
-    surveyKey: string,
-    selector: 'first' | 'last' | 'all'
+  surveyKey: string,
+  selector: 'first' | 'last' | 'all'
 ) => {
-    if (selector === 'all') {
-        return generateExpression('REMOVE_REPORTS_BY_KEY', undefined, surveyKey);
-    } else {
-        return generateExpression('REMOVE_REPORT_BY_KEY', undefined, surveyKey, selector);
-    }
+  if (selector === 'all') {
+    return generateExpression('REMOVE_REPORTS_BY_KEY', undefined, surveyKey);
+  } else {
+    return generateExpression('REMOVE_REPORT_BY_KEY', undefined, surveyKey, selector);
+  }
 }
 
 // ##################
@@ -223,7 +223,7 @@ const singleChoiceOptionsSelected = (itemKey: string, ...optionKeys: string[]) =
 const multipleChoiceOptionsSelected = (itemKey: string, ...optionKeys: string[]) => generateExpression('responseHasKeysAny', undefined, itemKey, [responseGroupKey, multipleChoiceKey].join('.'), ...optionKeys)
 
 const multipleChoiceAllOfTheseSelected = (itemKey: string, ...optionKeys: string[]) => and(
-    ...optionKeys.map(option => generateExpression('responseHasKeysAny', undefined, itemKey, [responseGroupKey, multipleChoiceKey].join('.'), option))
+  ...optionKeys.map(option => generateExpression('responseHasKeysAny', undefined, itemKey, [responseGroupKey, multipleChoiceKey].join('.'), option))
 );
 
 
@@ -239,16 +239,16 @@ const finishParticipation = () => UPDATE_STUDY_STATUS('finished');
  * @returns
  */
 const hasSurveyKeyActive = (surveyKey: string) => {
-    return and(
-        lte(
-            getSurveyKeyAssignedFrom(surveyKey),
-            timestampWithOffset({ seconds: 1 })
-        ),
-        gte(
-            getSurveyKeyAssignedUntil(surveyKey),
-            timestampWithOffset({ seconds: -1 })
-        ),
-    )
+  return and(
+    lte(
+      getSurveyKeyAssignedFrom(surveyKey),
+      timestampWithOffset({ seconds: 1 })
+    ),
+    gte(
+      getSurveyKeyAssignedUntil(surveyKey),
+      timestampWithOffset({ seconds: -1 })
+    ),
+  )
 }
 
 /**
@@ -259,10 +259,10 @@ const hasSurveyKeyActive = (surveyKey: string) => {
  * @returns
  */
 const hasSurveyKeyValidFromOlderThan = (surveyKey: string, delta: Duration, reference?: number | Expression) => {
-    return lt(
-        getSurveyKeyAssignedFrom(surveyKey),
-        timestampWithOffset(delta, reference)
-    );
+  return lt(
+    getSurveyKeyAssignedFrom(surveyKey),
+    timestampWithOffset(delta, reference)
+  );
 }
 
 /**
@@ -273,87 +273,87 @@ const hasSurveyKeyValidFromOlderThan = (surveyKey: string, delta: Duration, refe
  * @returns
  */
 const hasSurveyKeyValidUntilSoonerThan = (surveyKey: string, delta: Duration, reference?: number | Expression) => {
-    return gt(
-        timestampWithOffset(delta, reference),
-        getSurveyKeyAssignedUntil(surveyKey)
-    );
+  return gt(
+    timestampWithOffset(delta, reference),
+    getSurveyKeyAssignedUntil(surveyKey)
+  );
 }
 
 export const NativeStudyEngineExpressions = {
-    checkEventType,
-    // Response checkers
-    checkSurveyResponseKey,
-    responseHasKeysAny,
-    responseHasOnlyKeysOtherThan,
-    getResponseValueAsNum,
-    getResponseValueAsStr,
-    countResponseItems,
-    // Old responses
-    checkConditionForOldResponses,
-    // Participant state:
-    participantState: {
-        getStudyEntryTime,
-        hasSurveyKeyAssigned,
-        getSurveyKeyAssignedFrom,
-        getSurveyKeyAssignedUntil,
-        hasStudyStatus,
-        hasParticipantFlag,
-        lastSubmissionDateOlderThan,
-    },
-    // logical and comparision
-    eq,
-    lt,
-    lte,
-    gt,
-    gte,
-    or,
-    and,
-    not,
+  checkEventType,
+  // Response checkers
+  checkSurveyResponseKey,
+  responseHasKeysAny,
+  responseHasOnlyKeysOtherThan,
+  getResponseValueAsNum,
+  getResponseValueAsStr,
+  countResponseItems,
+  // Old responses
+  checkConditionForOldResponses,
+  // Participant state:
+  participantState: {
+    getStudyEntryTime,
+    hasSurveyKeyAssigned,
+    getSurveyKeyAssignedFrom,
+    getSurveyKeyAssignedUntil,
+    hasStudyStatus,
+    hasParticipantFlag,
+    lastSubmissionDateOlderThan,
+  },
+  // logical and comparision
+  eq,
+  lt,
+  lte,
+  gt,
+  gte,
+  or,
+  and,
+  not,
 
-    // Other
-    timestampWithOffset,
+  // Other
+  timestampWithOffset,
 }
 
 export const StudyEngineActions = {
-    if: IF,
-    do: DO,
-    ifThen: IFTHEN,
-    participantActions: {
-        updateStudyStatus: UPDATE_STUDY_STATUS,
-        updateFlag: UPDATE_FLAG,
-        removeFlag: REMOVE_FLAG,
-        assignedSurveys: {
-            add: ADD_NEW_SURVEY,
-            removeAll: REMOVE_ALL_SURVEYS,
-            remove: REMOVE_SURVEY_BY_KEY,
-        },
-        reports: {
-            add: ADD_REPORT,
-            removeAll: REMOVE_ALL_REPORTS,
-            remove: REMOVE_REPORT_BY_KEY,
-        },
+  if: IF,
+  do: DO,
+  ifThen: IFTHEN,
+  participantActions: {
+    updateStudyStatus: UPDATE_STUDY_STATUS,
+    updateFlag: UPDATE_FLAG,
+    removeFlag: REMOVE_FLAG,
+    assignedSurveys: {
+      add: ADD_NEW_SURVEY,
+      removeAll: REMOVE_ALL_SURVEYS,
+      remove: REMOVE_SURVEY_BY_KEY,
+    },
+    reports: {
+      add: ADD_REPORT,
+      removeAll: REMOVE_ALL_REPORTS,
+      remove: REMOVE_REPORT_BY_KEY,
+    },
 
-        // Extra methods:
-        stopParticipation,
-        finishParticipation,
-    }
+    // Extra methods:
+    stopParticipation,
+    finishParticipation,
+  }
 }
 
 export const StudyEngine = {
-    ...NativeStudyEngineExpressions,
-    ...StudyEngineActions,
-    singleChoice: {
-        any: singleChoiceOptionsSelected,
-        none: singleChoiceOnlyOtherOptionSelected
-    },
-    multipleChoice: {
-        any: multipleChoiceOptionsSelected,
-        none: multipleChoiceOnlyOtherKeysSelected,
-        all: multipleChoiceAllOfTheseSelected,
-    },
-    survey: {
-        isActive: hasSurveyKeyActive,
-        validFromOlderThan: hasSurveyKeyValidFromOlderThan,
-        validUntilSoonerThan: hasSurveyKeyValidUntilSoonerThan,
-    }
+  ...NativeStudyEngineExpressions,
+  ...StudyEngineActions,
+  singleChoice: {
+    any: singleChoiceOptionsSelected,
+    none: singleChoiceOnlyOtherOptionSelected
+  },
+  multipleChoice: {
+    any: multipleChoiceOptionsSelected,
+    none: multipleChoiceOnlyOtherKeysSelected,
+    all: multipleChoiceAllOfTheseSelected,
+  },
+  survey: {
+    isActive: hasSurveyKeyActive,
+    validFromOlderThan: hasSurveyKeyValidFromOlderThan,
+    validUntilSoonerThan: hasSurveyKeyValidUntilSoonerThan,
+  }
 }
