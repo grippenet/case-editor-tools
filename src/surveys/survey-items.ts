@@ -308,18 +308,64 @@ interface CustomResponseItem extends ResponseComponent {
 }
 
 interface CustomQuestionProps extends GenericQuestionProps {
-  responseItemDef: CustomResponseItem;
+  responseItemDefs: CustomResponseItem[];
 }
 
 const generateCustomQuestion = (props: CustomQuestionProps): SurveyItem => {
-  const rolePrefix = props.responseItemDef.mapToRole !== undefined ? `${props.responseItemDef.mapToRole}` : '';
-  const role = `${rolePrefix}:${props.responseItemDef.role}`;
+  const items: ItemComponent[] = [];
 
-  const rg_inner: ItemComponent = {
-    ...props.responseItemDef,
-    role: role
-  };
-  return commonQuestionGenerator(props, rg_inner);
+  props.responseItemDefs.forEach(item => {
+    const rolePrefix = item.mapToRole !== undefined ? `${item.mapToRole}` : '';
+    const role = `${rolePrefix}:${item.role}`;
+
+    const rg_inner: ItemComponent = {
+      ...item,
+      role: role
+    };
+    items.push(rg_inner)
+  })
+
+  const simpleEditor = new SimpleQuestionEditor(props.parentKey, props.itemKey, props.version ? props.version : 1);
+
+  // QUESTION TEXT
+  simpleEditor.setTitle(props.questionText, props.questionSubText, props.titleClassName);
+
+  if (props.condition) {
+    simpleEditor.setCondition(props.condition);
+  }
+
+  if (props.helpGroupContent) {
+    simpleEditor.editor.setHelpGroupComponent(
+      generateHelpGroupComponent(props.helpGroupContent)
+    )
+  }
+
+  if (props.topDisplayCompoments) {
+    props.topDisplayCompoments.forEach(comp => simpleEditor.addDisplayComponent(comp))
+  }
+
+  simpleEditor.editor.addExistingResponseComponent({
+    key: responseGroupKey,
+    role: 'responseGroup',
+    items,
+  });
+
+  if (props.bottomDisplayCompoments) {
+    props.bottomDisplayCompoments.forEach(comp => simpleEditor.addDisplayComponent(comp))
+  }
+
+  if (props.isRequired) {
+    simpleEditor.addHasResponseValidation();
+  }
+  if (props.customValidations) {
+    props.customValidations.forEach(v => simpleEditor.editor.addValidation(v));
+  }
+
+  if (props.footnoteText) {
+    simpleEditor.addDisplayComponent(ComponentGenerators.footnote({ content: props.footnoteText }))
+  }
+
+  return simpleEditor.getItem();
 }
 
 interface DisplayProps {
