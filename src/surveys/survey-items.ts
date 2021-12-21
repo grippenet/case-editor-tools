@@ -1,4 +1,4 @@
-import { ItemGroupComponent, Expression, ItemComponent, SurveyItem, ExpressionArg, ResponseItem, ResponseComponent } from "survey-engine/data_types";
+import { ItemGroupComponent, Expression, ItemComponent, SurveyItem, ExpressionArg, ResponseComponent } from "survey-engine/data_types";
 import { ComponentEditor } from "../surveys/survey-editor/component-editor";
 import { ItemEditor } from "../surveys/survey-editor/item-editor";
 import { ComponentGenerators } from "./utils/componentGenerators";
@@ -305,6 +305,7 @@ const generateClozeQuestion = (props: ClozeQuestionProps): SurveyItem => {
 
 interface CustomResponseItem extends ResponseComponent {
   mapToRole?: 'singleChoiceGroup' | 'multipleChoiceGroup' | 'input';
+  items?: ItemComponent[];
 }
 
 interface CustomQuestionProps extends GenericQuestionProps {
@@ -318,6 +319,7 @@ const generateCustomQuestion = (props: CustomQuestionProps): SurveyItem => {
     const rolePrefix = item.mapToRole !== undefined ? `${item.mapToRole}` : '';
     const role = `${rolePrefix}:${item.role}`;
 
+    delete item['mapToRole'];
     const rg_inner: ItemComponent = {
       ...item,
       role: role
