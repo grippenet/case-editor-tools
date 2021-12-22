@@ -227,6 +227,29 @@ const GET_LAST_SURVEY_ITEM = (
 }
 
 
+// ##################
+// Context previous responses methods:
+const LAST_RESPONSES_BY_KEY = (
+  surveyKey: string,
+  limit: number,
+) => {
+  return generateExpression('LAST_RESPONSES_BY_KEY', undefined, surveyKey, limit);
+}
+
+const ALL_RESPONSES_SINCE = (
+  sinceTimestamp: number,
+) => {
+  return generateExpression('ALL_RESPONSES_SINCE', undefined, sinceTimestamp);
+}
+
+const RESPONSES_SINCE_BY_KEY = (
+  sinceTimestamp: number,
+  surveyKey: string,
+) => {
+  return generateExpression('RESPONSES_SINCE_BY_KEY', undefined, sinceTimestamp, surveyKey);
+}
+
+
 
 // ##################
 // Extra methods:
@@ -370,5 +393,12 @@ export const StudyEngine = {
   },
   prefillRules: {
     GET_LAST_SURVEY_ITEM,
+  },
+  contextRules: {
+    previousResponses: {
+      LAST_RESPONSES_BY_KEY,
+      ALL_RESPONSES_SINCE,
+      RESPONSES_SINCE_BY_KEY,
+    }
   }
 }
