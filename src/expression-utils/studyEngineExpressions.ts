@@ -217,6 +217,18 @@ const REMOVE_REPORT_BY_KEY = (
 }
 
 // ##################
+// Prefill rule methods:
+const GET_LAST_SURVEY_ITEM = (
+  surveyKey: string,
+  itemKey: string,
+  submittedLaterThan?: Duration,
+) => {
+  return generateExpression('GET_LAST_SURVEY_ITEM', undefined, surveyKey, itemKey, submittedLaterThan ? durationObjectToSeconds(submittedLaterThan) : undefined);
+}
+
+
+
+// ##################
 // Extra methods:
 
 const singleChoiceOptionsSelected = (itemKey: string, ...optionKeys: string[]) => generateExpression('responseHasKeysAny', undefined, itemKey, [responseGroupKey, singleChoiceKey].join('.'), ...optionKeys)
@@ -355,5 +367,8 @@ export const StudyEngine = {
     isActive: hasSurveyKeyActive,
     validFromOlderThan: hasSurveyKeyValidFromOlderThan,
     validUntilSoonerThan: hasSurveyKeyValidUntilSoonerThan,
+  },
+  prefillRules: {
+    GET_LAST_SURVEY_ITEM,
   }
 }
