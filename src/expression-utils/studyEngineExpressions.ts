@@ -110,6 +110,21 @@ const hasStudyStatus = (status: string) => generateExpression('getSurveyKeyAssig
  */
 const hasParticipantFlag = (key: string, value: string) => generateExpression('hasParticipantFlag', undefined, key, value);
 
+
+/**
+ * Checks if the participant has a message type assigned (at least one)
+ * @param messageType
+ * @returns return true if a message with the given message type is assigned
+ */
+const hasMessageTypeAssigned = (messageType: string) => generateExpression('hasMessageTypeAssigned', undefined, messageType);
+
+/**
+ * Retrieve the timestamp (scheduledFor) for a particular message type. Return 0 if not assigned.
+ * @param messageType
+ * @returns timestamp value or zero
+ */
+const getMessageNextTime = (messageType: string) => generateExpression('getMessageNextTime', undefined, messageType);
+
 /**
  * Check if the last submission is older than the reference timestamp
  * @param reference look up this flag
@@ -184,6 +199,28 @@ const ADD_NEW_SURVEY = (surveyKey: string,
   activeUntil?: number | Expression) => generateExpression('ADD_NEW_SURVEY', undefined, surveyKey, activeFrom !== undefined ? activeFrom : 0, activeUntil !== undefined ? activeUntil : 0, category)
 
 const REMOVE_ALL_SURVEYS = () => generateExpression('REMOVE_ALL_SURVEYS')
+
+/**
+ * Add participant message
+ * @param messageType message type
+ * @param scheduledFor timestamp or expression returning a timestamp
+ * @returns
+ */
+const ADD_MESSAGE = (messageType: string, scheduledFor: number | Expression) => generateExpression('ADD_MESSAGE', undefined, messageType, scheduledFor);
+
+/**
+ * Remove all messages scheduled for the participant
+ * @returns
+ */
+const REMOVE_ALL_MESSAGES = (messageType: string, scheduledFor: number | Expression) => generateExpression('REMOVE_ALL_MESSAGES', undefined);
+
+/**
+ * Remove all messages with this message type
+ * @param messageType message type
+ * @returns
+ */
+const REMOVE_MESSAGES_BY_TYPE = (messageType: string) => generateExpression('REMOVE_MESSAGES_BY_TYPE', undefined, messageType);
+
 
 /**
  * When submitting the response, item response with the given key would be added to the report array
@@ -334,6 +371,8 @@ export const NativeStudyEngineExpressions = {
     hasStudyStatus,
     hasParticipantFlag,
     lastSubmissionDateOlderThan,
+    hasMessageTypeAssigned,
+    getMessageNextTime,
   },
   // logical and comparision
   eq,
@@ -366,6 +405,11 @@ export const StudyEngineActions = {
       add: ADD_REPORT,
       removeAll: REMOVE_ALL_REPORTS,
       remove: REMOVE_REPORT_BY_KEY,
+    },
+    messages: {
+      add: ADD_MESSAGE,
+      removeAll: REMOVE_ALL_MESSAGES,
+      remove: REMOVE_MESSAGES_BY_TYPE,
     },
 
     // Extra methods:
