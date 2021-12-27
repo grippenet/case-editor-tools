@@ -212,7 +212,7 @@ const ADD_MESSAGE = (messageType: string, scheduledFor: number | Expression) => 
  * Remove all messages scheduled for the participant
  * @returns
  */
-const REMOVE_ALL_MESSAGES = (messageType: string, scheduledFor: number | Expression) => generateExpression('REMOVE_ALL_MESSAGES', undefined);
+const REMOVE_ALL_MESSAGES = () => generateExpression('REMOVE_ALL_MESSAGES', undefined);
 
 /**
  * Remove all messages with this message type
