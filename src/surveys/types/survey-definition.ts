@@ -2,7 +2,7 @@ import { SurveyGroupItem, SurveyItem } from "survey-engine/data_types";
 import { Logger } from "../../logger/logger";
 import { ItemEditor } from "../survey-editor/item-editor";
 import { SurveyEditor } from "../survey-editor/survey-editor";
-import { generateLocStrings } from "../utils/simple-generators";
+import { generateLocStrings, generatePageBreak } from "../utils/simple-generators";
 
 export type SurveyAvailableFor = 'public' | 'temporary_participants' | 'active_participants';
 
@@ -63,8 +63,16 @@ export abstract class SurveyDefinition {
     return this.editor.getSurveyJSON(pretty);
   }
 
-  addItem(item: SurveyItem) {
+  addItem(item: SurveyItem, pageBreakAfter?: boolean) {
     this.editor.addExistingSurveyItem(item, this.key);
+    if (pageBreakAfter) {
+      this.addPageBreak();
+    }
+  }
+
+  addPageBreak() {
+    this.editor.addExistingSurveyItem(generatePageBreak(this.key), this.key);
+
   }
 
   addSurveyItemToPath(item: SurveyItem, parentKey: string) {
