@@ -39,6 +39,27 @@ const responseHasKeysAny = (itemKey: string, responseSlotKey: string, ...optionK
  */
 const responseHasOnlyKeysOtherThan = (itemKey: string, responseSlotKey: string, ...optionKeys: string[]) => generateExpression('responseHasOnlyKeysOtherThan', undefined, itemKey, responseSlotKey, ...optionKeys)
 
+/**
+ *
+ * @param itemKey full key to the survey item, in the form, e.g., <surveyKey>.<groupKey>.<itemKey>
+ * @param responseKey  full key to the response that should exists
+ * @returns if item contains responseKey return true
+ */
+const hasResponseKey = (itemKey: string, responseKey: string): Expression => {
+  return generateExpression('hasResponseKey', undefined, itemKey, responseKey);
+}
+
+/**
+ *
+ * @param itemKey full key to the survey item, in the form, e.g., <surveyKey>.<groupKey>.<itemKey>
+ * @param responseKey full key to the response that should exists
+ * @param value the response object with the above key should have this value
+ * @returns if the response object exists and has the value return true
+ */
+const hasResponseKeyWithValue = (itemKey: string, responseKey: string, value: string): Expression => {
+  return generateExpression('hasResponseKeyWithValue', undefined, itemKey, responseKey, value);
+}
+
 const getResponseValueAsNum = (itemKey: string, responseKey: string): Expression => {
   return generateExpression('getResponseValueAsNum', 'float', itemKey, responseKey);
 }
@@ -366,6 +387,8 @@ export const NativeStudyEngineExpressions = {
   responseHasOnlyKeysOtherThan,
   getResponseValueAsNum,
   getResponseValueAsStr,
+  hasResponseKey,
+  hasResponseKeyWithValue,
   countResponseItems,
   // Old responses
   checkConditionForOldResponses,
