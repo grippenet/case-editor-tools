@@ -66,11 +66,20 @@ const gte = (val1: Expression | string | number, val2: Expression | string | num
  * @returns
  */
 const timestampWithOffset = (delta: Duration, reference?: number | Expression): Expression => generateExpression(
-    'timestampWithOffset',
-    undefined,
-    durationObjectToSeconds(delta),
-    reference ? reference : undefined
+  'timestampWithOffset',
+  undefined,
+  durationObjectToSeconds(delta),
+  reference ? reference : undefined
 )
+
+/**
+ * Parse the result of an expression as a number
+ * @param valueRef expression that returns a string with the value that should be parsed
+ * @returns expression that returns the value or undefined
+ */
+const parseValueAsNum = (valueRef: Expression): Expression => {
+  return generateExpression('parseValueAsNum', 'float', valueRef);
+}
 
 /**
  * Extract value from a response if exits parsed as a number
@@ -79,7 +88,7 @@ const timestampWithOffset = (delta: Duration, reference?: number | Expression): 
  * @returns expression that returns the value or undefined
  */
 const getResponseValueAsNum = (itemKey: string, responseKey: string): Expression => {
-    return generateExpression('getResponseValueAsNum', 'float', itemKey, responseKey);
+  return generateExpression('getResponseValueAsNum', 'float', itemKey, responseKey);
 }
 
 /**
@@ -89,7 +98,7 @@ const getResponseValueAsNum = (itemKey: string, responseKey: string): Expression
  * @returns expression that returns the value or undefined
  */
 const getResponseValueAsStr = (itemKey: string, responseKey: string): Expression => {
-    return generateExpression('getResponseValueAsStr', 'string', itemKey, responseKey);
+  return generateExpression('getResponseValueAsStr', 'string', itemKey, responseKey);
 }
 
 /**
@@ -99,7 +108,7 @@ const getResponseValueAsStr = (itemKey: string, responseKey: string): Expression
  * @returns expression that returns the number of items of the response slot
  */
 const countResponseItems = (itemKey: string, responseKey: string): Expression => {
-    return generateExpression('countResponseItems', undefined, itemKey, responseKey);
+  return generateExpression('countResponseItems', undefined, itemKey, responseKey);
 }
 
 /**
@@ -108,7 +117,7 @@ const countResponseItems = (itemKey: string, responseKey: string): Expression =>
  * @returns
  */
 const isDefined = (arg: Expression): Expression => {
-    return generateExpression('isDefined', undefined, arg);
+  return generateExpression('isDefined', undefined, arg);
 }
 
 /**
@@ -116,7 +125,7 @@ const isDefined = (arg: Expression): Expression => {
  * @returns
  */
 const getContext = (): Expression => {
-    return generateExpression('getContext', undefined);
+  return generateExpression('getContext', undefined);
 }
 
 /**
@@ -124,7 +133,7 @@ const getContext = (): Expression => {
  * @returns
  */
 const getResponses = (): Expression => {
-    return generateExpression('getResponses', undefined);
+  return generateExpression('getResponses', undefined);
 }
 
 /**
@@ -132,7 +141,7 @@ const getResponses = (): Expression => {
  * @returns
  */
 const getRenderedItems = (): Expression => {
-    return generateExpression('getRenderedItems', undefined);
+  return generateExpression('getRenderedItems', undefined);
 }
 
 /**
@@ -142,7 +151,7 @@ const getRenderedItems = (): Expression => {
  * @returns
  */
 const getAttribute = (objectRef: Expression, attributeName: string): Expression => {
-    return generateExpression('getAttribute', undefined, objectRef, attributeName);
+  return generateExpression('getAttribute', undefined, objectRef, attributeName);
 }
 
 /**
@@ -152,7 +161,7 @@ const getAttribute = (objectRef: Expression, attributeName: string): Expression 
  * @returns
  */
 const getArrayItemAtIndex = (arrayRef: Expression, index: number): Expression => {
-    return generateExpression('getArrayItemAtIndex', undefined, arrayRef, index);
+  return generateExpression('getArrayItemAtIndex', undefined, arrayRef, index);
 }
 
 /**
@@ -162,7 +171,7 @@ const getArrayItemAtIndex = (arrayRef: Expression, index: number): Expression =>
  * @returns
  */
 const getArrayItemByKey = (arrayRef: Expression, itemKey: string): Expression => {
-    return generateExpression('getArrayItemByKey', undefined, arrayRef, itemKey);
+  return generateExpression('getArrayItemByKey', undefined, arrayRef, itemKey);
 }
 
 /**
@@ -172,7 +181,7 @@ const getArrayItemByKey = (arrayRef: Expression, itemKey: string): Expression =>
  * @returns
  */
 const getObjByHierarchicalKey = (objectRef: Expression, itemKey: string): Expression => {
-    return generateExpression('getObjByHierarchicalKey', undefined, objectRef, itemKey);
+  return generateExpression('getObjByHierarchicalKey', undefined, objectRef, itemKey);
 }
 
 /**
@@ -182,7 +191,7 @@ const getObjByHierarchicalKey = (objectRef: Expression, itemKey: string): Expres
  * @returns
  */
 const getNestedObjectByKey = (objectRef: Expression, itemKey: string): Expression => {
-    return generateExpression('getNestedObjectByKey', undefined, objectRef, itemKey);
+  return generateExpression('getNestedObjectByKey', undefined, objectRef, itemKey);
 }
 
 
@@ -192,7 +201,7 @@ const getNestedObjectByKey = (objectRef: Expression, itemKey: string): Expressio
  * @returns
  */
 const findPreviousSurveyResponsesByKey = (itemKey: string): Expression => {
-    return generateExpression('findPreviousSurveyResponsesByKey', undefined, itemKey);
+  return generateExpression('findPreviousSurveyResponsesByKey', undefined, itemKey);
 }
 
 /**
@@ -201,7 +210,7 @@ const findPreviousSurveyResponsesByKey = (itemKey: string): Expression => {
  * @returns
  */
 const getPreviousResponses = (surveyKey: string): Expression => {
-    return generateExpression('getPreviousResponses', undefined, surveyKey);
+  return generateExpression('getPreviousResponses', undefined, surveyKey);
 }
 
 /**
@@ -210,16 +219,16 @@ const getPreviousResponses = (surveyKey: string): Expression => {
  * @returns
  */
 const getLastFromSurveyResponses = (itemKey: string): Expression => {
-    return generateExpression('getLastFromSurveyResponses', undefined, itemKey);
+  return generateExpression('getLastFromSurveyResponses', undefined, itemKey);
 }
 
 
 const filterResponsesByIncludesKeys = (responsesRef: Expression, itemKey: string, searchKeys: string): Expression => {
-    return generateExpression('filterResponsesByIncludesKeys', undefined, responsesRef, itemKey, ...searchKeys);
+  return generateExpression('filterResponsesByIncludesKeys', undefined, responsesRef, itemKey, ...searchKeys);
 }
 
 const filterResponsesByValue = (responsesRef: Expression, itemKey: string, expectedValue: string): Expression => {
-    return generateExpression('filterResponsesByValue', undefined, responsesRef, itemKey, expectedValue);
+  return generateExpression('filterResponsesByValue', undefined, responsesRef, itemKey, expectedValue);
 }
 
 /**
@@ -228,7 +237,7 @@ const filterResponsesByValue = (responsesRef: Expression, itemKey: string, expec
  * @returns
  */
 const getLastFromSurveyItemResponses = (responsesRef: Expression): Expression => {
-    return generateExpression('getLastFromSurveyItemResponses', undefined, responsesRef);
+  return generateExpression('getLastFromSurveyItemResponses', undefined, responsesRef);
 }
 
 /**
@@ -237,7 +246,7 @@ const getLastFromSurveyItemResponses = (responsesRef: Expression): Expression =>
  * @returns expression returns undefined if rerefence time is evaluated to undefined
  */
 const getSecondsSince = (referenceTime: Expression): Expression => {
-    return generateExpression('getSecondsSince', undefined, referenceTime);
+  return generateExpression('getSecondsSince', undefined, referenceTime);
 }
 
 /**
@@ -247,7 +256,7 @@ const getSecondsSince = (referenceTime: Expression): Expression => {
  * @returns
  */
 const getResponseItem = (itemKey: string, responseKey: string): Expression => {
-    return generateExpression('getResponseItem', undefined, itemKey, responseKey);
+  return generateExpression('getResponseItem', undefined, itemKey, responseKey);
 }
 
 /**
@@ -257,7 +266,7 @@ const getResponseItem = (itemKey: string, responseKey: string): Expression => {
  * @returns
  */
 const hasResponse = (itemKey: string, responseKey: string): Expression => {
-    return generateExpression('hasResponse', undefined, itemKey, responseKey);
+  return generateExpression('hasResponse', undefined, itemKey, responseKey);
 }
 
 /**
@@ -268,7 +277,7 @@ const hasResponse = (itemKey: string, responseKey: string): Expression => {
  * @returns
  */
 const checkResponseValueWithRegex = (itemKey: string, responseKey: string, regexPattern: string): Expression => {
-    return generateExpression('checkResponseValueWithRegex', undefined, itemKey, responseKey, regexPattern);
+  return generateExpression('checkResponseValueWithRegex', undefined, itemKey, responseKey, regexPattern);
 }
 
 /**
@@ -279,7 +288,7 @@ const checkResponseValueWithRegex = (itemKey: string, responseKey: string, regex
  * @returns
  */
 const responseHasKeysAny = (itemKey: string, responseKey: string, ...optionKeys: string[]): Expression => {
-    return generateExpression('responseHasKeysAny', undefined, itemKey, responseKey, ...optionKeys);
+  return generateExpression('responseHasKeysAny', undefined, itemKey, responseKey, ...optionKeys);
 }
 
 /**
@@ -290,7 +299,7 @@ const responseHasKeysAny = (itemKey: string, responseKey: string, ...optionKeys:
  * @returns
  */
 const responseHasKeysAll = (itemKey: string, responseKey: string, ...optionKeys: string[]): Expression => {
-    return generateExpression('responseHasKeysAll', undefined, itemKey, responseKey, ...optionKeys);
+  return generateExpression('responseHasKeysAll', undefined, itemKey, responseKey, ...optionKeys);
 }
 
 /**
@@ -301,7 +310,7 @@ const responseHasKeysAll = (itemKey: string, responseKey: string, ...optionKeys:
  * @returns
  */
 const responseHasOnlyKeysOtherThan = (itemKey: string, responseKey: string, ...optionKeys: string[]): Expression => {
-    return generateExpression('responseHasOnlyKeysOtherThan', undefined, itemKey, responseKey, ...optionKeys);
+  return generateExpression('responseHasOnlyKeysOtherThan', undefined, itemKey, responseKey, ...optionKeys);
 }
 
 /**
@@ -311,7 +320,7 @@ const responseHasOnlyKeysOtherThan = (itemKey: string, responseKey: string, ...o
  * @returns
  */
 const getSurveyItemValidation = (itemKey: string, validationKey: string): Expression => {
-    return generateExpression('getSurveyItemValidation', undefined, itemKey, validationKey);
+  return generateExpression('getSurveyItemValidation', undefined, itemKey, validationKey);
 }
 
 /**
@@ -323,7 +332,41 @@ const getSurveyItemValidation = (itemKey: string, validationKey: string): Expres
  * @returns
  */
 const dateResponseDiffFromNow = (itemKey: string, responseKey: string, unit: 'years' | 'months' | 'days' | 'hours' | 'minutes' | 'seconds', ignoreSign?: boolean): Expression => {
-    return generateExpression('dateResponseDiffFromNow', undefined, itemKey, responseKey, unit, ignoreSign ? 1 : undefined);
+  return generateExpression('dateResponseDiffFromNow', undefined, itemKey, responseKey, unit, ignoreSign ? 1 : undefined);
+}
+
+/**
+ * Check participant flags object if contains the specified key value pair
+ * @param key retrieve participant flag's value for this key
+ * @returns
+ */
+const parseParticipantFlagAsNum = (key: string): Expression => {
+  return parseValueAsNum(
+    getAttribute(
+      getAttribute(
+        getContext(),
+        'participantFlags'
+      ),
+      key,
+    )
+  );
+}
+
+/**
+ * Check participant flags object if contains the specified key value pair
+ * @param key retrieve participant flag's value for this key
+ * @returns
+ */
+const hasParticipantFlagKey = (key: string, value: string): Expression => {
+  return isDefined(
+    getAttribute(
+      getAttribute(
+        getContext(),
+        'participantFlags'
+      ),
+      key,
+    )
+  );
 }
 
 /**
@@ -332,17 +375,17 @@ const dateResponseDiffFromNow = (itemKey: string, responseKey: string, unit: 'ye
  * @param value string value to be checked for a match
  * @returns
  */
-const hasParticipantFlag = (key: string, value: string): Expression => {
-    return eq(
-        getAttribute(
-            getAttribute(
-                getContext(),
-                'participantFlags'
-            ),
-            key,
-        ),
-        value,
-    );
+const hasParticipantFlagKeyAndValue = (key: string, value: string): Expression => {
+  return eq(
+    getAttribute(
+      getAttribute(
+        getContext(),
+        'participantFlags'
+      ),
+      key,
+    ),
+    value,
+  );
 }
 
 /**
@@ -351,133 +394,138 @@ const hasParticipantFlag = (key: string, value: string): Expression => {
  * @returns
  */
 const multipleChoiceSelectionCount = (itemKey: string): Expression => {
-    return countResponseItems(itemKey, [responseGroupKey, multipleChoiceKey].join('.'));
+  return countResponseItems(itemKey, [responseGroupKey, multipleChoiceKey].join('.'));
 }
 
 const getDatePickerResponseValue = (itemKey: string): Expression => {
-    return getResponseValueAsNum(itemKey, [responseGroupKey, datePickerKey].join('.'))
+  return getResponseValueAsNum(itemKey, [responseGroupKey, datePickerKey].join('.'))
 }
 
 const singleChoiceOptionsSelected = (itemKey: string, ...optionKeys: string[]) =>
-    responseHasKeysAll(itemKey, [responseGroupKey, singleChoiceKey].join('.'), ...optionKeys)
+  responseHasKeysAll(itemKey, [responseGroupKey, singleChoiceKey].join('.'), ...optionKeys)
 
 const multipleChoiceOptionsSelected = (itemKey: string, ...optionKeys: string[]) =>
-    responseHasKeysAny(itemKey, [responseGroupKey, multipleChoiceKey].join('.'), ...optionKeys)
+  responseHasKeysAny(itemKey, [responseGroupKey, multipleChoiceKey].join('.'), ...optionKeys)
 
 const multipleChoiceAllOfTheseSelected = (itemKey: string, ...optionKeys: string[]) =>
-    responseHasKeysAll(itemKey, [responseGroupKey, multipleChoiceKey].join('.'), ...optionKeys)
+  responseHasKeysAll(itemKey, [responseGroupKey, multipleChoiceKey].join('.'), ...optionKeys)
 
 const multipleChoiceOnlyOtherKeysSelected = (itemKey: string, ...optionKeys: string[]) =>
-    responseHasOnlyKeysOtherThan(itemKey, [responseGroupKey, multipleChoiceKey].join('.'), ...optionKeys)
+  responseHasOnlyKeysOtherThan(itemKey, [responseGroupKey, multipleChoiceKey].join('.'), ...optionKeys)
 
 const singleChoiceOnlyOtherOptionSelected = (itemKey: string, ...optionKeys: string[]) =>
-    responseHasOnlyKeysOtherThan(itemKey, [responseGroupKey, singleChoiceKey].join('.'), ...optionKeys)
+  responseHasOnlyKeysOtherThan(itemKey, [responseGroupKey, singleChoiceKey].join('.'), ...optionKeys)
 
 const singleChoiceGetNumOptionValue = (itemKey: string, optionKey: string): Expression => {
-    return getResponseValueAsNum(itemKey, [responseGroupKey, singleChoiceKey, optionKey].join('.'))
+  return getResponseValueAsNum(itemKey, [responseGroupKey, singleChoiceKey, optionKey].join('.'))
 }
 
 const multipleChoiceGetNumOptionValue = (itemKey: string, optionKey: string): Expression => {
-    return getResponseValueAsNum(itemKey, [responseGroupKey, multipleChoiceKey, optionKey].join('.'))
+  return getResponseValueAsNum(itemKey, [responseGroupKey, multipleChoiceKey, optionKey].join('.'))
 }
 
 const singleChoiceTextInputRegexCheck = (itemKey: string, optionKey: string, pattern: string): Expression => {
-    return checkResponseValueWithRegex(itemKey, [responseGroupKey, singleChoiceKey, optionKey].join('.'), pattern)
+  return checkResponseValueWithRegex(itemKey, [responseGroupKey, singleChoiceKey, optionKey].join('.'), pattern)
 }
 
 const mulitpleChoiceTextInputRegexCheck = (itemKey: string, optionKey: string, pattern: string): Expression => {
-    return checkResponseValueWithRegex(itemKey, [responseGroupKey, multipleChoiceKey, optionKey].join('.'), pattern)
+  return checkResponseValueWithRegex(itemKey, [responseGroupKey, multipleChoiceKey, optionKey].join('.'), pattern)
 }
 
 const textInputRegexCheck = (itemKey: string, pattern: string): Expression => {
-    return checkResponseValueWithRegex(itemKey, [responseGroupKey, inputKey].join('.'), pattern)
+  return checkResponseValueWithRegex(itemKey, [responseGroupKey, inputKey].join('.'), pattern)
 }
 
 const multilineTextInputRegexCheck = (itemKey: string, pattern: string): Expression => {
-    return checkResponseValueWithRegex(itemKey, [responseGroupKey, inputKey].join('.'), pattern)
+  return checkResponseValueWithRegex(itemKey, [responseGroupKey, inputKey].join('.'), pattern)
 }
 
 export const NativeSurveyEngineExpressions = {
-    getters: {
-        // root data reference:
-        getContext,
-        getResponses,
-        getRenderedItems,
+  getters: {
+    // root data reference:
+    getContext,
+    getResponses,
+    getRenderedItems,
 
-        // object access:
-        getAttribute,
-        getArrayItemAtIndex,
-        getArrayItemByKey,
-        getObjByHierarchicalKey,
-        getNestedObjectByKey,
-    },
-    // query methods for previous names:
-    previousResponses: {
-        getItemsByKey: findPreviousSurveyResponsesByKey,
-        getLastItemByKey: getLastFromSurveyResponses,
-        getAllResponsesForSurveyKey: getPreviousResponses,
-        filterResponsesByIncludesKeys,
-        filterResponsesByValue,
-        getLastFromSurveyItemResponses,
-    },
+    // object access:
+    getAttribute,
+    getArrayItemAtIndex,
+    getArrayItemByKey,
+    getObjByHierarchicalKey,
+    getNestedObjectByKey,
+  },
+  // query methods for previous names:
+  previousResponses: {
+    getItemsByKey: findPreviousSurveyResponsesByKey,
+    getLastItemByKey: getLastFromSurveyResponses,
+    getAllResponsesForSurveyKey: getPreviousResponses,
+    filterResponsesByIncludesKeys,
+    filterResponsesByValue,
+    getLastFromSurveyItemResponses,
+  },
 
-    // client side shortcut methods:
-    isDefined,
-    hasResponse,
-    getResponseItem,
-    getResponseValueAsNum,
-    getResponseValueAsStr,
-    checkResponseValueWithRegex,
-    responseHasKeysAny,
-    responseHasKeysAll,
-    responseHasOnlyKeysOtherThan,
-    getSurveyItemValidation,
-    dateResponseDiffFromNow,
-    countResponseItems,
-    compare: {
-        eq,
-        lt,
-        lte,
-        gt,
-        gte,
-    },
-    logic: {
-        or,
-        and,
-        not,
-    },
+  // client side shortcut methods:
+  isDefined,
+  hasResponse,
+  getResponseItem,
+  parseValueAsNum,
+  getResponseValueAsNum,
+  getResponseValueAsStr,
+  checkResponseValueWithRegex,
+  responseHasKeysAny,
+  responseHasKeysAll,
+  responseHasOnlyKeysOtherThan,
+  getSurveyItemValidation,
+  dateResponseDiffFromNow,
+  countResponseItems,
+  compare: {
+    eq,
+    lt,
+    lte,
+    gt,
+    gte,
+  },
+  logic: {
+    or,
+    and,
+    not,
+  },
 
-    // Other
-    getSecondsSince,
-    timestampWithOffset,
+  // Other
+  getSecondsSince,
+  timestampWithOffset,
 }
 
 export const SurveyEngine = {
-    ...NativeSurveyEngineExpressions,
-    singleChoice: {
-        any: singleChoiceOptionsSelected,
-        none: singleChoiceOnlyOtherOptionSelected,
-        getDateValue: singleChoiceGetNumOptionValue,
-        getNumValue: singleChoiceGetNumOptionValue,
-        regexCheck: singleChoiceTextInputRegexCheck,
-    },
-    multipleChoice: {
-        any: multipleChoiceOptionsSelected,
-        none: multipleChoiceOnlyOtherKeysSelected,
-        all: multipleChoiceAllOfTheseSelected,
-        selectionCount: multipleChoiceSelectionCount,
-        getDateValue: multipleChoiceGetNumOptionValue,
-        getNumValue: multipleChoiceGetNumOptionValue,
-        regexCheck: mulitpleChoiceTextInputRegexCheck,
-    },
-    textInput: {
-        regexCheck: textInputRegexCheck,
-    },
-    multilineTextInput: {
-        regexCheck: multilineTextInputRegexCheck,
-    },
-    datePicker: {
-        get: getDatePickerResponseValue,
-    },
-    hasParticipantFlag,
+  ...NativeSurveyEngineExpressions,
+  singleChoice: {
+    any: singleChoiceOptionsSelected,
+    none: singleChoiceOnlyOtherOptionSelected,
+    getDateValue: singleChoiceGetNumOptionValue,
+    getNumValue: singleChoiceGetNumOptionValue,
+    regexCheck: singleChoiceTextInputRegexCheck,
+  },
+  multipleChoice: {
+    any: multipleChoiceOptionsSelected,
+    none: multipleChoiceOnlyOtherKeysSelected,
+    all: multipleChoiceAllOfTheseSelected,
+    selectionCount: multipleChoiceSelectionCount,
+    getDateValue: multipleChoiceGetNumOptionValue,
+    getNumValue: multipleChoiceGetNumOptionValue,
+    regexCheck: mulitpleChoiceTextInputRegexCheck,
+  },
+  textInput: {
+    regexCheck: textInputRegexCheck,
+  },
+  multilineTextInput: {
+    regexCheck: multilineTextInputRegexCheck,
+  },
+  datePicker: {
+    get: getDatePickerResponseValue,
+  },
+  participantFlags: {
+    hasKey: hasParticipantFlagKey,
+    hasKeyAndValue: hasParticipantFlagKeyAndValue,
+    getAsNum: parseParticipantFlagAsNum,
+  }
 }

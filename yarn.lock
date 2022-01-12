@@ -36,10 +36,10 @@
     magic-string "^0.25.7"
     resolve "^1.17.0"
 
-"@rollup/plugin-node-resolve@^13.1.1":
-  version "13.1.1"
-  resolved "https://registry.yarnpkg.com/@rollup/plugin-node-resolve/-/plugin-node-resolve-13.1.1.tgz#d38ba06e7b181ab4df64c75409b43d9bdc95ae34"
-  integrity sha512-6QKtRevXLrmEig9UiMYt2fSvee9TyltGRfw+qSs6xjUnxwjOzTOqy+/Lpxsgjb8mJn1EQNbCDAvt89O4uzL5kw==
+"@rollup/plugin-node-resolve@^13.1.3":
+  version "13.1.3"
+  resolved "https://registry.yarnpkg.com/@rollup/plugin-node-resolve/-/plugin-node-resolve-13.1.3.tgz#2ed277fb3ad98745424c1d2ba152484508a92d79"
+  integrity sha512-BdxNk+LtmElRo5d06MGY4zoepyrXX1tkzX2hrnPEZ53k78GuOMWLqmJDGIIOPwVRIFZrLQOo+Yr6KtCuLIA0AQ==
   dependencies:
     "@rollup/pluginutils" "^3.1.0"
     "@types/resolve" "1.17.1"
@@ -699,10 +699,10 @@ sourcemap-codec@^1.4.4:
   resolved "https://registry.yarnpkg.com/sourcemap-codec/-/sourcemap-codec-1.4.8.tgz#ea804bd94857402e6992d05a38ef1ae35a9ab4c4"
   integrity sha512-9NykojV5Uih4lgo5So5dtw+f0JgJX30KCNI8gwhz2J9A15wD0Ml6tjHKwf6fTSa6fAdVBdZeNOs9eJ71qCk8vA==
 
-survey-engine@^1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/survey-engine/-/survey-engine-1.0.2.tgz#25ce0f38efd8d79b3e12e075a3fd172232643d90"
-  integrity sha512-dXT7ogjCdWsRFdE4Khj0S79APv4QIGiJGpU5NzOFFsT47ESIifbba4tCJwRdQqIDqgE/GO6YzFh/1O6MLahPHQ==
+survey-engine@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/survey-engine/-/survey-engine-1.0.3.tgz#f94967fa30327fc0ca4ac78b83820937544768b0"
+  integrity sha512-bkMPeXasW/rI8cRFdqCrPhTJ5u15QGaOOxI7+RpPMkx3inLK2ClRlRATk49dSbd/u4/PdSN2QpzzaPfe8rM81A==
   dependencies:
     moment "2.24.0"
 
