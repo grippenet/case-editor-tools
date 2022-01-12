@@ -357,7 +357,7 @@ const parseParticipantFlagAsNum = (key: string): Expression => {
  * @param key retrieve participant flag's value for this key
  * @returns
  */
-const hasParticipantFlagKey = (key: string, value: string): Expression => {
+const hasParticipantFlagKey = (key: string): Expression => {
   return isDefined(
     getAttribute(
       getAttribute(
