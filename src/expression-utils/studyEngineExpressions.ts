@@ -186,10 +186,10 @@ const UPDATE_STUDY_STATUS = (status: string): Expression => generateExpression('
 /**
  * Add or update a participant flag
  * @param key
- * @param newValue
+ * @param newValue: string, number or expression where result should be written in the flag's value
  * @returns
  */
-const UPDATE_FLAG = (key: string, newValue: string) => generateExpression('UPDATE_FLAG', undefined, key, newValue)
+const UPDATE_FLAG = (key: string, newValue: string | number | Expression) => generateExpression('UPDATE_FLAG', undefined, key, newValue)
 
 const REMOVE_FLAG = (key: string) => generateExpression('REMOVE_FLAG', undefined, key);
 
