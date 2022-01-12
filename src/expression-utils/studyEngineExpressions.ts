@@ -103,12 +103,19 @@ const getSurveyKeyAssignedUntil = (surveyKey: string) => generateExpression('get
 const hasStudyStatus = (status: string) => generateExpression('getSurveyKeyAssignedUntil', undefined, status);
 
 /**
- * Check if a participant flag is present
+ * Check if a participant flag with specific value is present
  * @param key look up this flag
  * @param value and for this value
  * @returns return true if key - value pair (with case sensitive matching for both key and value) is present. If any of the two is different, or participant flags is empty, it returns false.
  */
-const hasParticipantFlag = (key: string, value: string) => generateExpression('hasParticipantFlag', undefined, key, value);
+const hasParticipantFlagKeyAndValue = (key: string, value: string) => generateExpression('hasParticipantFlag', undefined, key, value);
+
+/**
+ * Check if a participant flag is present
+ * @param key look up this flag
+ * @returns return true if key is present. If any of the two is different, or participant flags is empty, it returns false.
+ */
+const hasParticipantFlagKey = (key: string) => generateExpression('hasParticipantFlagKey', undefined, key);
 
 
 /**
@@ -369,7 +376,8 @@ export const NativeStudyEngineExpressions = {
     getSurveyKeyAssignedFrom,
     getSurveyKeyAssignedUntil,
     hasStudyStatus,
-    hasParticipantFlag,
+    hasParticipantFlagKeyAndValue,
+    hasParticipantFlagKey,
     lastSubmissionDateOlderThan,
     hasMessageTypeAssigned,
     getMessageNextTime,
