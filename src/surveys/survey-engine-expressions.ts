@@ -388,6 +388,13 @@ const hasParticipantFlagKeyAndValue = (key: string, value: string): Expression =
   );
 }
 
+const isLoggedIn = (): Expression => {
+  return getAttribute(
+    getContext(),
+    'isLoggedIn'
+  );
+}
+
 /**
  * Counts the number of selected options in a multiple choice question
  * @param itemKey full key of the survey item (e.g. SURVEY.GROUP.QUESTIONKEY)
@@ -527,5 +534,6 @@ export const SurveyEngine = {
     hasKey: hasParticipantFlagKey,
     hasKeyAndValue: hasParticipantFlagKeyAndValue,
     getAsNum: parseParticipantFlagAsNum,
-  }
+  },
+  isLoggedIn,
 }

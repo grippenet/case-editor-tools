@@ -20,6 +20,6 @@
     "build": "rollup -c"
   },
   "dependencies": {
-    "survey-engine": "^1.0.3"
+    "survey-engine": "^1.0.4"
   }
 }
