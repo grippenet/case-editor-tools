@@ -388,11 +388,23 @@ const hasParticipantFlagKeyAndValue = (key: string, value: string): Expression =
   );
 }
 
+/**
+ * Check if the participant is logged in currently.
+ * @returns true if context variable isLoggedIn is set and true
+ */
 const isLoggedIn = (): Expression => {
-  return getAttribute(
-    getContext(),
-    'isLoggedIn'
-  );
+  return and(
+    isDefined(
+      getAttribute(
+        getContext(),
+        'isLoggedIn'
+      )
+    ),
+    getAttribute(
+      getContext(),
+      'isLoggedIn'
+    )
+  )
 }
 
 /**
