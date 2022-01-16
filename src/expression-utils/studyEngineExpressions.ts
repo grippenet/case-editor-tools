@@ -9,10 +9,10 @@ const not = (arg: Expression): Expression => generateExpression('not', undefined
 
 /**
  * Check if the current event has the given type
- * @param equalsType string with the possible values: 'ENTER', 'SUBMIT', 'TIMER
+ * @param equalsType string with the possible values: 'ENTER', 'SUBMIT', 'TIMER', 'MERGE'
  * @returns if event type matches the argument, return true otherwise false
  */
-const checkEventType = (equalsType: 'ENTER' | 'SUBMIT' | 'TIMER') => generateExpression('checkEventType', undefined, equalsType)
+const checkEventType = (equalsType: 'ENTER' | 'SUBMIT' | 'TIMER' | 'MERGE') => generateExpression('checkEventType', undefined, equalsType)
 
 /**
  * Check if the submitted survey has a specific key
@@ -94,6 +94,7 @@ const checkConditionForOldResponses = (
  * @returns timestamp
  */
 const getStudyEntryTime = () => generateExpression('getStudyEntryTime');
+const getStudyEntryTimeForIncoming = () => generateExpression('incomingState:getStudyEntryTime');
 
 /**
  * Determines if a specific survey key is currently assigned to the participant.
@@ -101,6 +102,7 @@ const getStudyEntryTime = () => generateExpression('getStudyEntryTime');
  * @returns true if the participant has a survey with this surveyKey assigned, otherwise false.
  */
 const hasSurveyKeyAssigned = (surveyKey: string) => generateExpression('hasSurveyKeyAssigned', undefined, surveyKey);
+const hasSurveyKeyAssignedForIncoming = (surveyKey: string) => generateExpression('incomingState:hasSurveyKeyAssigned', undefined, surveyKey);
 
 /**
  * Method to access the timestamp for a surveyKey is assigned from
@@ -108,6 +110,7 @@ const hasSurveyKeyAssigned = (surveyKey: string) => generateExpression('hasSurve
  * @returns timestamp
  */
 const getSurveyKeyAssignedFrom = (surveyKey: string) => generateExpression('getSurveyKeyAssignedFrom', undefined, surveyKey);
+const getSurveyKeyAssignedFromForIncoming = (surveyKey: string) => generateExpression('incomingState:getSurveyKeyAssignedFrom', undefined, surveyKey);
 
 /**
  * Method to access the timestamp for a surveyKey is assigned until
@@ -115,6 +118,7 @@ const getSurveyKeyAssignedFrom = (surveyKey: string) => generateExpression('getS
  * @returns timestamp
  */
 const getSurveyKeyAssignedUntil = (surveyKey: string) => generateExpression('getSurveyKeyAssignedUntil', undefined, surveyKey);
+const getSurveyKeyAssignedUntilForIncoming = (surveyKey: string) => generateExpression('incomingState:getSurveyKeyAssignedUntil', undefined, surveyKey);
 
 /**
  * Check if a participant has a specific study status
@@ -122,6 +126,7 @@ const getSurveyKeyAssignedUntil = (surveyKey: string) => generateExpression('get
  * @returns true/false
  */
 const hasStudyStatus = (status: string) => generateExpression('getSurveyKeyAssignedUntil', undefined, status);
+const hasStudyStatusForIncoming = (status: string) => generateExpression('incomingState:getSurveyKeyAssignedUntil', undefined, status);
 
 /**
  * Check if a participant flag with specific value is present
@@ -130,6 +135,7 @@ const hasStudyStatus = (status: string) => generateExpression('getSurveyKeyAssig
  * @returns return true if key - value pair (with case sensitive matching for both key and value) is present. If any of the two is different, or participant flags is empty, it returns false.
  */
 const hasParticipantFlagKeyAndValue = (key: string, value: string) => generateExpression('hasParticipantFlag', undefined, key, value);
+const hasParticipantFlagKeyAndValueForIncoming = (key: string, value: string) => generateExpression('incomingState:hasParticipantFlag', undefined, key, value);
 
 /**
  * Check if a participant flag is present
@@ -137,6 +143,7 @@ const hasParticipantFlagKeyAndValue = (key: string, value: string) => generateEx
  * @returns return true if key is present. If any of the two is different, or participant flags is empty, it returns false.
  */
 const hasParticipantFlagKey = (key: string) => generateExpression('hasParticipantFlagKey', undefined, key);
+const hasParticipantFlagKeyForIncoming = (key: string) => generateExpression('incomingState:hasParticipantFlagKey', undefined, key);
 
 
 /**
@@ -145,6 +152,7 @@ const hasParticipantFlagKey = (key: string) => generateExpression('hasParticipan
  * @returns return true if a message with the given message type is assigned
  */
 const hasMessageTypeAssigned = (messageType: string) => generateExpression('hasMessageTypeAssigned', undefined, messageType);
+const hasMessageTypeAssignedForIncoming = (messageType: string) => generateExpression('incomingState:hasMessageTypeAssigned', undefined, messageType);
 
 /**
  * Retrieve the timestamp (scheduledFor) for a particular message type. Return 0 if not assigned.
@@ -152,6 +160,7 @@ const hasMessageTypeAssigned = (messageType: string) => generateExpression('hasM
  * @returns timestamp value or zero
  */
 const getMessageNextTime = (messageType: string) => generateExpression('getMessageNextTime', undefined, messageType);
+const getMessageNextTimeForIncoming = (messageType: string) => generateExpression('incomingState:getMessageNextTime', undefined, messageType);
 
 /**
  * Check if the last submission is older than the reference timestamp
@@ -160,6 +169,7 @@ const getMessageNextTime = (messageType: string) => generateExpression('getMessa
  * @returns boolean
  */
 const lastSubmissionDateOlderThan = (reference: number | Expression, surveyKey?: string) => generateExpression('lastSubmissionDateOlderThan', undefined, reference, surveyKey);
+const lastSubmissionDateOlderThanForIncoming = (reference: number | Expression, surveyKey?: string) => generateExpression('incomingState:lastSubmissionDateOlderThan', undefined, reference, surveyKey);
 
 const eq = (val1: Expression | string | number, val2: Expression | string | number) => generateExpression('eq', undefined, val1, val2);
 const lt = (val1: Expression | string | number, val2: Expression | string | number) => generateExpression('lt', undefined, val1, val2);
@@ -250,13 +260,6 @@ const REMOVE_ALL_MESSAGES = () => generateExpression('REMOVE_ALL_MESSAGES', unde
 const REMOVE_MESSAGES_BY_TYPE = (messageType: string) => generateExpression('REMOVE_MESSAGES_BY_TYPE', undefined, messageType);
 
 
-/**
- * When submitting the response, item response with the given key would be added to the report array
- * @param itemKey find and add this item to the report array
- * @returns
- */
-const ADD_REPORT = (itemKey: string) => generateExpression('ADD_REPORT', undefined, itemKey);
-
 const REMOVE_SURVEY_BY_KEY = (
   surveyKey: string,
   selector: 'first' | 'last' | 'all'
@@ -268,18 +271,80 @@ const REMOVE_SURVEY_BY_KEY = (
   }
 }
 
-const REMOVE_ALL_REPORTS = () => generateExpression('REMOVE_ALL_REPORTS')
-
-const REMOVE_REPORT_BY_KEY = (
-  surveyKey: string,
-  selector: 'first' | 'last' | 'all'
+/**
+ * Initialises or resets a report for the current event
+ * @param reportKey key to be used for the report
+ */
+const INIT_REPORT = (
+  reportKey: string,
 ) => {
-  if (selector === 'all') {
-    return generateExpression('REMOVE_REPORTS_BY_KEY', undefined, surveyKey);
-  } else {
-    return generateExpression('REMOVE_REPORT_BY_KEY', undefined, surveyKey, selector);
-  }
+  return generateExpression('INIT_REPORT', undefined, reportKey);
 }
+
+/**
+ * Remove the report from the list of reports to be added at the end of the event
+ * @param reportKey key of the report that should be removed
+ * @returns
+ */
+const CANCEL_REPORT = (
+  reportKey: string,
+) => {
+  return generateExpression('CANCEL_REPORT', undefined, reportKey);
+}
+
+/**
+ * Update one value attribute in a report. If report was not initialized, one will be added to the list.
+ * @param reportKey
+ * @param attributeKey update / create this attribute in the report
+ * @param value this should be the value for the given attribute
+ * @param dtype optional dtype to set info for the app how to render this data.
+ * @returns
+ */
+const UPDATE_REPORT_DATA = (
+  reportKey: string,
+  attributeKey: string,
+  value: number | string | Expression,
+  dtype?: 'date' | 'float' | 'int' | 'string' | 'rawMessage'
+) => {
+  return generateExpression('UPDATE_REPORT_DATA', undefined, reportKey, attributeKey, value, dtype);
+}
+
+/**
+ * Method to remove one attribute (key and value) from the report
+ * @param reportKey
+ * @param attributeKey
+ * @returns
+ */
+const REMOVE_REPORT_DATA = (
+  reportKey: string,
+  attributeKey: string,
+) => {
+  return generateExpression('REMOVE_REPORT_DATA', undefined, reportKey, attributeKey);
+}
+
+const setReportIcon = (
+  reportKey: string,
+  icon: string,
+) => {
+  return UPDATE_REPORT_DATA(reportKey, 'icon', icon);
+}
+
+const setReportMessage = (
+  reportKey: string,
+  content: string,
+  asTranslationKey?: boolean,
+) => {
+  return UPDATE_REPORT_DATA(reportKey, 'message', content, asTranslationKey ? undefined : 'rawMessage');
+}
+
+const setReportSummary = (
+  reportKey: string,
+  content: string,
+  asTranslationKey?: boolean,
+) => {
+  return UPDATE_REPORT_DATA(reportKey, 'summary', content, asTranslationKey ? undefined : 'rawMessage');
+}
+
 
 // ##################
 // Prefill rule methods:
@@ -404,6 +469,19 @@ export const NativeStudyEngineExpressions = {
     lastSubmissionDateOlderThan,
     hasMessageTypeAssigned,
     getMessageNextTime,
+    incomingParticipantState: {
+      // for merge event
+      getStudyEntryTime: getStudyEntryTimeForIncoming,
+      hasSurveyKeyAssigned: hasSurveyKeyAssignedForIncoming,
+      getSurveyKeyAssignedFrom: getSurveyKeyAssignedFromForIncoming,
+      getSurveyKeyAssignedUntil: getSurveyKeyAssignedUntilForIncoming,
+      hasStudyStatus: hasStudyStatusForIncoming,
+      hasParticipantFlagKeyAndValue: hasParticipantFlagKeyAndValueForIncoming,
+      hasParticipantFlagKey: hasParticipantFlagKeyForIncoming,
+      lastSubmissionDateOlderThan: lastSubmissionDateOlderThanForIncoming,
+      hasMessageTypeAssigned: hasMessageTypeAssignedForIncoming,
+      getMessageNextTime: getMessageNextTimeForIncoming,
+    }
   },
   // logical and comparision
   eq,
@@ -433,9 +511,15 @@ export const StudyEngineActions = {
       remove: REMOVE_SURVEY_BY_KEY,
     },
     reports: {
-      add: ADD_REPORT,
-      removeAll: REMOVE_ALL_REPORTS,
-      remove: REMOVE_REPORT_BY_KEY,
+      init: INIT_REPORT,
+      cancel: CANCEL_REPORT,
+      updateData: UPDATE_REPORT_DATA,
+      removeData: REMOVE_REPORT_DATA,
+      // Extra methods:
+      setReportIcon,
+      setReportMessage,
+      setReportSummary,
+
     },
     messages: {
       add: ADD_MESSAGE,
