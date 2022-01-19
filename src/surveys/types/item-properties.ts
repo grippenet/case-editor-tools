@@ -116,6 +116,7 @@ export interface ResponsiveSingleChoiceArrayProps {
   }>,
   rows: Array<{
     key: string;
+    displayCondition?: Expression;
     content: Map<string, string> | StyledTextComponentProp[];
     horizontalModeProps?: {
       labelPlacement?: 'none' | 'top' | 'bottom';
@@ -166,6 +167,7 @@ export interface ResponsiveBipolarLikertArrayProps {
     key: string;
     startLabel: Map<string, string> | StyledTextComponentProp[];
     endLabel: Map<string, string> | StyledTextComponentProp[];
+    displayCondition?: Expression;
     withLabelRowModeProps?: {
       className?: string;
     },

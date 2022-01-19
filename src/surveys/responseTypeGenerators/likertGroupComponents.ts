@@ -214,6 +214,7 @@ export const initResponsiveSingleChoiceArray = (
     groupEdit.addItemComponent({
       key: row.key,
       role: 'row',
+      displayCondition: row.displayCondition,
       style: rowStyles.length > 0 ? rowStyles : undefined,
       content: !Array.isArray(row.content) ? generateLocStrings(row.content) : undefined,
       items: Array.isArray(row.content) ? row.content.map((cont, index) => {
@@ -369,6 +370,7 @@ export const initResponsiveBipolarLikertArray = (
     groupEdit.addItemComponent({
       key: row.key,
       role: 'row',
+      displayCondition: row.displayCondition,
       style: rowStyles.length > 0 ? rowStyles : undefined,
       items: [
         startLabel, endLabel
