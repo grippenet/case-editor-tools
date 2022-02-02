@@ -1,6 +1,6 @@
 import { LocalizedString, ItemComponent, ExpressionName, Expression, ItemGroupComponent, SurveySingleItem } from "survey-engine/data_types";
 import { ComponentEditor } from "../survey-editor/component-editor";
-import { StyledTextComponentProp } from "../types/item-properties";
+import { DateDisplayComponentProp, isDateDisplayComponentProp, StyledTextComponentProp } from "../types/item-properties";
 import { generateRandomKey } from "./randomKeyGenerator";
 
 export const generateLocStrings = (translations: Map<string, string>): LocalizedString[] => {
@@ -16,12 +16,40 @@ export const generateLocStrings = (translations: Map<string, string>): Localized
   return locString;
 }
 
-export const generateTitleComponent = (content: Map<string, string> | Array<StyledTextComponentProp>, description?: Map<string, string>, className?: string): ItemComponent => {
+export const generateDateDisplayComp = (key: string, item: DateDisplayComponentProp): ItemComponent => {
+  // console.log(translations);
+  const styleArray = [
+    { key: 'dateFormat', value: item.dateFormat }
+  ];
+  if (item.className) {
+    styleArray.push({ key: 'className', value: item.className })
+  }
+  const locString = new Array<LocalizedString>();
+  const dateExp = item.date;
+  item.languageCodes.forEach((code) => {
+    const translatedItem: LocalizedString = {
+      code: code,
+      parts: [{ exp: dateExp }]
+    };
+    locString.push(translatedItem);
+  });
+  return {
+    key: key,
+    role: 'dateDisplay',
+    content: locString,
+    style: item.className ? [{ key: 'className', value: item.className }] : undefined
+  }
+}
+
+export const generateTitleComponent = (content: Map<string, string> | Array<StyledTextComponentProp | DateDisplayComponentProp>, description?: Map<string, string>, className?: string): ItemComponent => {
   let items = undefined;
   let currentContent = undefined;
 
   if (Array.isArray(content)) {
     items = content.map((item, index) => {
+      if (isDateDisplayComponentProp(item)) {
+        return generateDateDisplayComp(index.toFixed(), item);
+      }
       return {
         key: index.toFixed(),
         role: 'text',

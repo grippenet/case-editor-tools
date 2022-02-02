@@ -6,6 +6,17 @@ export interface StyledTextComponentProp {
   className?: string;
 }
 
+export interface DateDisplayComponentProp {
+  languageCodes: string[];
+  date: Expression;
+  dateFormat: string;
+  className?: string;
+}
+
+export const isDateDisplayComponentProp = (value: DateDisplayComponentProp | any): value is DateDisplayComponentProp => {
+  return typeof (value) === 'object' && (value as DateDisplayComponentProp).date !== undefined && (value as DateDisplayComponentProp).dateFormat !== undefined && (value as DateDisplayComponentProp).languageCodes !== undefined;
+}
+
 export interface OptionDef {
   key: string;
   role: string;
@@ -22,7 +33,7 @@ export interface GenericQuestionProps {
   parentKey: string;
   itemKey: string;
   version?: number;
-  questionText: Map<string, string> | Array<StyledTextComponentProp>;
+  questionText: Map<string, string> | Array<StyledTextComponentProp | DateDisplayComponentProp>;
   questionSubText?: Map<string, string>;
   titleClassName?: string;
   helpGroupContent?: Array<{

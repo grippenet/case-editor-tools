@@ -1,7 +1,7 @@
 import { Expression, ItemComponent } from "survey-engine/data_types";
 import { responseGroupKey } from "../../constants/key-definitions";
 import { ItemEditor } from "../survey-editor/item-editor";
-import { StyledTextComponentProp } from "../types/item-properties";
+import { DateDisplayComponentProp, StyledTextComponentProp } from "../types/item-properties";
 import { expWithArgs, generateTitleComponent } from "./simple-generators";
 
 export class SimpleQuestionEditor {
@@ -23,7 +23,7 @@ export class SimpleQuestionEditor {
     return this.editor.getItem();
   }
 
-  setTitle(title: Map<string, string> | Array<StyledTextComponentProp>, description?: Map<string, string>, className?: string) {
+  setTitle(title: Map<string, string> | Array<StyledTextComponentProp | DateDisplayComponentProp>, description?: Map<string, string>, className?: string) {
     this.editor.setTitleComponent(
       generateTitleComponent(title, description, className)
     );
