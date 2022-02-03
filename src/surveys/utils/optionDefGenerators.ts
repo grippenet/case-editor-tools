@@ -1,6 +1,6 @@
 import { Expression } from "survey-engine/data_types";
 import { SurveyEngine } from "../survey-engine-expressions";
-import { ClozeProps, DateInputProps, NumericInputProps, OptionDef, StyledTextComponentProp, TextInputProps } from "../types/item-properties";
+import { ClozeProps, DateInputProps, NumericInputProps, OptionDef, StyledTextComponentProp, TextInputProps, TimeInputProps } from "../types/item-properties";
 import { generateRandomKey } from "./randomKeyGenerator";
 
 interface CommonProps {
@@ -141,6 +141,39 @@ const dateInput = (props: DateInputProps & { key: string, displayCondition?: Exp
   }
 }
 
+const timeInput = (props: TimeInputProps & { key: string, displayCondition?: Expression }): OptionDef => {
+  const style: Array<{ key: string, value: string }> = [];
+
+  if (props.minTime) {
+    style.push({
+      key: 'minTime', value: props.minTime,
+    })
+  }
+  if (props.maxTime) {
+    style.push({
+      key: 'maxTime', value: props.maxTime,
+    })
+  }
+  if (props.defaultValue) {
+    style.push({
+      key: 'defaultValue', value: props.defaultValue,
+    })
+  }
+  if (props.labelBehindInput) {
+    style.push({ key: 'labelPlacement', value: 'after' });
+  }
+  return {
+    key: props.key,
+    role: 'timeInput',
+    optionProps: {
+      stepSize: props.step,
+    },
+    content: props.inputLabelText,
+    displayCondition: props.displayCondition,
+    style: style.length > 0 ? style : undefined,
+  }
+}
+
 const dropDown = (props: { key: string, displayCondition?: Expression, options: Array<OptionDef> }): OptionDef => {
   return {
     key: props.key,
@@ -171,6 +204,7 @@ export const SingleChoiceOptionTypes = {
   option,
   textInput,
   //dateInput,
+  timeInput,
   numberInput,
   cloze,
 }
@@ -179,7 +213,8 @@ export const MultipleChoiceOptionTypes = {
   option,
   subtitle: multipleChoiceOptionSubtitle,
   textInput,
-  // dateInput,
+  // dateInput
+  timeInput,
   numberInput,
   cloze,
 }
@@ -189,6 +224,7 @@ export const ClozeItemTypes = {
   markdown,
   textInput,
   dateInput,
+  timeInput,
   clozeLineBreak,
   numberInput,
   dropDown,

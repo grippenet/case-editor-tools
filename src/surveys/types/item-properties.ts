@@ -83,6 +83,20 @@ export interface DateInputProps {
 
 export type DateInputQuestionProps = DateInputProps & GenericQuestionProps;
 
+/**
+ * Time Input
+ */
+export interface TimeInputProps {
+  inputLabelText?: Map<string, string>;
+  labelBehindInput?: boolean;
+  defaultValue?: string; // in form e.g. 13:30
+  minTime?: string;
+  maxTime?: string;
+  step?: number; // seconds
+}
+
+export type TimeInputQuestionProps = TimeInputProps & GenericQuestionProps;
+
 
 /**
  * Text Input

@@ -30,6 +30,9 @@ export const optionDefToItemComponent = (optionDef: OptionDef): ItemComponent =>
     case 'numberInput':
       optEditor.setDType('number');
       break;
+    case 'timeInput':
+      optEditor.setDType('number');
+      break;
   }
 
   if (optionDef.displayCondition) {

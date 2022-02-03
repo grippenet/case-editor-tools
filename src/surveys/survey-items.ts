@@ -3,11 +3,11 @@ import { ComponentEditor } from "../surveys/survey-editor/component-editor";
 import { ItemEditor } from "../surveys/survey-editor/item-editor";
 import { ComponentGenerators } from "./utils/componentGenerators";
 import { durationObjectToSeconds } from "../types/duration";
-import { clozeKey, datePickerKey, dropDownKey, inputKey, likertScaleGroupKey, multipleChoiceKey, numericInputKey, responseGroupKey, responsiveBipolarLikertArrayKey, responsiveSingleChoiceArrayKey, singleChoiceKey } from "../constants/key-definitions";
+import { clozeKey, datePickerKey, dropDownKey, inputKey, likertScaleGroupKey, multipleChoiceKey, numericInputKey, responseGroupKey, responsiveBipolarLikertArrayKey, responsiveSingleChoiceArrayKey, singleChoiceKey, timeInputKey } from "../constants/key-definitions";
 import { expWithArgs, generateHelpGroupComponent, generateLocStrings, generateTitleComponent } from "./utils/simple-generators";
 import { SimpleQuestionEditor } from "./utils/simple-question-editor";
 import { SurveyEngine } from "./survey-engine-expressions";
-import { ClozeQuestionProps, DateInputQuestionProps, GenericQuestionProps, MultiLineTextInput, NumericInputQuestionProps, OptionDef, ResponsiveBipolarLikertArrayQuestionProps, ResponsiveSingleChoiceArrayQuestionProps, TextInputQuestionProps } from "./types/item-properties";
+import { ClozeQuestionProps, DateInputQuestionProps, GenericQuestionProps, MultiLineTextInput, NumericInputQuestionProps, OptionDef, ResponsiveBipolarLikertArrayQuestionProps, ResponsiveSingleChoiceArrayQuestionProps, TextInputQuestionProps, TimeInputQuestionProps } from "./types/item-properties";
 import { initDropdownGroup, initMultipleChoiceGroup, initSingleChoiceGroup, optionDefToItemComponent } from "./responseTypeGenerators/optionGroupComponents";
 import { initLikertScaleGroup, initResponsiveBipolarLikertArray, initResponsiveSingleChoiceArray, LikertGroupRow } from "./responseTypeGenerators/likertGroupComponents";
 
@@ -257,6 +257,40 @@ const generateDatePickerInput = (props: DateInputQuestionProps): SurveyItem => {
   return commonQuestionGenerator(props, rg_inner);
 }
 
+const generateTimeInput = (props: TimeInputQuestionProps): SurveyItem => {
+  const style: Array<{ key: string, value: string }> = [];
+
+  if (props.minTime) {
+    style.push({
+      key: 'minTime', value: props.minTime,
+    })
+  }
+  if (props.maxTime) {
+    style.push({
+      key: 'maxTime', value: props.maxTime,
+    })
+  }
+  if (props.defaultValue) {
+    style.push({
+      key: 'defaultValue', value: props.defaultValue,
+    })
+  }
+  if (props.labelBehindInput) {
+    style.push({ key: 'labelPlacement', value: 'after' });
+  }
+
+  const rg_inner: ItemComponent = {
+    key: timeInputKey, role: 'timeInput',
+    properties: {
+      stepSize: props.step,
+    },
+    content: props.inputLabelText ? generateLocStrings(props.inputLabelText) : undefined,
+    style: style.length > 0 ? style : undefined,
+  };
+  return commonQuestionGenerator(props, rg_inner);
+}
+
+
 const generateTextInputQuestion = (props: TextInputQuestionProps): SurveyItem => {
   const style: Array<{ key: string; value: string }> = [];
   if (props.maxLength !== undefined) {
@@ -449,6 +483,7 @@ export const SurveyItems = {
   responsiveBipolarLikertArray: generateResponsiveBipolarLikertArray,
   multipleChoice: generateMultipleChoiceQuestion,
   dateInput: generateDatePickerInput,
+  timeInput: generateTimeInput,
   textInput: generateTextInputQuestion,
   // eq5dSlider: todo,
   clozeQuestion: generateClozeQuestion,
