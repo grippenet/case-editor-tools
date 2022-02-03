@@ -29,7 +29,7 @@ export const generateDateDisplayComp = (key: string, item: DateDisplayComponentP
   item.languageCodes.forEach((code) => {
     const translatedItem: LocalizedString = {
       code: code,
-      parts: [{ exp: dateExp }]
+      parts: [{ dtype: 'exp', exp: dateExp }]
     };
     locString.push(translatedItem);
   });
