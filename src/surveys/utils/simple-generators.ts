@@ -37,7 +37,7 @@ export const generateDateDisplayComp = (key: string, item: DateDisplayComponentP
     key: key,
     role: 'dateDisplay',
     content: locString,
-    style: item.className ? [{ key: 'className', value: item.className }] : undefined
+    style: styleArray,
   }
 }
 

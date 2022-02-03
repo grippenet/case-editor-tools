@@ -1,4 +1,4 @@
-import { Expression, ItemComponent } from "survey-engine/data_types";
+import { ConfidentialMode, Expression, ItemComponent } from "survey-engine/data_types";
 import { responseGroupKey } from "../../constants/key-definitions";
 import { ItemEditor } from "../survey-editor/item-editor";
 import { DateDisplayComponentProp, StyledTextComponentProp } from "../types/item-properties";
@@ -12,11 +12,13 @@ export class SimpleQuestionEditor {
     parentKey: string,
     key: string,
     version: number,
+    confidentialMode?: ConfidentialMode,
   ) {
     const itemKey = [parentKey, key].join('.');
     this.key = itemKey;
     this.editor = new ItemEditor(undefined, { itemKey: itemKey, isGroup: false });
     this.editor.setVersion(version);
+    this.editor.setConfidentialMode(confidentialMode)
   }
 
   getItem() {

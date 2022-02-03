@@ -1,4 +1,4 @@
-import { SurveyItem, SurveyGroupItem, SurveyItemTypes, Expression, Validation, ItemComponent, SurveySingleItem, ItemGroupComponent, ExpressionName, ResponseComponent, isItemGroupComponent } from "survey-engine/data_types";
+import { SurveyItem, SurveyGroupItem, SurveyItemTypes, Expression, Validation, ItemComponent, SurveySingleItem, ItemGroupComponent, ExpressionName, ResponseComponent, isItemGroupComponent, ConfidentialMode } from "survey-engine/data_types";
 import { NewItemProps, NewComponentProps } from "./data-types";
 import { ComponentEditor } from "./component-editor";
 import { generateRandomKey } from "../utils/randomKeyGenerator";
@@ -98,6 +98,10 @@ export class ItemEditor implements ItemEditorInt {
 
   setKey(newKey: string) {
     this.surveyItem.key = newKey;
+  }
+
+  setConfidentialMode(confidentialMode?: ConfidentialMode) {
+    (this.surveyItem as SurveySingleItem).confidentialMode = confidentialMode;
   }
 
   addToFollows(key: string) {

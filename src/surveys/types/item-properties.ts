@@ -1,4 +1,4 @@
-import { ComponentProperties, Expression, ItemComponent, Validation } from "survey-engine/data_types";
+import { ComponentProperties, ConfidentialMode, Expression, ItemComponent, Validation } from "survey-engine/data_types";
 import { Duration } from "../../types/duration";
 
 export interface StyledTextComponentProp {
@@ -46,6 +46,7 @@ export interface GenericQuestionProps {
   isRequired?: boolean;
   footnoteText?: Map<string, string>;
   customValidations?: Array<Validation>;
+  confidentialMode?: ConfidentialMode;
 }
 
 
