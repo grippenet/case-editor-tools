@@ -13,3 +13,4 @@ export const datePickerKey = "date";
 export const timeInputKey = "time";
 export const matrixKey = "mat";
 export const clozeKey = "cloze";
+export const consentKey = "con";

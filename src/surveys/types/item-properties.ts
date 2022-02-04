@@ -128,6 +128,20 @@ export interface ClozeProps {
 
 export type ClozeQuestionProps = ClozeProps & GenericQuestionProps;
 
+/**
+ * Consent Question
+ */
+export interface ConsentProps {
+  checkBoxLabel: Map<string, string> | Array<StyledTextComponentProp | DateDisplayComponentProp>;
+  dialogTitle: Map<string, string>;
+  dialogContent: Map<string, string>;
+  acceptBtn: Map<string, string>;
+  rejectBtn: Map<string, string>;
+  className?: string;
+}
+
+export type ConsentQuestionProps = ConsentProps & GenericQuestionProps;
+
 
 /**
  * Response Single Choice Likert Array

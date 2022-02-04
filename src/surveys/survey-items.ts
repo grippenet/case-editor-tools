@@ -3,11 +3,11 @@ import { ComponentEditor } from "../surveys/survey-editor/component-editor";
 import { ItemEditor } from "../surveys/survey-editor/item-editor";
 import { ComponentGenerators } from "./utils/componentGenerators";
 import { durationObjectToSeconds } from "../types/duration";
-import { clozeKey, datePickerKey, dropDownKey, inputKey, likertScaleGroupKey, multipleChoiceKey, numericInputKey, responseGroupKey, responsiveBipolarLikertArrayKey, responsiveSingleChoiceArrayKey, singleChoiceKey, timeInputKey } from "../constants/key-definitions";
-import { expWithArgs, generateHelpGroupComponent, generateLocStrings, generateTitleComponent } from "./utils/simple-generators";
+import { clozeKey, consentKey, datePickerKey, dropDownKey, inputKey, likertScaleGroupKey, multipleChoiceKey, numericInputKey, responseGroupKey, responsiveBipolarLikertArrayKey, responsiveSingleChoiceArrayKey, singleChoiceKey, timeInputKey } from "../constants/key-definitions";
+import { expWithArgs, generateDateDisplayComp, generateHelpGroupComponent, generateLocStrings, generateTitleComponent } from "./utils/simple-generators";
 import { SimpleQuestionEditor } from "./utils/simple-question-editor";
 import { SurveyEngine } from "./survey-engine-expressions";
-import { ClozeQuestionProps, DateInputQuestionProps, GenericQuestionProps, MultiLineTextInput, NumericInputQuestionProps, OptionDef, ResponsiveBipolarLikertArrayQuestionProps, ResponsiveSingleChoiceArrayQuestionProps, TextInputQuestionProps, TimeInputQuestionProps } from "./types/item-properties";
+import { ClozeQuestionProps, ConsentQuestionProps, DateInputQuestionProps, GenericQuestionProps, isDateDisplayComponentProp, MultiLineTextInput, NumericInputQuestionProps, OptionDef, ResponsiveBipolarLikertArrayQuestionProps, ResponsiveSingleChoiceArrayQuestionProps, TextInputQuestionProps, TimeInputQuestionProps } from "./types/item-properties";
 import { initDropdownGroup, initMultipleChoiceGroup, initSingleChoiceGroup, optionDefToItemComponent } from "./responseTypeGenerators/optionGroupComponents";
 import { initLikertScaleGroup, initResponsiveBipolarLikertArray, initResponsiveSingleChoiceArray, LikertGroupRow } from "./responseTypeGenerators/likertGroupComponents";
 
@@ -313,6 +313,45 @@ const generateTextInputQuestion = (props: TextInputQuestionProps): SurveyItem =>
   return commonQuestionGenerator(props, rg_inner);
 }
 
+const generateConsentQuestion = (props: ConsentQuestionProps): SurveyItem => {
+  const style = props.className ? [{ key: 'className', value: props.className }] : undefined;
+
+  const rg_inner: ItemComponent = {
+    key: consentKey, role: 'consent',
+    items: [
+      {
+        key: 'label', role: 'label',
+        content: !Array.isArray(props.checkBoxLabel) ? generateLocStrings(props.checkBoxLabel) : undefined,
+        items: Array.isArray(props.checkBoxLabel) ? props.checkBoxLabel.map((item, index) => {
+          if (isDateDisplayComponentProp(item)) {
+            return generateDateDisplayComp(index.toFixed(), item);
+          }
+          return {
+            key: index.toFixed(),
+            role: 'text',
+            content: generateLocStrings(item.content),
+            style: item.className ? [{ key: 'className', value: item.className }] : undefined
+          }
+        }) : undefined,
+      },
+      {
+        key: 'title', role: 'title', content: generateLocStrings(props.dialogTitle)
+      },
+      {
+        key: 'content', role: 'content', content: generateLocStrings(props.dialogContent)
+      },
+      {
+        key: 'acceptBtn', role: 'acceptBtn', content: generateLocStrings(props.acceptBtn)
+      },
+      {
+        key: 'rejectBtn', role: 'rejectBtn', content: generateLocStrings(props.rejectBtn)
+      },
+    ],
+    style: style,
+  };
+  return commonQuestionGenerator(props, rg_inner);
+}
+
 const generateMultilineInput = (props: MultiLineTextInput): SurveyItem => {
   const rg_inner: ItemComponent = {
     key: inputKey, role: 'multilineTextInput',
@@ -478,6 +517,7 @@ export const initEQ5DHealthIndicatorQuestion = (
 
 
 export const SurveyItems = {
+  consent: generateConsentQuestion,
   singleChoice: generateSingleChoiceQuestion,
   responsiveSingleChoiceArray: generateResponsiveSingleChoiceArrayQuestion,
   responsiveBipolarLikertArray: generateResponsiveBipolarLikertArray,

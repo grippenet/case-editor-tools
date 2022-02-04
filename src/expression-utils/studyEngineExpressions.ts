@@ -1,5 +1,5 @@
 import { Expression } from "survey-engine/data_types"
-import { multipleChoiceKey, responseGroupKey, singleChoiceKey } from "../constants/key-definitions"
+import { consentKey, multipleChoiceKey, responseGroupKey, singleChoiceKey } from "../constants/key-definitions"
 import { Duration, durationObjectToSeconds } from "../types/duration"
 import { generateExpression } from "./expressionGen"
 
@@ -395,6 +395,11 @@ const multipleChoiceAllOfTheseSelected = (itemKey: string, ...optionKeys: string
 const multipleChoiceOnlyOtherKeysSelected = (itemKey: string, ...optionKeys: string[]) => generateExpression('responseHasOnlyKeysOtherThan', undefined, itemKey, [responseGroupKey, multipleChoiceKey].join('.'), ...optionKeys)
 const singleChoiceOnlyOtherOptionSelected = (itemKey: string, ...optionKeys: string[]) => generateExpression('responseHasOnlyKeysOtherThan', undefined, itemKey, [responseGroupKey, singleChoiceKey].join('.'), ...optionKeys)
 
+const consentAcceptedCondition = (itemKey: string): Expression => {
+  return hasResponseKey(itemKey, [responseGroupKey, consentKey].join('.'))
+}
+
+
 const stopParticipation = () => UPDATE_STUDY_STATUS('inactive');
 const finishParticipation = () => UPDATE_STUDY_STATUS('finished');
 
@@ -544,6 +549,9 @@ export const StudyEngine = {
     any: multipleChoiceOptionsSelected,
     none: multipleChoiceOnlyOtherKeysSelected,
     all: multipleChoiceAllOfTheseSelected,
+  },
+  consent: {
+    accepted: consentAcceptedCondition,
   },
   survey: {
     isActive: hasSurveyKeyActive,

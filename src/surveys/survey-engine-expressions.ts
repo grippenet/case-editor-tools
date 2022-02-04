@@ -1,5 +1,5 @@
 import { Expression } from "survey-engine/data_types"
-import { datePickerKey, inputKey, multipleChoiceKey, responseGroupKey, singleChoiceKey } from "../constants/key-definitions"
+import { consentKey, datePickerKey, inputKey, multipleChoiceKey, responseGroupKey, singleChoiceKey } from "../constants/key-definitions"
 import { Duration, durationObjectToSeconds } from "../types/duration"
 import { generateExpression } from "../expression-utils/expressionGen"
 
@@ -459,6 +459,10 @@ const multilineTextInputRegexCheck = (itemKey: string, pattern: string): Express
   return checkResponseValueWithRegex(itemKey, [responseGroupKey, inputKey].join('.'), pattern)
 }
 
+const consentAcceptedCondition = (itemKey: string): Expression => {
+  return hasResponse(itemKey, [responseGroupKey, consentKey].join('.'))
+}
+
 export const NativeSurveyEngineExpressions = {
   getters: {
     // root data reference:
@@ -532,6 +536,9 @@ export const SurveyEngine = {
     getDateValue: multipleChoiceGetNumOptionValue,
     getNumValue: multipleChoiceGetNumOptionValue,
     regexCheck: mulitpleChoiceTextInputRegexCheck,
+  },
+  consentQuestion: {
+    accepted: consentAcceptedCondition,
   },
   textInput: {
     regexCheck: textInputRegexCheck,
