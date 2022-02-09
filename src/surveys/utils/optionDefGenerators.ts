@@ -184,12 +184,19 @@ const dropDown = (props: { key: string, displayCondition?: Expression, options: 
 }
 
 
-const cloze = (props: ClozeProps & { key: string, displayCondition?: Expression }): OptionDef => {
+const cloze = (props: ClozeProps & { key: string, displayCondition?: Expression, className?: string; }): OptionDef => {
+  const styles = [];
+  if (props.className !== undefined) {
+    styles.push({
+      key: 'className', value: props.className
+    })
+  }
   return {
     key: props.key,
     role: 'cloze',
     items: props.items,
     displayCondition: props.displayCondition,
+    style: styles.length > 0 ? styles : undefined,
   }
 }
 
