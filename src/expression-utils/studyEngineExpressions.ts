@@ -293,6 +293,25 @@ const CANCEL_REPORT = (
 }
 
 /**
+ * Remove the confidential responses with this key for the participant
+ * @param key key of the confidential responses that should be removed
+ * @returns
+ */
+const REMOVE_CONFIDENTIAL_RESPONSE_BY_KEY = (
+  key: string,
+) => {
+  return generateExpression('REMOVE_CONFIDENTIAL_RESPONSE_BY_KEY', undefined, key);
+}
+
+/**
+ * Remove all confidential responses for the participant
+ * @returns
+ */
+const REMOVE_ALL_CONFIDENTIAL_RESPONSES = () => {
+  return generateExpression('REMOVE_ALL_CONFIDENTIAL_RESPONSES', undefined);
+}
+
+/**
  * Update one value attribute in a report. If report was not initialized, one will be added to the list.
  * @param reportKey
  * @param attributeKey update / create this attribute in the report
@@ -531,7 +550,10 @@ export const StudyEngineActions = {
       removeAll: REMOVE_ALL_MESSAGES,
       remove: REMOVE_MESSAGES_BY_TYPE,
     },
-
+    confidentialResponses: {
+      removeByKey: REMOVE_CONFIDENTIAL_RESPONSE_BY_KEY,
+      removeAll: REMOVE_ALL_CONFIDENTIAL_RESPONSES,
+    },
     // Extra methods:
     stopParticipation,
     finishParticipation,
