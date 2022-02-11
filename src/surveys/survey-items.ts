@@ -162,12 +162,21 @@ const generateResponsiveSingleChoiceArrayQuestion = (props: ResponsiveSingleChoi
         key: 'r',
         type: 'hard',
         rule: expWithArgs('and',
-          ...props.rows.map(r => expWithArgs(
-            'responseHasKeysAny',
-            [props.parentKey, props.itemKey].join('.'),
-            [responseGroupKey, responsiveSingleChoiceArrayKey, r.key].join('.'),
-            ...props.scaleOptions.map(o => o.key)
-          ))
+          ...props.rows.map(r => {
+            const hasRespExp = expWithArgs(
+              'responseHasKeysAny',
+              [props.parentKey, props.itemKey].join('.'),
+              [responseGroupKey, responsiveSingleChoiceArrayKey, r.key].join('.'),
+              ...props.scaleOptions.map(o => o.key)
+            );
+            if (r.displayCondition === undefined) {
+              return hasRespExp;
+            }
+            return SurveyEngine.logic.or(
+              SurveyEngine.logic.not(r.displayCondition),
+              hasRespExp,
+            )
+          })
         )
       }
     )
@@ -194,12 +203,21 @@ const generateResponsiveBipolarLikertArray = (props: ResponsiveBipolarLikertArra
         key: 'r',
         type: 'hard',
         rule: expWithArgs('and',
-          ...props.rows.map(r => expWithArgs(
-            'responseHasKeysAny',
-            [props.parentKey, props.itemKey].join('.'),
-            [responseGroupKey, responsiveBipolarLikertArrayKey, r.key].join('.'),
-            ...props.scaleOptions.map(o => o.key)
-          ))
+          ...props.rows.map(r => {
+            const hasRespExp = expWithArgs(
+              'responseHasKeysAny',
+              [props.parentKey, props.itemKey].join('.'),
+              [responseGroupKey, responsiveBipolarLikertArrayKey, r.key].join('.'),
+              ...props.scaleOptions.map(o => o.key)
+            );
+            if (r.displayCondition === undefined) {
+              return hasRespExp;
+            }
+            return SurveyEngine.logic.or(
+              SurveyEngine.logic.not(r.displayCondition),
+              hasRespExp,
+            )
+          })
         )
       }
     )
