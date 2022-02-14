@@ -174,11 +174,12 @@ const timeInput = (props: TimeInputProps & { key: string, displayCondition?: Exp
   }
 }
 
-const dropDown = (props: { key: string, displayCondition?: Expression, options: Array<OptionDef> }): OptionDef => {
+const dropDown = (props: { key: string, placeholder?: Map<string, string>, displayCondition?: Expression, options: Array<OptionDef> }): OptionDef => {
   return {
     key: props.key,
     role: 'dropDownGroup',
     displayCondition: props.displayCondition,
+    description: props.placeholder,
     items: props.options,
   }
 }
