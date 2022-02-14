@@ -16,6 +16,11 @@ interface OptionQuestionProps extends GenericQuestionProps {
   responseOptions: Array<OptionDef>;
 }
 
+interface DropDownQuestionProps extends GenericQuestionProps {
+  responseOptions: Array<OptionDef>;
+  placeholder?: Map<string, string>;
+}
+
 interface LikertGroupQuestionProps extends GenericQuestionProps {
   rows: Array<LikertGroupRow>,
   scaleOptions: Array<{
@@ -101,8 +106,8 @@ const generateSingleChoiceQuestion = (props: OptionQuestionProps): SurveyItem =>
 }
 
 
-const generateDropDownQuestion = (props: OptionQuestionProps): SurveyItem => {
-  const rg_inner = initDropdownGroup(dropDownKey, props.responseOptions);
+const generateDropDownQuestion = (props: DropDownQuestionProps): SurveyItem => {
+  const rg_inner = initDropdownGroup(dropDownKey, props.responseOptions, undefined, undefined, undefined, props.placeholder);
   return commonQuestionGenerator(props, rg_inner);
 }
 
