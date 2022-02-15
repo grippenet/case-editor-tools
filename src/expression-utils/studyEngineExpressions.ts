@@ -147,6 +147,15 @@ const hasParticipantFlagKeyForIncoming = (key: string) => generateExpression('in
 
 
 /**
+ * Retrieve the value of a participant flag
+ * @param key look up this flag
+ * @returns return the value or an empty string if not present
+ */
+const getParticipantFlagValue = (key: string) => generateExpression('getParticipantFlagValue', undefined, key);
+const getParticipantFlagValueForIncoming = (key: string) => generateExpression('incomingState:getParticipantFlagValue', undefined, key);
+
+
+/**
  * Checks if the participant has a message type assigned (at least one)
  * @param messageType
  * @returns return true if a message with the given message type is assigned
@@ -490,6 +499,7 @@ export const NativeStudyEngineExpressions = {
     hasStudyStatus,
     hasParticipantFlagKeyAndValue,
     hasParticipantFlagKey,
+    getParticipantFlagValue,
     lastSubmissionDateOlderThan,
     hasMessageTypeAssigned,
     getMessageNextTime,
@@ -502,6 +512,7 @@ export const NativeStudyEngineExpressions = {
       hasStudyStatus: hasStudyStatusForIncoming,
       hasParticipantFlagKeyAndValue: hasParticipantFlagKeyAndValueForIncoming,
       hasParticipantFlagKey: hasParticipantFlagKeyForIncoming,
+      getParticipantFlagValue: getParticipantFlagValueForIncoming,
       lastSubmissionDateOlderThan: lastSubmissionDateOlderThanForIncoming,
       hasMessageTypeAssigned: hasMessageTypeAssignedForIncoming,
       getMessageNextTime: getMessageNextTimeForIncoming,
