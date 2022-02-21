@@ -231,6 +231,13 @@ const IFTHEN = (condition: Expression, ...args: Expression[]): Expression => gen
 const UPDATE_STUDY_STATUS = (status: string): Expression => generateExpression('UPDATE_STUDY_STATUS', undefined, status)
 
 /**
+ * Generate and store a new session id to the participant's state
+ * @param status new status value
+ * @returns
+ */
+const START_NEW_STUDY_SESSION = (): Expression => generateExpression('START_NEW_STUDY_SESSION', undefined)
+
+/**
  * Add or update a participant flag
  * @param key
  * @param newValue: string, number or expression where result should be written in the flag's value
@@ -538,6 +545,7 @@ export const StudyEngineActions = {
   ifThen: IFTHEN,
   participantActions: {
     updateStudyStatus: UPDATE_STUDY_STATUS,
+    startNewStudySession: START_NEW_STUDY_SESSION,
     updateFlag: UPDATE_FLAG,
     removeFlag: REMOVE_FLAG,
     assignedSurveys: {
