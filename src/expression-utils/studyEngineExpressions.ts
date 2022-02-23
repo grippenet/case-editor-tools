@@ -349,7 +349,7 @@ const UPDATE_REPORT_DATA = (
   reportKey: string,
   attributeKey: string,
   value: number | string | Expression,
-  dtype?: 'date' | 'float' | 'int' | 'string' | 'rawMessage'
+  dtype?: 'date' | 'float' | 'int' | 'string' | 'rawMessage' | 'keyList'
 ) => {
   return generateExpression('UPDATE_REPORT_DATA', undefined, reportKey, attributeKey, value, dtype);
 }
