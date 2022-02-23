@@ -68,6 +68,16 @@ const getResponseValueAsStr = (itemKey: string, responseKey: string): Expression
   return generateExpression('getResponseValueAsStr', 'string', itemKey, responseKey);
 }
 
+/**
+ * Retrieve the selected keys from a response slot
+ * @param itemKey full key to the survey item, in the form, e.g., <surveyKey>.<groupKey>.<itemKey>
+ * @param responseKey key of the response slot, where keys should be retrieved from
+ * @returns
+ */
+const getSelectedKeys = (itemKey: string, responseKey: string): Expression => {
+  return generateExpression('getSelectedKeys', 'string', itemKey, responseKey);
+}
+
 const countResponseItems = (itemKey: string, responseKey: string): Expression => {
   return generateExpression('countResponseItems', undefined, itemKey, responseKey);
 }
@@ -492,6 +502,7 @@ export const NativeStudyEngineExpressions = {
   responseHasOnlyKeysOtherThan,
   getResponseValueAsNum,
   getResponseValueAsStr,
+  getSelectedKeys,
   hasResponseKey,
   hasResponseKeyWithValue,
   countResponseItems,
