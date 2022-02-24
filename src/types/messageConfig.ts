@@ -5,7 +5,6 @@ export type MessageType = 'registration' | 'invitation' | 'verify-email' | 'veri
 
 export interface MessageConfig {
   sendTo: 'study-participants' | 'all-users' | 'scheduled-participant-messages';
-  studyKey: string;
   label: string;
   headerOverrides?: { from: string; sender: string; replyTo: string[] };
   messageType: MessageType;
@@ -23,10 +22,10 @@ export interface MessageConfig {
 
 }
 
-export const buildMessageConfig = (props: MessageConfig) => {
+export const buildMessageConfig = (props: MessageConfig, studyKey: string) => {
   return {
     sendTo: props.sendTo,
-    studyKey: props.studyKey,
+    studyKey: studyKey,
     label: props.label,
     headerOverrides: props.headerOverrides,
     messageType: props.messageType,

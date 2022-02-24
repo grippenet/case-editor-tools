@@ -119,7 +119,7 @@ const generateMessageConfigs = (study: Study, outputPath: string, pretty?: boole
 
   study.messageConfigs.forEach(conf => {
     const fileName = `${messageConfigPath}/${conf.label.replace(' ', '_').toLocaleLowerCase()}.json`;
-    const outputObject = buildMessageConfig(conf);
+    const outputObject = buildMessageConfig(conf, study.studyKey);
 
     try {
       fs.writeFileSync(fileName, JSON.stringify(outputObject, undefined, pretty ? 2 : undefined));
