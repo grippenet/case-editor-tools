@@ -30,7 +30,7 @@ export const buildMessageConfig = (props: MessageConfig, studyKey: string) => {
     headerOverrides: props.headerOverrides,
     messageType: props.messageType,
     sendingTime: props.sendingTime,
-    condition: { dtype: 'exp', exp: props.condition },
+    condition: props.condition ? { dtype: 'exp', exp: props.condition } : undefined,
     period: Math.floor(durationObjectToSeconds(props.period)),
     defaultLanguage: props.defaultLanguage,
     translations: props.translations,
