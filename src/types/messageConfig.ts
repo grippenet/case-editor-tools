@@ -14,7 +14,7 @@ export interface MessageConfig {
   },
   period: Duration;
   defaultLanguage: string,
-  condition: Expression,
+  condition?: Expression,
   translations: Array<{
     lang: string,
     subject: string,
