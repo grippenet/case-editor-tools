@@ -1,5 +1,6 @@
 import fs from 'fs';
 import { Logger } from "../logger";
+import { buildMessageConfig } from '../types/messageConfig';
 import { Study } from "../types/study";
 
 export const generateFilesForStudy = (study: Study, pretty?: boolean) => {
@@ -20,6 +21,9 @@ export const generateFilesForStudy = (study: Study, pretty?: boolean) => {
 
   // Custom Study rules: (manually triggered rules)
   generateCustomStudyRules(study, outputRoot, pretty);
+
+  // Message configs:
+  generateMessageConfigs(study, outputRoot, pretty);
 
 
 }
@@ -98,4 +102,32 @@ const generateCustomStudyRules = (study: Study, outputPath: string, pretty?: boo
     Logger.success(`\t\tRule ${studyRule.name} saved`);
   })
 
+}
+
+const generateMessageConfigs = (study: Study, outputPath: string, pretty?: boolean) => {
+  if (!study.messageConfigs || study.messageConfigs.length < 1) {
+    Logger.log(`\tNo message configs in the study.`)
+    return;
+  } else {
+    Logger.log(`\tMessage configs:`)
+  }
+
+  const messageConfigPath = `${outputPath}/messageConfigs`;
+  if (!fs.existsSync(messageConfigPath)) {
+    fs.mkdirSync(messageConfigPath, { recursive: true })
+  }
+
+  study.messageConfigs.forEach(conf => {
+    const fileName = `${messageConfigPath}/${conf.label.replace(' ', '_').toLocaleLowerCase()}.json`;
+    const outputObject = buildMessageConfig(conf);
+
+    try {
+      fs.writeFileSync(fileName, JSON.stringify(outputObject, undefined, pretty ? 2 : undefined));
+    } catch (err) {
+      Logger.error(err);
+      return;
+    }
+
+    Logger.success(`\t\tConfig for "${conf.label}" saved`);
+  })
 }

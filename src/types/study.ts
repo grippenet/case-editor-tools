@@ -1,6 +1,7 @@
 import { Expression } from "survey-engine/data_types";
 import { StudyRules } from "./studyRules";
 import { SurveyDefinition } from "../surveys/types/survey-definition";
+import { MessageConfig } from "./messageConfig";
 
 export interface Study {
   studyKey: string;
@@ -14,4 +15,5 @@ export interface Study {
     name: string;
     rules: Expression[];
   }>;
+  messageConfigs?: Array<MessageConfig>;
 }
