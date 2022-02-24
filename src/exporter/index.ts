@@ -118,7 +118,7 @@ const generateMessageConfigs = (study: Study, outputPath: string, pretty?: boole
   }
 
   study.messageConfigs.forEach(conf => {
-    const fileName = `${messageConfigPath}/${conf.label.replace(' ', '_').toLocaleLowerCase()}.json`;
+    const fileName = `${messageConfigPath}/${conf.label.replace(/ /g, '_').toLocaleLowerCase()}.json`;
     const outputObject = buildMessageConfig(conf, study.studyKey);
 
     try {
