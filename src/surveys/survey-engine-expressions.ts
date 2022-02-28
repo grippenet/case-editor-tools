@@ -421,7 +421,7 @@ const getDatePickerResponseValue = (itemKey: string): Expression => {
 }
 
 const singleChoiceOptionsSelected = (itemKey: string, ...optionKeys: string[]) =>
-  responseHasKeysAll(itemKey, [responseGroupKey, singleChoiceKey].join('.'), ...optionKeys)
+  responseHasKeysAny(itemKey, [responseGroupKey, singleChoiceKey].join('.'), ...optionKeys)
 
 const multipleChoiceOptionsSelected = (itemKey: string, ...optionKeys: string[]) =>
   responseHasKeysAny(itemKey, [responseGroupKey, multipleChoiceKey].join('.'), ...optionKeys)
