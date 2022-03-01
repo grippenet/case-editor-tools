@@ -1,4 +1,4 @@
-import { Expression } from "survey-engine/data_types"
+import { Expression, ExpressionArg } from "survey-engine/data_types"
 import { consentKey, multipleChoiceKey, responseGroupKey, singleChoiceKey } from "../constants/key-definitions"
 import { Duration, durationObjectToSeconds } from "../types/duration"
 import { generateExpression } from "./expressionGen"
@@ -393,6 +393,14 @@ const setReportSummary = (
 
 // ##################
 // Prefill rule methods:
+const PREFILL_SLOT_WITH_VALUE = (
+  itemKey: string,
+  slotKey: string,
+  value: string | number,
+) => {
+  return generateExpression('PREFILL_SLOT_WITH_VALUE', undefined, itemKey, slotKey, value);
+}
+
 const GET_LAST_SURVEY_ITEM = (
   surveyKey: string,
   itemKey: string,
@@ -611,6 +619,7 @@ export const StudyEngine = {
     validUntilSoonerThan: hasSurveyKeyValidUntilSoonerThan,
   },
   prefillRules: {
+    PREFILL_SLOT_WITH_VALUE,
     GET_LAST_SURVEY_ITEM,
   },
   contextRules: {
