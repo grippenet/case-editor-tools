@@ -70,7 +70,7 @@ const markdown = (props: OptionTextProps): OptionDef => {
   }
 }
 
-const textInput = (props: TextInputProps & { key: string, displayCondition?: Expression, alignText: 'start' | 'center' | 'end' }): OptionDef => {
+const textInput = (props: TextInputProps & { key: string, displayCondition?: Expression, alignText?: 'start' | 'center' | 'end' }): OptionDef => {
   const style: Array<{ key: string; value: string }> = [];
   if (props.maxLength !== undefined) {
     style.push({ key: 'maxLength', value: props.maxLength.toFixed(0) })
@@ -96,7 +96,7 @@ const textInput = (props: TextInputProps & { key: string, displayCondition?: Exp
   }
 }
 
-const numberInput = (props: NumericInputProps & { key: string, displayCondition?: Expression, alignText: 'start' | 'center' | 'end' }): OptionDef => {
+const numberInput = (props: NumericInputProps & { key: string, displayCondition?: Expression, alignText?: 'start' | 'center' | 'end' }): OptionDef => {
   const style: Array<{ key: string; value: string }> = [];
   if (props.inputMaxWidth !== undefined) {
     style.push({ key: 'inputMaxWidth', value: props.inputMaxWidth })
