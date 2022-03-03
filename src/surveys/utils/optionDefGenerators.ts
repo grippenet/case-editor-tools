@@ -70,7 +70,7 @@ const markdown = (props: OptionTextProps): OptionDef => {
   }
 }
 
-const textInput = (props: TextInputProps & { key: string, displayCondition?: Expression }): OptionDef => {
+const textInput = (props: TextInputProps & { key: string, displayCondition?: Expression, alignText: 'start' | 'center' | 'end' }): OptionDef => {
   const style: Array<{ key: string; value: string }> = [];
   if (props.maxLength !== undefined) {
     style.push({ key: 'maxLength', value: props.maxLength.toFixed(0) })
@@ -80,6 +80,9 @@ const textInput = (props: TextInputProps & { key: string, displayCondition?: Exp
   }
   if (props.inputMaxWidth !== undefined) {
     style.push({ key: 'inputMaxWidth', value: props.inputMaxWidth })
+  }
+  if (props.alignText) {
+    style.push({ key: 'alignInputText', value: props.alignText });
   }
 
   return {
@@ -93,13 +96,16 @@ const textInput = (props: TextInputProps & { key: string, displayCondition?: Exp
   }
 }
 
-const numberInput = (props: NumericInputProps & { key: string, displayCondition?: Expression }): OptionDef => {
+const numberInput = (props: NumericInputProps & { key: string, displayCondition?: Expression, alignText: 'start' | 'center' | 'end' }): OptionDef => {
   const style: Array<{ key: string; value: string }> = [];
   if (props.inputMaxWidth !== undefined) {
     style.push({ key: 'inputMaxWidth', value: props.inputMaxWidth })
   }
   if (props.labelBehindInput) {
     style.push({ key: 'labelPlacement', value: 'after' });
+  }
+  if (props.alignText) {
+    style.push({ key: 'alignText', value: props.alignText });
   }
 
   return {
