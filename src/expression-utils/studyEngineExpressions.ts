@@ -390,6 +390,17 @@ const setReportSummary = (
   return UPDATE_REPORT_DATA(reportKey, 'summary', content, asTranslationKey ? undefined : 'rawMessage');
 }
 
+/**
+ * Method to call external event handler
+ * @param serviceName
+ * @returns
+ */
+const EXTERNAL_EVENT_HANDLER = (
+  serviceName: string,
+) => {
+  return generateExpression('EXTERNAL_EVENT_HANDLER', undefined, serviceName);
+}
+
 
 // ##################
 // Prefill rule methods:
@@ -592,6 +603,7 @@ export const StudyEngineActions = {
       removeByKey: REMOVE_CONFIDENTIAL_RESPONSE_BY_KEY,
       removeAll: REMOVE_ALL_CONFIDENTIAL_RESPONSES,
     },
+    externalEventHandler: EXTERNAL_EVENT_HANDLER,
     // Extra methods:
     stopParticipation,
     finishParticipation,
