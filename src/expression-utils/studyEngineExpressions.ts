@@ -210,6 +210,18 @@ const timestampWithOffset = (delta: Duration, reference?: number | Expression) =
 )
 
 /**
+ *
+ * @param serviceName name of the external service endpoint that should be used (URL and API key are config of the service)
+ * @param expectFloat optional flag if the response value is expected to be a float (number) - by default, string is expected
+ * @returns
+ */
+const externalEventEval = (serviceName: string, expectFloat?: boolean) => generateExpression(
+  'externalEventEval',
+  expectFloat ? 'float' : undefined,
+  serviceName
+)
+
+/**
  * Control flow method to use an if-else like structure
  * @param condition expression, return value interpreted as boolean
  * @param actionIfTrue if condition evaluates to true, this action will be performed.
@@ -392,7 +404,7 @@ const setReportSummary = (
 
 /**
  * Method to call external event handler
- * @param serviceName
+ * @param serviceName name of the external service endpoint that should be used (URL and API key are config of the service)
  * @returns
  */
 const EXTERNAL_EVENT_HANDLER = (
@@ -567,6 +579,7 @@ export const NativeStudyEngineExpressions = {
 
   // Other
   timestampWithOffset,
+  externalEventEval,
 }
 
 export const StudyEngineActions = {
