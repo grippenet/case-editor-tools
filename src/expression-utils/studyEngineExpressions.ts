@@ -297,6 +297,13 @@ const REMOVE_ALL_MESSAGES = () => generateExpression('REMOVE_ALL_MESSAGES', unde
  */
 const REMOVE_MESSAGES_BY_TYPE = (messageType: string) => generateExpression('REMOVE_MESSAGES_BY_TYPE', undefined, messageType);
 
+/**
+ * Add a new notification message for the subscribed researchers
+ * @param messageType message type
+ * @returns
+ */
+const NOTIFY_RESEARCHER = (messageType: string, ...payload: Expression[] | string[]) => generateExpression('NOTIFY_RESEARCHER', undefined, messageType, ...payload);
+
 
 const REMOVE_SURVEY_BY_KEY = (
   surveyKey: string,
@@ -611,6 +618,7 @@ export const StudyEngineActions = {
       add: ADD_MESSAGE,
       removeAll: REMOVE_ALL_MESSAGES,
       remove: REMOVE_MESSAGES_BY_TYPE,
+      notifyResearcher: NOTIFY_RESEARCHER,
     },
     confidentialResponses: {
       removeByKey: REMOVE_CONFIDENTIAL_RESPONSE_BY_KEY,
