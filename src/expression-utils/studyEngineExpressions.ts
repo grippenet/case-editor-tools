@@ -618,7 +618,6 @@ export const StudyEngineActions = {
       add: ADD_MESSAGE,
       removeAll: REMOVE_ALL_MESSAGES,
       remove: REMOVE_MESSAGES_BY_TYPE,
-      notifyResearcher: NOTIFY_RESEARCHER,
     },
     confidentialResponses: {
       removeByKey: REMOVE_CONFIDENTIAL_RESPONSE_BY_KEY,
@@ -628,7 +627,8 @@ export const StudyEngineActions = {
     // Extra methods:
     stopParticipation,
     finishParticipation,
-  }
+  },
+  notifyResearcher: NOTIFY_RESEARCHER,
 }
 
 export const StudyEngine = {
