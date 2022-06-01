@@ -1,10 +1,10 @@
 import { Expression } from "survey-engine/data_types";
 import { Duration, durationObjectToSeconds } from "./duration";
 
-export type MessageType = 'registration' | 'invitation' | 'verify-email' | 'verification-code' | 'password-reset' | 'password-changed' | 'account-id-changed' | 'weekly' | 'study-reminder' | 'newsletter' | 'account-deleted';
+export type MessageType = 'registration' | 'invitation' | 'verify-email' | 'verification-code' | 'password-reset' | 'password-changed' | 'account-id-changed' | 'weekly' | 'study-reminder' | 'researcher-notifications' | 'newsletter' | 'account-deleted';
 
 export interface MessageConfig {
-  sendTo: 'study-participants' | 'all-users' | 'scheduled-participant-messages';
+  sendTo: 'study-participants' | 'all-users' | 'scheduled-participant-messages' | 'researcher-notifications';
   label: string;
   headerOverrides?: { from: string; sender: string; replyTo: string[] };
   messageType: MessageType;
