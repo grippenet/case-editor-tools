@@ -325,6 +325,9 @@ const generateTextInputQuestion = (props: TextInputQuestionProps): SurveyItem =>
   if (props.inputMaxWidth !== undefined) {
     style.push({ key: 'inputMaxWidth', value: props.inputMaxWidth })
   }
+  if (props.transformLetterCaseTo) {
+    style.push({ key: 'transformCase', value: props.transformLetterCaseTo });
+  }
 
   const rg_inner: ItemComponent = {
     key: inputKey, role: 'input',
