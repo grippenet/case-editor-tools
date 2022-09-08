@@ -108,6 +108,7 @@ export interface TextInputProps {
   className?: string;
   maxLength?: number; // number of charachters allowed
   disabled?: Expression;
+  transformLetterCaseTo?: 'upper' | 'lower';
 }
 
 export type TextInputQuestionProps = TextInputProps & GenericQuestionProps;

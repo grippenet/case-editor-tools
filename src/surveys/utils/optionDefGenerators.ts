@@ -84,6 +84,9 @@ const textInput = (props: TextInputProps & { key: string, displayCondition?: Exp
   if (props.alignText) {
     style.push({ key: 'alignInputText', value: props.alignText });
   }
+  if (props.transformLetterCaseTo) {
+    style.push({ key: 'transformCase', value: props.transformLetterCaseTo });
+  }
 
   return {
     key: props.key,
