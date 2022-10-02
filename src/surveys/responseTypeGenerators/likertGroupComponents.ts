@@ -393,7 +393,7 @@ export const initResponsiveMatrixItem = (
   const groupEdit = new ComponentEditor(undefined, {
     key: rgKey,
     isGroup: true,
-    role: 'responsiveBipolarLikertScaleArray',
+    role: 'responsiveMatrix',
   });
 
   if (hasDuplicates(props.rows.map(item => item.key))) {
