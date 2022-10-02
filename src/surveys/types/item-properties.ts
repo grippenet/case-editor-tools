@@ -245,3 +245,30 @@ export interface ResponsiveBipolarLikertArrayProps {
 }
 
 export type ResponsiveBipolarLikertArrayQuestionProps = GenericQuestionProps & ResponsiveBipolarLikertArrayProps;
+
+
+/**
+ * Responsive Matrix
+ */
+export type ResponsiveMatrixResponseType = 'dropdown' | 'input' | 'numberInput';
+
+export interface ResponsiveMatrixProps {
+  responseType: ResponsiveMatrixResponseType;
+  breakpoint?: 'sm' | 'md' | 'lg' | 'xl';
+  columns: Array<{ key: string, label: Map<string, string> | StyledTextComponentProp[] }>;
+  // TODO: check if has double keys
+  rows: Array<{
+    key: string,
+    role: 'row' | 'category',
+    label: Map<string, string> | StyledTextComponentProp[],
+    displayCondition?: Expression;
+    className?: string,
+  }>;
+  // TODO: check if has double keys
+  dropdownConfig?: {
+    unselectedLabeL: Map<string, string>;
+    options: Array<{ key: string, label: Map<string, string> }>;
+  };
+}
+
+export type ResponsiveMatrixQuestionProps = GenericQuestionProps & ResponsiveMatrixProps;

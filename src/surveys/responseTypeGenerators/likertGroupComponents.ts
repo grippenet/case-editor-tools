@@ -1,6 +1,6 @@
 import { Expression, ItemComponent, ItemGroupComponent } from "survey-engine/data_types";
 import { ComponentEditor } from "../survey-editor/component-editor";
-import { ResponsiveBipolarLikertArrayProps, ResponsiveSingleChoiceArrayProps } from "../types";
+import { ResponsiveBipolarLikertArrayProps, ResponsiveMatrixProps, ResponsiveSingleChoiceArrayProps } from "../types";
 import { generateRandomKey } from "../utils/randomKeyGenerator";
 import { generateLocStrings } from "../utils/simple-generators";
 
@@ -375,6 +375,107 @@ export const initResponsiveBipolarLikertArray = (
       items: [
         startLabel, endLabel
       ],
+    })
+  })
+
+  return groupEdit.getComponent() as ItemGroupComponent;
+}
+
+function hasDuplicates(array: Array<any>) {
+  return (new Set(array)).size !== array.length;
+}
+
+export const initResponsiveMatrixItem = (
+  rgKey: string,
+  props: ResponsiveMatrixProps,
+  displayCondition?: Expression,
+): ItemGroupComponent => {
+  const groupEdit = new ComponentEditor(undefined, {
+    key: rgKey,
+    isGroup: true,
+    role: 'responsiveBipolarLikertScaleArray',
+  });
+
+  if (hasDuplicates(props.rows.map(item => item.key))) {
+    throw Error(`has duplicate row keys in ${rgKey}`);
+  }
+  if (hasDuplicates(props.columns.map(item => item.key))) {
+    throw Error(`has duplicate column keys in ${rgKey}`);
+  }
+
+  if (displayCondition) {
+    groupEdit.setDisplayCondition(displayCondition);
+  }
+
+  const style: Array<{ key: string, value: string }> = [
+    { key: 'responseType', value: props.responseType },
+  ];
+  if (props.breakpoint) {
+    style.push(
+      { key: 'breakpoint', value: props.breakpoint }
+    );
+  }
+  groupEdit.setStyles(style);
+
+
+  // ADD COLUMNS
+  groupEdit.addItemComponent({
+    key: 'cols',
+    role: 'columns',
+    items: props.columns.map(option => {
+      return {
+        key: option.key,
+        role: 'category',
+        content: !Array.isArray(option.label) ? generateLocStrings(option.label) : undefined,
+        items: Array.isArray(option.label) ? option.label.map((cont, index) => {
+          return {
+            key: index.toFixed(),
+            role: 'text',
+            content: generateLocStrings(cont.content),
+            style: cont.className ? [{ key: 'className', value: cont.className }] : undefined,
+          }
+        }) : [],
+      }
+    })
+  });
+
+  // ADD DROPDOWN OPTIONS (if applicable)
+  if (props.responseType == 'dropdown' && props.dropdownConfig !== undefined) {
+    groupEdit.addItemComponent({
+      key: 'do',
+      role: 'dropdownOptions',
+      content: generateLocStrings(props.dropdownConfig.unselectedLabeL),
+      items: props.dropdownConfig.options.map(option => {
+        return {
+          key: option.key,
+          role: 'option',
+          content: generateLocStrings(option.label),
+        }
+      })
+    });
+  }
+
+  // ADD ROWS
+  props.rows.forEach((row, index) => {
+    const rowStyles: Array<{ key: string, value: string }> = [];
+    if (row.className !== undefined) {
+      rowStyles.push({ key: 'className', value: row.className });
+    }
+
+    groupEdit.addItemComponent({
+      key: row.key,
+      role: 'row',
+      displayCondition: row.displayCondition,
+      style: rowStyles.length > 0 ? rowStyles : undefined,
+      content: !Array.isArray(row.label) ? generateLocStrings(row.label) : undefined,
+      items: Array.isArray(row.label) ? row.label.map((cont, index) => {
+        return {
+          key: index.toFixed(),
+          role: 'text',
+          content: generateLocStrings(cont.content),
+          style: cont.className ? [{ key: 'className', value: cont.className }] : undefined,
+        }
+      }) : [],
     })
   })
 

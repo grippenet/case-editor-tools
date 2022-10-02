@@ -3,13 +3,13 @@ import { ComponentEditor } from "../surveys/survey-editor/component-editor";
 import { ItemEditor } from "../surveys/survey-editor/item-editor";
 import { ComponentGenerators } from "./utils/componentGenerators";
 import { durationObjectToSeconds } from "../types/duration";
-import { clozeKey, consentKey, datePickerKey, dropDownKey, inputKey, likertScaleGroupKey, multipleChoiceKey, numericInputKey, responseGroupKey, responsiveBipolarLikertArrayKey, responsiveSingleChoiceArrayKey, singleChoiceKey, timeInputKey } from "../constants/key-definitions";
+import { clozeKey, consentKey, datePickerKey, dropDownKey, inputKey, likertScaleGroupKey, multipleChoiceKey, numericInputKey, responseGroupKey, responsiveBipolarLikertArrayKey, responsiveMatrix, responsiveSingleChoiceArrayKey, singleChoiceKey, timeInputKey } from "../constants/key-definitions";
 import { expWithArgs, generateDateDisplayComp, generateHelpGroupComponent, generateLocStrings, generateTitleComponent } from "./utils/simple-generators";
 import { SimpleQuestionEditor } from "./utils/simple-question-editor";
 import { SurveyEngine } from "./survey-engine-expressions";
-import { ClozeQuestionProps, ConsentQuestionProps, DateInputQuestionProps, GenericQuestionProps, isDateDisplayComponentProp, MultiLineTextInput, NumericInputQuestionProps, OptionDef, ResponsiveBipolarLikertArrayQuestionProps, ResponsiveSingleChoiceArrayQuestionProps, TextInputQuestionProps, TimeInputQuestionProps } from "./types/item-properties";
+import { ClozeQuestionProps, ConsentQuestionProps, DateInputQuestionProps, GenericQuestionProps, isDateDisplayComponentProp, MultiLineTextInput, NumericInputQuestionProps, OptionDef, ResponsiveBipolarLikertArrayQuestionProps, ResponsiveMatrixQuestionProps, ResponsiveSingleChoiceArrayQuestionProps, TextInputQuestionProps, TimeInputQuestionProps } from "./types/item-properties";
 import { initDropdownGroup, initMultipleChoiceGroup, initSingleChoiceGroup, optionDefToItemComponent } from "./responseTypeGenerators/optionGroupComponents";
-import { initLikertScaleGroup, initResponsiveBipolarLikertArray, initResponsiveSingleChoiceArray, LikertGroupRow } from "./responseTypeGenerators/likertGroupComponents";
+import { initLikertScaleGroup, initResponsiveBipolarLikertArray, initResponsiveMatrixItem, initResponsiveSingleChoiceArray, LikertGroupRow } from "./responseTypeGenerators/likertGroupComponents";
 
 
 interface OptionQuestionProps extends GenericQuestionProps {
@@ -222,6 +222,49 @@ const generateResponsiveBipolarLikertArray = (props: ResponsiveBipolarLikertArra
               SurveyEngine.logic.not(r.displayCondition),
               hasRespExp,
             )
+          })
+        )
+      }
+    )
+  }
+
+  return commonQuestionGenerator(props, rg_inner);
+}
+
+const generateResponsiveMatrix = (props: ResponsiveMatrixQuestionProps): SurveyItem => {
+  const rg_inner = initResponsiveMatrixItem(
+    responsiveMatrix,
+    {
+      ...props,
+    },
+  );
+
+  // Add extra validation
+  if (props.isRequired) {
+    if (!props.customValidations) {
+      props.customValidations = []
+    }
+    props.customValidations?.push(
+      {
+        key: 'r',
+        type: 'hard',
+        rule: expWithArgs('and',
+          ...props.rows.map(row => {
+            return [
+              ...props.columns.map(col => {
+                const hasRespExp = SurveyEngine.hasResponse(
+                  [props.parentKey, props.itemKey].join('.'),
+                  [responseGroupKey, responsiveMatrix, `${row.key}-${col.key}`].join('.'),
+                );
+                if (row.displayCondition === undefined) {
+                  return hasRespExp;
+                }
+                return SurveyEngine.logic.or(
+                  SurveyEngine.logic.not(row.displayCondition),
+                  hasRespExp,
+                )
+              })
+            ]
           })
         )
       }
@@ -547,6 +590,7 @@ export const SurveyItems = {
   singleChoice: generateSingleChoiceQuestion,
   responsiveSingleChoiceArray: generateResponsiveSingleChoiceArrayQuestion,
   responsiveBipolarLikertArray: generateResponsiveBipolarLikertArray,
+  responsiveMatrix: generateResponsiveMatrix,
   multipleChoice: generateMultipleChoiceQuestion,
   dateInput: generateDatePickerInput,
   timeInput: generateTimeInput,
