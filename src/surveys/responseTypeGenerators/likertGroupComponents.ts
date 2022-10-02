@@ -456,15 +456,20 @@ export const initResponsiveMatrixItem = (
   }
 
   // ADD ROWS
+  const rowGroupEdit = new ComponentEditor(undefined, {
+    key: 'rows',
+    isGroup: true,
+    role: 'rows',
+  });
   props.rows.forEach((row, index) => {
     const rowStyles: Array<{ key: string, value: string }> = [];
     if (row.className !== undefined) {
       rowStyles.push({ key: 'className', value: row.className });
     }
 
-    groupEdit.addItemComponent({
+    rowGroupEdit.addItemComponent({
       key: row.key,
-      role: 'row',
+      role: row.role,
       displayCondition: row.displayCondition,
       style: rowStyles.length > 0 ? rowStyles : undefined,
       content: !Array.isArray(row.label) ? generateLocStrings(row.label) : undefined,
@@ -478,7 +483,7 @@ export const initResponsiveMatrixItem = (
       }) : [],
     })
   })
-
+  groupEdit.addItemComponent(rowGroupEdit.getComponent());
   return groupEdit.getComponent() as ItemGroupComponent;
 }
 
