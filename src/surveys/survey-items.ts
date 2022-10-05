@@ -244,28 +244,30 @@ const generateResponsiveMatrix = (props: ResponsiveMatrixQuestionProps): SurveyI
     if (!props.customValidations) {
       props.customValidations = []
     }
+    const rowValidations: Expression[] = [];
+    props.rows.forEach(row => {
+      props.columns.forEach(col => {
+        const hasRespExp = SurveyEngine.hasResponse(
+          [props.parentKey, props.itemKey].join('.'),
+          [responseGroupKey, responsiveMatrix, `${row.key}-${col.key}`].join('.'),
+        );
+        if (row.displayCondition === undefined) {
+          rowValidations.push(hasRespExp);
+          return;
+        }
+        rowValidations.push(SurveyEngine.logic.or(
+          SurveyEngine.logic.not(row.displayCondition),
+          hasRespExp,
+        ));
+      })
+
+    })
     props.customValidations?.push(
       {
         key: 'r',
         type: 'hard',
         rule: expWithArgs('and',
-          ...props.rows.map(row => {
-            return [
-              ...props.columns.map(col => {
-                const hasRespExp = SurveyEngine.hasResponse(
-                  [props.parentKey, props.itemKey].join('.'),
-                  [responseGroupKey, responsiveMatrix, `${row.key}-${col.key}`].join('.'),
-                );
-                if (row.displayCondition === undefined) {
-                  return hasRespExp;
-                }
-                return SurveyEngine.logic.or(
-                  SurveyEngine.logic.not(row.displayCondition),
-                  hasRespExp,
-                )
-              })
-            ]
-          })
+          ...rowValidations
         )
       }
     )
