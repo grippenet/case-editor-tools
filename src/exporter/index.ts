@@ -40,10 +40,8 @@ const generateSurveyFiles = (study: Study, outputPath: string, pretty?: boolean)
   }
   study.surveys.forEach(survey => {
     const fileName = `${surveyOutPath}/${survey.key}.json`;
-    const outputObject = {
-      studyKey: study.studyKey,
-      survey: survey.getSurvey()
-    }
+    const outputObject = survey.getSurvey();
+
     try {
       fs.writeFileSync(fileName, JSON.stringify(outputObject, undefined, pretty ? 2 : undefined));
     } catch (err) {

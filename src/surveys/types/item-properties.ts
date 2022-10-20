@@ -47,6 +47,9 @@ export interface GenericQuestionProps {
   footnoteText?: Map<string, string>;
   customValidations?: Array<Validation>;
   confidentialMode?: ConfidentialMode;
+  metadata?: {
+    [key: string]: string
+  };
 }
 
 

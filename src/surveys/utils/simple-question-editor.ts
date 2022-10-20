@@ -11,13 +11,15 @@ export class SimpleQuestionEditor {
   constructor(
     parentKey: string,
     key: string,
-    version: number,
     confidentialMode?: ConfidentialMode,
+    metadata?: {
+      [key: string]: string
+    }
   ) {
     const itemKey = [parentKey, key].join('.');
     this.key = itemKey;
     this.editor = new ItemEditor(undefined, { itemKey: itemKey, isGroup: false });
-    this.editor.setVersion(version);
+    this.editor.setMetadata(metadata);
     this.editor.setConfidentialMode(confidentialMode)
   }
 

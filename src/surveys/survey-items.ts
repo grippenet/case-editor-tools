@@ -32,7 +32,7 @@ interface LikertGroupQuestionProps extends GenericQuestionProps {
 }
 
 const commonQuestionGenerator = (props: GenericQuestionProps, rg_inner: ItemComponent): SurveyItem => {
-  const simpleEditor = new SimpleQuestionEditor(props.parentKey, props.itemKey, props.version ? props.version : 1, props.confidentialMode);
+  const simpleEditor = new SimpleQuestionEditor(props.parentKey, props.itemKey, props.confidentialMode, props.metadata);
 
   // QUESTION TEXT
   simpleEditor.setTitle(props.questionText, props.questionSubText, props.titleClassName);
@@ -471,7 +471,7 @@ const generateCustomQuestion = (props: CustomQuestionProps): SurveyItem => {
     items.push(rg_inner)
   })
 
-  const simpleEditor = new SimpleQuestionEditor(props.parentKey, props.itemKey, props.version ? props.version : 1, props.confidentialMode);
+  const simpleEditor = new SimpleQuestionEditor(props.parentKey, props.itemKey, props.confidentialMode, props.metadata);
 
   // QUESTION TEXT
   simpleEditor.setTitle(props.questionText, props.questionSubText, props.titleClassName);
@@ -519,10 +519,13 @@ interface DisplayProps {
   itemKey: string;
   content: Array<ItemComponent>;
   condition?: Expression;
+  metadata?: {
+    [key: string]: string;
+  }
 }
 
 const generateDisplay = (props: DisplayProps): SurveyItem => {
-  const simpleEditor = new SimpleQuestionEditor(props.parentKey, props.itemKey, 1);
+  const simpleEditor = new SimpleQuestionEditor(props.parentKey, props.itemKey, undefined, props.metadata);
   props.content.forEach(item => simpleEditor.addDisplayComponent(item))
   if (props.condition) {
     simpleEditor.setCondition(props.condition);

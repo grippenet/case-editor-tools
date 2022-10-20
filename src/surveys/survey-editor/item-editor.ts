@@ -18,8 +18,9 @@ interface ItemEditorInt {
   setCondition: (exp: Expression | undefined) => void;
   setPriority: (prio: number | undefined) => void;
 
-  setVersion: (version: number) => void;
-  setVersionTags: (tags: string[]) => void;
+  setMetadata: (data?: {
+    [key: string]: string
+  }) => void;
 
   // methods for survey group items:
   addSurveyItem: (item: SurveyItem, atPosition?: number) => void;
@@ -62,7 +63,7 @@ export class ItemEditor implements ItemEditorInt {
   private surveyItem: SurveyItem;
 
   constructor(existingItem?: SurveyItem, newItem?: NewItemProps) {
-    this.surveyItem = { key: '', version: 0 };
+    this.surveyItem = { key: '' };
     if (existingItem) {
       this.surveyItem = { ...existingItem };
       // console.log(this.surveyItem);
@@ -71,14 +72,12 @@ export class ItemEditor implements ItemEditorInt {
       if (newItem?.isGroup) {
         const currentItem: SurveyGroupItem = {
           key,
-          version: 1,
           items: [],
         }
         this.surveyItem = currentItem;
       } else {
         const currentItem: SurveyItem = {
           key,
-          version: 1,
         }
         if (newItem?.type) {
           currentItem.type = newItem.type;
@@ -143,13 +142,11 @@ export class ItemEditor implements ItemEditorInt {
     this.surveyItem.priority = prio;
   };
 
-  setVersion(version: number) {
-    this.surveyItem.version = version;
-  };
-
-  setVersionTags(tags: string[]) {
-    this.surveyItem.versionTags = [...tags];
-  };
+  setMetadata(data?: {
+    [key: string]: string
+  }) {
+    this.surveyItem.metadata = data;
+  }
 
   // methods for survey group items:
   addSurveyItem(item: SurveyItem, atPosition?: number) {

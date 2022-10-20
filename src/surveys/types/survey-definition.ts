@@ -80,7 +80,7 @@ export abstract class SurveyDefinition {
   }
 
   private checkDuplicateChildKeys() {
-    const group = this.editor.getSurvey().current.surveyDefinition;
+    const group = this.editor.getSurvey().surveyDefinition;
     const keys = group.items.map(item => item.key);
     const hasDuplicates = keys.some((key, index) => {
       const isDuplicateKey = keys.indexOf(key) !== index;

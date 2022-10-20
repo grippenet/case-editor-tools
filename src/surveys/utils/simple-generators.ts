@@ -128,7 +128,6 @@ export const generatePageBreak = (parentKey: string, key?: string): SurveySingle
 
   return {
     key: parentKey + '.' + (key ? key : "PB_" + generateRandomKey(4)),
-    version: 0,
     type: 'pageBreak'
   };
 }
