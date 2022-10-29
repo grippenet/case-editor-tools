@@ -4,13 +4,13 @@ import { generateRandomKey } from "./randomKeyGenerator"
 import { generateLocStrings } from "./simple-generators"
 
 
-interface CommonProps {
+export interface CommonProps {
   key?: string,
   content?: Map<string, string> | StyledTextComponentProp[];
   displayCondition?: Expression;
 }
 
-interface TextProps extends CommonProps {
+export interface TextProps extends CommonProps {
   content: Map<string, string>;
   variant?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'li';
   className?: string;
@@ -37,7 +37,7 @@ const text = (props: TextProps): ItemComponent => {
   }
 }
 
-interface MarkdownProps extends CommonProps {
+export interface MarkdownProps extends CommonProps {
   content: Map<string, string>;
   className?: string;
 }
