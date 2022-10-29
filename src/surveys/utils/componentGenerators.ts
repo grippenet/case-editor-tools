@@ -29,7 +29,7 @@ const text = (props: TextProps): ItemComponent => {
     })
   }
   return {
-    key: generateRandomKey(3),
+    key: props.key ?? generateRandomKey(3),
     role: 'text',
     style: styles.length > 0 ? styles : undefined,
     content: generateLocStrings(props.content),
@@ -50,7 +50,7 @@ const markdown = (props: MarkdownProps): ItemComponent => {
     })
   }
   return {
-    key: generateRandomKey(3),
+    key: props.key ?? generateRandomKey(3),
     role: 'markdown',
     style: styles.length > 0 ? styles : undefined,
     content: generateLocStrings(props.content),
