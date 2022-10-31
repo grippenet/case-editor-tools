@@ -2,9 +2,7 @@ import { ComponentProperties, Expression, ItemGroupComponent } from "survey-engi
 import { ComponentEditor } from "../survey-editor/component-editor";
 import { generateLocStrings } from "../utils/simple-generators";
 
-
-
-interface HeaderRow {
+export interface HeaderRow {
   role: 'headerRow',
   key: string;
   displayCondition?: Expression;
@@ -16,7 +14,7 @@ interface HeaderRow {
     description?: Map<string, string>,
   }>
 }
-interface RadioRow {
+export interface RadioRow {
   role: 'radioRow',
   key: string;
   displayCondition?: Expression;
@@ -29,7 +27,6 @@ interface RadioRow {
   }>
 
 }
-
 export interface ResponseRowCell {
   role: 'label' | 'check' | 'input' | 'numberInput' | 'dropDownGroup',
   key: string,
@@ -46,8 +43,7 @@ export interface ResponseRowCell {
   }>
 }
 
-
-interface ResponseRow {
+export interface ResponseRow {
   role: 'responseRow',
   key: string;
   displayCondition?: Expression;
@@ -55,7 +51,7 @@ interface ResponseRow {
   cells: Array<ResponseRowCell>
 }
 
-type MatrixRow = HeaderRow | RadioRow | ResponseRow;
+export type MatrixRow = HeaderRow | RadioRow | ResponseRow;
 
 export const initMatrixQuestion = (
   key: string,

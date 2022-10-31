@@ -12,16 +12,16 @@ import { initDropdownGroup, initMultipleChoiceGroup, initSingleChoiceGroup, opti
 import { initLikertScaleGroup, initResponsiveBipolarLikertArray, initResponsiveSingleChoiceArray, LikertGroupRow } from "./responseTypeGenerators/likertGroupComponents";
 
 
-interface OptionQuestionProps extends GenericQuestionProps {
+export interface OptionQuestionProps extends GenericQuestionProps {
   responseOptions: Array<OptionDef>;
 }
 
-interface DropDownQuestionProps extends GenericQuestionProps {
+export interface DropDownQuestionProps extends GenericQuestionProps {
   responseOptions: Array<OptionDef>;
   placeholder?: Map<string, string>;
 }
 
-interface LikertGroupQuestionProps extends GenericQuestionProps {
+export interface LikertGroupQuestionProps extends GenericQuestionProps {
   rows: Array<LikertGroupRow>,
   scaleOptions: Array<{
     key: string;
