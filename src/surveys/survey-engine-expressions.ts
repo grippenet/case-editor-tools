@@ -243,7 +243,7 @@ const getLastFromSurveyItemResponses = (responsesRef: Expression): Expression =>
 /**
  * Calculate time difference between "now" and the reference time in seconds
  * @param referenceTime expression that should return a time (in POSIX timestamp form)
- * @returns expression returns undefined if rerefence time is evaluated to undefined
+ * @returns expression returns undefined if reference time is evaluated to undefined
  */
 const getSecondsSince = (referenceTime: Expression): Expression => {
   return generateExpression('getSecondsSince', undefined, referenceTime);
@@ -323,6 +323,8 @@ const getSurveyItemValidation = (itemKey: string, validationKey: string): Expres
   return generateExpression('getSurveyItemValidation', undefined, itemKey, validationKey);
 }
 
+export type TimeUnits = 'years' | 'months' | 'days' | 'hours' | 'minutes' | 'seconds';
+
 /**
  * Calculate difference of a selected date input and current timestamp with selected unit
  * @param itemKey full key of the survey item (e.g. SURVEY.GROUP.QUESTIONKEY)
@@ -331,7 +333,7 @@ const getSurveyItemValidation = (itemKey: string, validationKey: string): Expres
  * @param ignoreSign if set to true, sign (+/-) is ignored and the absolute value of the difference is returned
  * @returns
  */
-const dateResponseDiffFromNow = (itemKey: string, responseKey: string, unit: 'years' | 'months' | 'days' | 'hours' | 'minutes' | 'seconds', ignoreSign?: boolean): Expression => {
+const dateResponseDiffFromNow = (itemKey: string, responseKey: string, unit: TimeUnits, ignoreSign?: boolean): Expression => {
   return generateExpression('dateResponseDiffFromNow', undefined, itemKey, responseKey, unit, ignoreSign ? 1 : undefined);
 }
 

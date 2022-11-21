@@ -3,6 +3,8 @@ import { consentKey, multipleChoiceKey, responseGroupKey, singleChoiceKey } from
 import { Duration, durationObjectToSeconds } from "../types/duration"
 import { generateExpression } from "./expressionGen"
 
+export type EventType = 'ENTER' | 'SUBMIT' | 'TIMER' | 'MERGE';
+
 const or = (...args: Expression[]): Expression => generateExpression('or', undefined, ...args)
 const and = (...args: Expression[]): Expression => generateExpression('and', undefined, ...args)
 const not = (arg: Expression): Expression => generateExpression('not', undefined, arg)
@@ -12,7 +14,7 @@ const not = (arg: Expression): Expression => generateExpression('not', undefined
  * @param equalsType string with the possible values: 'ENTER', 'SUBMIT', 'TIMER', 'MERGE'
  * @returns if event type matches the argument, return true otherwise false
  */
-const checkEventType = (equalsType: 'ENTER' | 'SUBMIT' | 'TIMER' | 'MERGE') => generateExpression('checkEventType', undefined, equalsType)
+const checkEventType = (equalsType: EventType) => generateExpression('checkEventType', undefined, equalsType)
 
 /**
  * Check if the submitted survey has a specific key
@@ -269,8 +271,10 @@ const UPDATE_FLAG = (key: string, newValue: string | number | Expression) => gen
 
 const REMOVE_FLAG = (key: string) => generateExpression('REMOVE_FLAG', undefined, key);
 
+export type SurveyCategoryType = 'immediate' | 'prio' | 'normal' | 'optional';
+
 const ADD_NEW_SURVEY = (surveyKey: string,
-  category: 'immediate' | 'prio' | 'normal' | 'optional',
+  category: SurveyCategoryType,
   activeFrom?: number | Expression,
   activeUntil?: number | Expression) => generateExpression('ADD_NEW_SURVEY', undefined, surveyKey, activeFrom !== undefined ? activeFrom : 0, activeUntil !== undefined ? activeUntil : 0, category)
 
@@ -304,10 +308,11 @@ const REMOVE_MESSAGES_BY_TYPE = (messageType: string) => generateExpression('REM
  */
 const NOTIFY_RESEARCHER = (messageType: string, ...payload: Expression[] | string[]) => generateExpression('NOTIFY_RESEARCHER', undefined, messageType, ...payload);
 
+export type RemoveSurveySelectorType = 'first' | 'last' | 'all';
 
 const REMOVE_SURVEY_BY_KEY = (
   surveyKey: string,
-  selector: 'first' | 'last' | 'all'
+  selector: RemoveSurveySelectorType
 ) => {
   if (selector === 'all') {
     return generateExpression('REMOVE_SURVEYS_BY_KEY', undefined, surveyKey);
