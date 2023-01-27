@@ -4,7 +4,7 @@ import { ItemEditor } from "../survey-editor/item-editor";
 import { SurveyEditor } from "../survey-editor/survey-editor";
 import { generateLocStrings, generatePageBreak } from "../utils/simple-generators";
 
-export type SurveyAvailableFor = 'public' | 'temporary_participants' | 'active_participants';
+export type SurveyAvailableFor = 'public' | 'temporary_participants' | 'active_participants' | 'participants_if_assigned';
 
 export interface SurveyProps {
   surveyKey: string;

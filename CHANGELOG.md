@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.4.0 - 2023-01-27
+
+### Changed
+
+- additional option for survey availability
+- PR2: more interfaces exposed
+
 ## 1.3.0 - 2022-10-21
 
 ### BREAKING CHANGES
