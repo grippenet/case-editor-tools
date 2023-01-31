@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.4.1 - 2023-01-31
+
+### Changed
+
+- expressionGenerator additional check to ensure argument is of type "Expression"
+
 ## 1.4.0 - 2023-01-27
 
 ### Changed
