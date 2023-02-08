@@ -165,7 +165,7 @@ const getParticipantFlagValue = (key: string) => generateExpression('getParticip
 const getParticipantFlagValueForIncoming = (key: string) => generateExpression('incomingState:getParticipantFlagValue', undefined, key);
 
 // Convinience method to parse participant flag's value as a number
-const getParticipantFlagAsNum = (key: string) => parseValueAsNum(
+const getParticipantFlagValueAsNum = (key: string) => parseValueAsNum(
   getParticipantFlagValue(key)
 );
 
@@ -571,7 +571,7 @@ export const NativeStudyEngineExpressions = {
     hasParticipantFlagKeyAndValue,
     hasParticipantFlagKey,
     getParticipantFlagValue,
-    getParticipantFlagAsNum,
+    getParticipantFlagValueAsNum,
     lastSubmissionDateOlderThan,
     hasMessageTypeAssigned,
     getMessageNextTime,
