@@ -164,6 +164,11 @@ const hasParticipantFlagKeyForIncoming = (key: string) => generateExpression('in
 const getParticipantFlagValue = (key: string) => generateExpression('getParticipantFlagValue', undefined, key);
 const getParticipantFlagValueForIncoming = (key: string) => generateExpression('incomingState:getParticipantFlagValue', undefined, key);
 
+// Convinience method to parse participant flag's value as a number
+const getParticipantFlagAsNum = (key: string) => parseValueAsNum(
+  getParticipantFlagValue(key)
+);
+
 
 /**
  * Checks if the participant has a message type assigned (at least one)
@@ -208,6 +213,16 @@ const timestampWithOffset = (delta: Duration, reference?: number | Expression) =
   durationObjectToSeconds(delta),
   reference ? reference : undefined
 )
+
+/**
+ * Attempt to parse the resolved argument's value as a number
+ * @param valueRef resolve this argument, and try to parse this as number. Boolean value will result in error.
+ * @returns
+ */
+const parseValueAsNum = (valueRef: Expression | string | number): Expression => {
+  return generateExpression('parseValueAsNum', 'float', valueRef);
+}
+
 
 /**
  *
@@ -556,6 +571,7 @@ export const NativeStudyEngineExpressions = {
     hasParticipantFlagKeyAndValue,
     hasParticipantFlagKey,
     getParticipantFlagValue,
+    getParticipantFlagAsNum,
     lastSubmissionDateOlderThan,
     hasMessageTypeAssigned,
     getMessageNextTime,
@@ -586,6 +602,7 @@ export const NativeStudyEngineExpressions = {
 
   // Other
   timestampWithOffset,
+  parseValueAsNum,
   externalEventEval,
 }
 

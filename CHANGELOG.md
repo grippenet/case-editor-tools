@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.5.0 - 2023-02-08
+
+### Added
+
+- new study engine expression for `parseValueAsNum`
+
 ## 1.4.1 - 2023-01-31
 
 ### Changed
