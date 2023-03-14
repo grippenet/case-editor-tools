@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.5.x Unrelease
+
+### Added
+- Expose SingleChoiceOptionTypes.dateInput to be generate option component for single choice questions
+
 ## 1.5.0 - 2023-02-08
 
 ### Added
