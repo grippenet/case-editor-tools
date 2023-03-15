@@ -220,7 +220,7 @@ const clozeLineBreak = (): OptionDef => {
 export const SingleChoiceOptionTypes = {
   option,
   textInput,
-  //dateInput,
+  dateInput,
   timeInput,
   numberInput,
   cloze,
