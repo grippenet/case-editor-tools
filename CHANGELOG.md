@@ -4,6 +4,7 @@
 
 ### Changed
 
+- Expose SingleChoiceOptionTypes.dateInput to be generate option component for single choice questions
 - add the possibility to specify study rules for the event `LEAVE` which is triggered, e.g., when the user deletes the account or a single profile.
 - in study rules, where external services are referenced, an optional route can be specified
 
