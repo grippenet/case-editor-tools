@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.6.0 - 2023-03-15
+
+### Changed
+
+- add the possibility to specify study rules for the event `LEAVE` which is triggered, e.g., when the user deletes the account or a single profile.
+- in study rules, where external services are referenced, an optional route can be specified
+
 ## 1.5.0 - 2023-02-08
 
 ### Added

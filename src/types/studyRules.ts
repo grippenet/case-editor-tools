@@ -7,6 +7,7 @@ export class StudyRules {
   private submitRules?: Expression[];
   private timerRules?: Expression[];
   private mergeRules?: Expression[];
+  private leaveRules?: Expression[];
 
   constructor(
     enterRules?: Expression[],
@@ -40,6 +41,11 @@ export class StudyRules {
     if (this.mergeRules) {
       rules.push(
         StudyEngine.ifThen(StudyEngine.checkEventType('MERGE'), ...this.mergeRules)
+      );
+    }
+    if (this.leaveRules) {
+      rules.push(
+        StudyEngine.ifThen(StudyEngine.checkEventType('LEAVE'), ...this.leaveRules)
       );
     }
     return rules;

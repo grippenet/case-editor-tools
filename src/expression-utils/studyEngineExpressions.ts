@@ -1,4 +1,4 @@
-import { Expression, ExpressionArg } from "survey-engine/data_types"
+import { Expression } from "survey-engine/data_types"
 import { consentKey, multipleChoiceKey, responseGroupKey, singleChoiceKey } from "../constants/key-definitions"
 import { Duration, durationObjectToSeconds } from "../types/duration"
 import { generateExpression } from "./expressionGen"
@@ -9,10 +9,10 @@ const not = (arg: Expression): Expression => generateExpression('not', undefined
 
 /**
  * Check if the current event has the given type
- * @param equalsType string with the possible values: 'ENTER', 'SUBMIT', 'TIMER', 'MERGE'
+ * @param equalsType string with the possible values: 'ENTER', 'SUBMIT', 'TIMER', 'MERGE', 'LEAVE'
  * @returns if event type matches the argument, return true otherwise false
  */
-const checkEventType = (equalsType: 'ENTER' | 'SUBMIT' | 'TIMER' | 'MERGE') => generateExpression('checkEventType', undefined, equalsType)
+const checkEventType = (equalsType: 'ENTER' | 'SUBMIT' | 'TIMER' | 'MERGE' | 'LEAVE') => generateExpression('checkEventType', undefined, equalsType)
 
 /**
  * Check if the submitted survey has a specific key
@@ -227,13 +227,15 @@ const parseValueAsNum = (valueRef: Expression | string | number): Expression => 
 /**
  *
  * @param serviceName name of the external service endpoint that should be used (URL and API key are config of the service)
+ * @param route optional route to be appended to the service URL
  * @param expectFloat optional flag if the response value is expected to be a float (number) - by default, string is expected
  * @returns
  */
-const externalEventEval = (serviceName: string, expectFloat?: boolean) => generateExpression(
+const externalEventEval = (serviceName: string, route?: string, expectFloat?: boolean) => generateExpression(
   'externalEventEval',
   expectFloat ? 'float' : undefined,
-  serviceName
+  serviceName,
+  route,
 )
 
 /**
@@ -427,12 +429,14 @@ const setReportSummary = (
 /**
  * Method to call external event handler
  * @param serviceName name of the external service endpoint that should be used (URL and API key are config of the service)
+ * @param route optional route to be appended to the service URL
  * @returns
  */
 const EXTERNAL_EVENT_HANDLER = (
   serviceName: string,
+  route?: string,
 ) => {
-  return generateExpression('EXTERNAL_EVENT_HANDLER', undefined, serviceName);
+  return generateExpression('EXTERNAL_EVENT_HANDLER', undefined, serviceName, route);
 }
 
 
