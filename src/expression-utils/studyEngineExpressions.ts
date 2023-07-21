@@ -607,6 +607,7 @@ export const NativeStudyEngineExpressions = {
   // Other
   timestampWithOffset,
   parseValueAsNum,
+  generateRandomNumber: (min: number, max: number) => generateExpression('generateRandomNumber', undefined, min, max),
   externalEventEval,
 }
 

@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.6.1 - 2023-03-21
+
+### Added
+
+- new study engine expression for `generateRandomNumber`
+
 ## 1.6.0 - 2023-03-15
 
 ### Changed
