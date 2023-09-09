@@ -1,8 +1,8 @@
 import { Expression, ItemComponent, ItemGroupComponent } from "survey-engine/data_types";
 import { ComponentEditor } from "../survey-editor/component-editor";
-import { ResponsiveBipolarLikertArrayProps, ResponsiveMatrixProps, ResponsiveSingleChoiceArrayProps } from "../types";
+import { ResponsiveBipolarLikertArrayProps, ResponsiveMatrixProps, ResponsiveSingleChoiceArrayProps, isExpressionDisplayProp } from "../types";
 import { generateRandomKey } from "../utils/randomKeyGenerator";
-import { generateLocStrings } from "../utils/simple-generators";
+import { generateExpressionDisplayComp, generateLocStrings } from "../utils/simple-generators";
 
 export interface LikertGroupRow {
   key: string;
@@ -157,6 +157,9 @@ export const initResponsiveSingleChoiceArray = (
         style: option.className ? [{ key: 'className', value: option.className }] : undefined,
         content: !Array.isArray(option.content) ? generateLocStrings(option.content) : undefined,
         items: Array.isArray(option.content) ? option.content.map((cont, index) => {
+          if (isExpressionDisplayProp(cont)) {
+            return generateExpressionDisplayComp(index.toFixed(), cont);
+          }
           return {
             key: index.toFixed(),
             role: 'text',
@@ -218,6 +221,9 @@ export const initResponsiveSingleChoiceArray = (
       style: rowStyles.length > 0 ? rowStyles : undefined,
       content: !Array.isArray(row.content) ? generateLocStrings(row.content) : undefined,
       items: Array.isArray(row.content) ? row.content.map((cont, index) => {
+        if (isExpressionDisplayProp(cont)) {
+          return generateExpressionDisplayComp(index.toFixed(), cont);
+        }
         return {
           key: index.toFixed(),
           role: 'text',
@@ -344,6 +350,9 @@ export const initResponsiveBipolarLikertArray = (
       role: 'start',
       content: !Array.isArray(row.startLabel) ? generateLocStrings(row.startLabel) : undefined,
       items: Array.isArray(row.startLabel) ? row.startLabel.map((cont, index) => {
+        if (isExpressionDisplayProp(cont)) {
+          return generateExpressionDisplayComp(index.toFixed(), cont);
+        }
         return {
           key: index.toFixed(),
           role: 'text',
@@ -358,6 +367,9 @@ export const initResponsiveBipolarLikertArray = (
       role: 'end',
       content: !Array.isArray(row.endLabel) ? generateLocStrings(row.endLabel) : undefined,
       items: Array.isArray(row.endLabel) ? row.endLabel.map((cont, index) => {
+        if (isExpressionDisplayProp(cont)) {
+          return generateExpressionDisplayComp(index.toFixed(), cont);
+        }
         return {
           key: index.toFixed(),
           role: 'text',
@@ -428,6 +440,9 @@ export const initResponsiveMatrixItem = (
         role: 'category',
         content: !Array.isArray(option.label) ? generateLocStrings(option.label) : undefined,
         items: Array.isArray(option.label) ? option.label.map((cont, index) => {
+          if (isExpressionDisplayProp(cont)) {
+            return generateExpressionDisplayComp(index.toFixed(), cont);
+          }
           return {
             key: index.toFixed(),
             role: 'text',
@@ -474,6 +489,9 @@ export const initResponsiveMatrixItem = (
       style: rowStyles.length > 0 ? rowStyles : undefined,
       content: !Array.isArray(row.label) ? generateLocStrings(row.label) : undefined,
       items: Array.isArray(row.label) ? row.label.map((cont, index) => {
+        if (isExpressionDisplayProp(cont)) {
+          return generateExpressionDisplayComp(index.toFixed(), cont);
+        }
         return {
           key: index.toFixed(),
           role: 'text',

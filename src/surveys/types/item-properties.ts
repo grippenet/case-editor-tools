@@ -13,15 +13,25 @@ export interface DateDisplayComponentProp {
   className?: string;
 }
 
+export interface ExpressionDisplayProp {
+  languageCodes: string[];
+  expression: Expression;
+  className?: string;
+}
+
 export const isDateDisplayComponentProp = (value: DateDisplayComponentProp | any): value is DateDisplayComponentProp => {
   return typeof (value) === 'object' && (value as DateDisplayComponentProp).date !== undefined && (value as DateDisplayComponentProp).dateFormat !== undefined && (value as DateDisplayComponentProp).languageCodes !== undefined;
+}
+
+export const isExpressionDisplayProp = (value: ExpressionDisplayProp | any): value is ExpressionDisplayProp => {
+  return typeof (value) === 'object' && (value as ExpressionDisplayProp).expression !== undefined && (value as ExpressionDisplayProp).languageCodes !== undefined;
 }
 
 export interface OptionDef {
   key: string;
   role: string;
   content?: Map<string, string>;
-  items?: Array<StyledTextComponentProp> | Array<OptionDef>;
+  items?: Array<StyledTextComponentProp | ExpressionDisplayProp> | Array<OptionDef>;
   description?: Map<string, string>;
   displayCondition?: Expression;
   disabled?: Expression;
@@ -33,7 +43,7 @@ export interface GenericQuestionProps {
   parentKey: string;
   itemKey: string;
   version?: number;
-  questionText: Map<string, string> | Array<StyledTextComponentProp | DateDisplayComponentProp>;
+  questionText: Map<string, string> | Array<StyledTextComponentProp | DateDisplayComponentProp | ExpressionDisplayProp>;
   questionSubText?: Map<string, string>;
   titleClassName?: string;
   helpGroupContent?: Array<{
@@ -136,7 +146,7 @@ export type ClozeQuestionProps = ClozeProps & GenericQuestionProps;
  * Consent Question
  */
 export interface ConsentProps {
-  checkBoxLabel: Map<string, string> | Array<StyledTextComponentProp | DateDisplayComponentProp>;
+  checkBoxLabel: Map<string, string> | Array<StyledTextComponentProp | DateDisplayComponentProp | ExpressionDisplayProp>;
   dialogTitle: Map<string, string>;
   dialogContent: Map<string, string>;
   acceptBtn: Map<string, string>;
@@ -156,12 +166,12 @@ export interface ResponsiveSingleChoiceArrayProps {
   scaleOptions: Array<{
     key: string;
     className?: string;
-    content: Map<string, string> | StyledTextComponentProp[];
+    content: Map<string, string> | Array<StyledTextComponentProp | ExpressionDisplayProp>;
   }>,
   rows: Array<{
     key: string;
     displayCondition?: Expression;
-    content: Map<string, string> | StyledTextComponentProp[];
+    content: Map<string, string> | Array<StyledTextComponentProp | ExpressionDisplayProp>;
     horizontalModeProps?: {
       labelPlacement?: 'none' | 'top' | 'bottom';
       className?: string;
@@ -209,8 +219,8 @@ export interface ResponsiveBipolarLikertArrayProps {
   }>,
   rows: Array<{
     key: string;
-    startLabel: Map<string, string> | StyledTextComponentProp[];
-    endLabel: Map<string, string> | StyledTextComponentProp[];
+    startLabel: Map<string, string> | Array<StyledTextComponentProp | ExpressionDisplayProp>;
+    endLabel: Map<string, string> | Array<StyledTextComponentProp | ExpressionDisplayProp>;
     displayCondition?: Expression;
     withLabelRowModeProps?: {
       className?: string;
@@ -258,12 +268,12 @@ export type ResponsiveMatrixResponseType = 'dropdown' | 'input' | 'numberInput';
 export interface ResponsiveMatrixProps {
   responseType: ResponsiveMatrixResponseType;
   breakpoint?: 'sm' | 'md' | 'lg' | 'xl';
-  columns: Array<{ key: string, label: Map<string, string> | StyledTextComponentProp[] }>;
+  columns: Array<{ key: string, label: Map<string, string> | Array<StyledTextComponentProp | ExpressionDisplayProp> }>;
   // TODO: check if has double keys
   rows: Array<{
     key: string,
     role: 'row' | 'category',
-    label: Map<string, string> | StyledTextComponentProp[],
+    label: Map<string, string> | Array<StyledTextComponentProp | ExpressionDisplayProp>,
     displayCondition?: Expression;
     className?: string,
   }>;

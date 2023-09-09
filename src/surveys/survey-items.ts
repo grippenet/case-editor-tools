@@ -4,10 +4,10 @@ import { ItemEditor } from "../surveys/survey-editor/item-editor";
 import { ComponentGenerators } from "./utils/componentGenerators";
 import { durationObjectToSeconds } from "../types/duration";
 import { clozeKey, consentKey, datePickerKey, dropDownKey, inputKey, likertScaleGroupKey, multipleChoiceKey, numericInputKey, responseGroupKey, responsiveBipolarLikertArrayKey, responsiveMatrix, responsiveSingleChoiceArrayKey, singleChoiceKey, timeInputKey } from "../constants/key-definitions";
-import { expWithArgs, generateDateDisplayComp, generateHelpGroupComponent, generateLocStrings, generateTitleComponent } from "./utils/simple-generators";
+import { expWithArgs, generateDateDisplayComp, generateExpressionDisplayComp, generateHelpGroupComponent, generateLocStrings, generateTitleComponent } from "./utils/simple-generators";
 import { SimpleQuestionEditor } from "./utils/simple-question-editor";
 import { SurveyEngine } from "./survey-engine-expressions";
-import { ClozeQuestionProps, ConsentQuestionProps, DateInputQuestionProps, GenericQuestionProps, isDateDisplayComponentProp, MultiLineTextInput, NumericInputQuestionProps, OptionDef, ResponsiveBipolarLikertArrayQuestionProps, ResponsiveMatrixQuestionProps, ResponsiveSingleChoiceArrayQuestionProps, TextInputQuestionProps, TimeInputQuestionProps } from "./types/item-properties";
+import { ClozeQuestionProps, ConsentQuestionProps, DateInputQuestionProps, GenericQuestionProps, isDateDisplayComponentProp, isExpressionDisplayProp, MultiLineTextInput, NumericInputQuestionProps, OptionDef, ResponsiveBipolarLikertArrayQuestionProps, ResponsiveMatrixQuestionProps, ResponsiveSingleChoiceArrayQuestionProps, TextInputQuestionProps, TimeInputQuestionProps } from "./types/item-properties";
 import { initDropdownGroup, initMultipleChoiceGroup, initSingleChoiceGroup, optionDefToItemComponent } from "./responseTypeGenerators/optionGroupComponents";
 import { initLikertScaleGroup, initResponsiveBipolarLikertArray, initResponsiveMatrixItem, initResponsiveSingleChoiceArray, LikertGroupRow } from "./responseTypeGenerators/likertGroupComponents";
 
@@ -396,6 +396,9 @@ const generateConsentQuestion = (props: ConsentQuestionProps): SurveyItem => {
         items: Array.isArray(props.checkBoxLabel) ? props.checkBoxLabel.map((item, index) => {
           if (isDateDisplayComponentProp(item)) {
             return generateDateDisplayComp(index.toFixed(), item);
+          }
+          if (isExpressionDisplayProp(item)) {
+            return generateExpressionDisplayComp(index.toFixed(), item);
           }
           return {
             key: index.toFixed(),

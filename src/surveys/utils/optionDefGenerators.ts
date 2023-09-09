@@ -1,11 +1,11 @@
 import { Expression } from "survey-engine/data_types";
 import { SurveyEngine } from "../survey-engine-expressions";
-import { ClozeProps, DateInputProps, NumericInputProps, OptionDef, StyledTextComponentProp, TextInputProps, TimeInputProps } from "../types/item-properties";
+import { ClozeProps, DateInputProps, ExpressionDisplayProp, NumericInputProps, OptionDef, StyledTextComponentProp, TextInputProps, TimeInputProps } from "../types/item-properties";
 import { generateRandomKey } from "./randomKeyGenerator";
 
 interface CommonProps {
   key?: string,
-  content?: Map<string, string> | StyledTextComponentProp[];
+  content?: Map<string, string> | Array<StyledTextComponentProp | ExpressionDisplayProp>;
   displayCondition?: Expression;
 }
 
@@ -19,7 +19,7 @@ interface OptionTextProps extends CommonProps {
   className?: string;
 }
 
-const option = (key: string, content: Map<string, string> | StyledTextComponentProp[], extraProps?: OptionProps): OptionDef => {
+const option = (key: string, content: Map<string, string> | Array<StyledTextComponentProp | ExpressionDisplayProp>, extraProps?: OptionProps): OptionDef => {
   const styles = [];
   if (extraProps?.className !== undefined) {
     styles.push({

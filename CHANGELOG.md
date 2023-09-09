@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.6.2 - 2023-09-09
+
+### Changed
+
+- When generating formatted text, also expressions can be used for dynamic content.
+
 ## 1.6.1 - 2023-03-21
 
 ### Added

@@ -1,6 +1,6 @@
 import { LocalizedString, ItemComponent, ExpressionName, Expression, ItemGroupComponent, SurveySingleItem } from "survey-engine/data_types";
 import { ComponentEditor } from "../survey-editor/component-editor";
-import { DateDisplayComponentProp, isDateDisplayComponentProp, StyledTextComponentProp } from "../types/item-properties";
+import { DateDisplayComponentProp, ExpressionDisplayProp, isDateDisplayComponentProp, isExpressionDisplayProp, StyledTextComponentProp } from "../types/item-properties";
 import { generateRandomKey } from "./randomKeyGenerator";
 
 export const generateLocStrings = (translations: Map<string, string>): LocalizedString[] => {
@@ -41,7 +41,29 @@ export const generateDateDisplayComp = (key: string, item: DateDisplayComponentP
   }
 }
 
-export const generateTitleComponent = (content: Map<string, string> | Array<StyledTextComponentProp | DateDisplayComponentProp>, description?: Map<string, string>, className?: string): ItemComponent => {
+export const generateExpressionDisplayComp = (key: string, item: ExpressionDisplayProp): ItemComponent => {
+  const styleArray = [];
+  if (item.className) {
+    styleArray.push({ key: 'className', value: item.className })
+  }
+  const locString = new Array<LocalizedString>();
+  const exp = item.expression;
+  item.languageCodes.forEach((code) => {
+    const translatedItem: LocalizedString = {
+      code: code,
+      parts: [{ dtype: 'exp', exp: exp }]
+    };
+    locString.push(translatedItem);
+  });
+  return {
+    key: key,
+    role: 'text',
+    content: locString,
+    style: styleArray,
+  }
+}
+
+export const generateTitleComponent = (content: Map<string, string> | Array<StyledTextComponentProp | DateDisplayComponentProp | ExpressionDisplayProp>, description?: Map<string, string>, className?: string): ItemComponent => {
   let items = undefined;
   let currentContent = undefined;
 
@@ -49,6 +71,9 @@ export const generateTitleComponent = (content: Map<string, string> | Array<Styl
     items = content.map((item, index) => {
       if (isDateDisplayComponentProp(item)) {
         return generateDateDisplayComp(index.toFixed(), item);
+      }
+      if (isExpressionDisplayProp(item)) {
+        return generateExpressionDisplayComp(index.toFixed(), item);
       }
       return {
         key: index.toFixed(),

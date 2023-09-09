@@ -1,7 +1,7 @@
 import { Expression, ItemComponent, ItemGroupComponent, LocalizedObject } from "survey-engine/data_types";
 import { ComponentEditor } from "../survey-editor/component-editor";
-import { OptionDef, StyledTextComponentProp } from "../types";
-import { generateLocStrings } from "../utils/simple-generators";
+import { OptionDef, StyledTextComponentProp, isDateDisplayComponentProp, isExpressionDisplayProp } from "../types";
+import { generateExpressionDisplayComp, generateLocStrings } from "../utils/simple-generators";
 
 
 export const optionDefToItemComponent = (optionDef: OptionDef): ItemComponent => {
@@ -60,6 +60,12 @@ export const optionDefToItemComponent = (optionDef: OptionDef): ItemComponent =>
   if (optionDef.items) {
     if (optionDef.role === 'text') {
       optionDef.items.forEach((item, index) => {
+        if (isExpressionDisplayProp(item)) {
+          optEditor.addItemComponent(
+            generateExpressionDisplayComp(index.toFixed(), item)
+          );
+          return;
+        }
         const textItem = item as StyledTextComponentProp;
         optEditor.addItemComponent({
           key: index.toFixed(),

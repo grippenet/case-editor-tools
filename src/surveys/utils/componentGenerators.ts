@@ -1,17 +1,17 @@
 import { Expression, ItemComponent } from "survey-engine/data_types"
-import { StyledTextComponentProp } from "../types/item-properties";
+import { ExpressionDisplayProp, StyledTextComponentProp, isExpressionDisplayProp } from "../types/item-properties";
 import { generateRandomKey } from "./randomKeyGenerator"
-import { generateLocStrings } from "./simple-generators"
+import { generateExpressionDisplayComp, generateLocStrings } from "./simple-generators"
 
 
 export interface CommonProps {
   key?: string,
-  content?: Map<string, string> | StyledTextComponentProp[];
+  content?: Map<string, string> | Array<StyledTextComponentProp | ExpressionDisplayProp>;
   displayCondition?: Expression;
 }
 
 export interface TextProps extends CommonProps {
-  content: Map<string, string>;
+  content: Map<string, string> | Array<StyledTextComponentProp | ExpressionDisplayProp>;
   variant?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'li';
   className?: string;
 }
@@ -28,11 +28,26 @@ const text = (props: TextProps): ItemComponent => {
       key: 'variant', value: props.variant
     })
   }
+
+  const content = !Array.isArray(props.content) ? generateLocStrings(props.content) : undefined;
+  const items = Array.isArray(props.content) ? props.content.map(
+    (item, index) => {
+      return isExpressionDisplayProp(item) ? generateExpressionDisplayComp(generateRandomKey(6), item) : {
+        key: index.toFixed(),
+        role: 'text',
+        content: generateLocStrings(item.content),
+        style: item.className ? [{ key: 'className', value: item.className }] : undefined,
+      };
+    }
+  ) : undefined;
+
+
   return {
     key: props.key ?? generateRandomKey(3),
     role: 'text',
     style: styles.length > 0 ? styles : undefined,
-    content: generateLocStrings(props.content),
+    content: content,
+    items: items,
     displayCondition: props.displayCondition,
   }
 }
