@@ -1,17 +1,17 @@
 import { Expression, ItemComponent } from "survey-engine/data_types"
-import { ExpressionDisplayProp, StyledTextComponentProp, isExpressionDisplayProp } from "../types/item-properties";
+import { DateDisplayComponentProp, ExpressionDisplayProp, StyledTextComponentProp, isDateDisplayComponentProp, isExpressionDisplayProp } from "../types/item-properties";
 import { generateRandomKey } from "./randomKeyGenerator"
-import { generateExpressionDisplayComp, generateLocStrings } from "./simple-generators"
+import { generateDateDisplayComp, generateExpressionDisplayComp, generateLocStrings } from "./simple-generators"
 
 
 export interface CommonProps {
   key?: string,
-  content?: Map<string, string> | Array<StyledTextComponentProp | ExpressionDisplayProp>;
+  content?: Map<string, string> | Array<StyledTextComponentProp | DateDisplayComponentProp | ExpressionDisplayProp>;
   displayCondition?: Expression;
 }
 
 export interface TextProps extends CommonProps {
-  content: Map<string, string> | Array<StyledTextComponentProp | ExpressionDisplayProp>;
+  content: Map<string, string> | Array<StyledTextComponentProp | DateDisplayComponentProp | ExpressionDisplayProp>;
   variant?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'li';
   className?: string;
 }
@@ -32,12 +32,18 @@ const text = (props: TextProps): ItemComponent => {
   const content = !Array.isArray(props.content) ? generateLocStrings(props.content) : undefined;
   const items = Array.isArray(props.content) ? props.content.map(
     (item, index) => {
-      return isExpressionDisplayProp(item) ? generateExpressionDisplayComp(generateRandomKey(6), item) : {
-        key: index.toFixed(),
-        role: 'text',
-        content: generateLocStrings(item.content),
-        style: item.className ? [{ key: 'className', value: item.className }] : undefined,
-      };
+      if (isDateDisplayComponentProp(item)) {
+        return generateDateDisplayComp(index.toFixed(), item);
+      } else if (isExpressionDisplayProp(item)) {
+        return generateExpressionDisplayComp(index.toFixed(), item)
+      } else {
+        return {
+          key: index.toFixed(),
+          role: 'text',
+          content: generateLocStrings(item.content),
+          style: item.className ? [{ key: 'className', value: item.className }] : undefined,
+        };
+      }
     }
   ) : undefined;
 
