@@ -1,6 +1,12 @@
 # Changelog
 
-## 1.6.2 - 2023-09-09
+## 1.6.4 - 2023-09-20
+
+- new study engine expressions:
+  - `getTsForNextISOWeek`
+  - `getISOWeekForTs`
+
+## 1.6.2/3 - 2023-09-09
 
 ### Changed
 

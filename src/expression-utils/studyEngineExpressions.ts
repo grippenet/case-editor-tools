@@ -215,6 +215,30 @@ const timestampWithOffset = (delta: Duration, reference?: number | Expression) =
 )
 
 /**
+ * Get the ISO week value for a timestamp (POSIX).
+ * @param ts a hard coded number, or an expression that should retrieve a timestamp (e.g., surveys assigned from, or response to a date question)
+ * @returns
+ */
+const getISOWeekForTs = (ts: number | Expression) => generateExpression(
+  'getISOWeekForTs',
+  undefined,
+  ts
+)
+
+/**
+ * Generate a timestamp value (POSIX timestamp) for the beginning of the week for the first time that is later than the reference and has the ISO week as defined in argument ISOWeek.
+ * @param ISOWeek which ISO week should be used for the timestamp generation
+ * @param reference optional - a hard coded number, or an expression that should retrieve a timestamp (e.g., surveys assigned from, or response to a date question)
+ * @returns
+ */
+const getTsForNextISOWeek = (ISOWeek: number | Expression, reference?: number | Expression) => generateExpression(
+  'getTsForNextISOWeek',
+  undefined,
+  ISOWeek,
+  reference ? reference : undefined
+)
+
+/**
  * Attempt to parse the resolved argument's value as a number
  * @param valueRef resolve this argument, and try to parse this as number. Boolean value will result in error.
  * @returns
@@ -606,6 +630,8 @@ export const NativeStudyEngineExpressions = {
 
   // Other
   timestampWithOffset,
+  getISOWeekForTs,
+  getTsForNextISOWeek,
   parseValueAsNum,
   generateRandomNumber: (min: number, max: number) => generateExpression('generateRandomNumber', undefined, min, max),
   externalEventEval,
