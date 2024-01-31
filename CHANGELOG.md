@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.6.5 - 2024-01-31
+
+### Changed
+
+- fix `hasStudyStatus` generator in study engine expressions [issue #5](https://github.com/case-framework/case-editor-tools/issues/5)
+
 ## 1.6.4 - 2023-09-20
 
 - new study engine expressions:
