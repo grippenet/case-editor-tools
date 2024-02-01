@@ -135,8 +135,8 @@ const getSurveyKeyAssignedUntilForIncoming = (surveyKey: string) => generateExpr
  * @param status - string
  * @returns true/false
  */
-const hasStudyStatus = (status: string) => generateExpression('getSurveyKeyAssignedUntil', undefined, status);
-const hasStudyStatusForIncoming = (status: string) => generateExpression('incomingState:getSurveyKeyAssignedUntil', undefined, status);
+const hasStudyStatus = (status: string) => generateExpression('hasStudyStatus', undefined, status);
+const hasStudyStatusForIncoming = (status: string) => generateExpression('incomingState:hasStudyStatus', undefined, status);
 
 /**
  * Check if a participant flag with specific value is present
