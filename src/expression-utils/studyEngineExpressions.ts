@@ -12,7 +12,14 @@ const not = (arg: Expression): Expression => generateExpression('not', undefined
  * @param equalsType string with the possible values: 'ENTER', 'SUBMIT', 'TIMER', 'MERGE', 'LEAVE'
  * @returns if event type matches the argument, return true otherwise false
  */
-const checkEventType = (equalsType: 'ENTER' | 'SUBMIT' | 'TIMER' | 'MERGE' | 'LEAVE') => generateExpression('checkEventType', undefined, equalsType)
+const checkEventType = (equalsType: 'ENTER' | 'SUBMIT' | 'TIMER' | 'MERGE' | 'CUSTOM' | 'LEAVE') => generateExpression('checkEventType', undefined, equalsType)
+
+/**
+ * Check if the current event has the given key
+ * @param equalsKey string
+ * @returns if event key matches the argument, return true otherwise false
+ */
+const checkEventKey = (equalsKey: string) => generateExpression('checkEventKey', undefined, equalsKey);
 
 /**
  * Check if the submitted survey has a specific key
@@ -577,6 +584,7 @@ const hasSurveyKeyValidUntilSoonerThan = (surveyKey: string, delta: Duration, re
 
 export const NativeStudyEngineExpressions = {
   checkEventType,
+  checkEventKey,
   // Response checkers
   checkSurveyResponseKey,
   responseHasKeysAny,
