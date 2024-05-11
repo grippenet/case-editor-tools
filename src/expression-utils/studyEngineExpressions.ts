@@ -108,6 +108,7 @@ const checkConditionForOldResponses = (
 
 const hasEventPayload = (): Expression => generateExpression('hasEventPayload', undefined);
 const hasEventPayloadKey = (key: string): Expression => generateExpression('hasEventPayloadKey', undefined, key);
+const hasEventPayloadKeyWithValue = (key: string, value: string): Expression => generateExpression('hasEventPayloadKeyWithValue', undefined, key, value);
 const getEventPayloadValueAsStr = (key: string): Expression => generateExpression('getEventPayloadValueAsStr', 'string', key);
 const getEventPayloadValueAsNum = (key: string): Expression => generateExpression('getEventPayloadValueAsNum', 'float', key);
 
@@ -606,6 +607,7 @@ export const NativeStudyEngineExpressions = {
   eventPayload: {
     hasEventPayload,
     hasEventPayloadKey,
+    hasEventPayloadKeyWithValue,
     getEventPayloadValueAsStr,
     getEventPayloadValueAsNum,
   },
