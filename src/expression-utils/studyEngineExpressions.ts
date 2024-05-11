@@ -106,6 +106,11 @@ const checkConditionForOldResponses = (
   queryUntil?: number | Expression,
 ): Expression => generateExpression('checkConditionForOldResponses', undefined, condition, checkType, surveyKey, querySince, queryUntil)
 
+const hasEventPayload = (): Expression => generateExpression('hasEventPayload', undefined);
+const hasEventPayloadKey = (key: string): Expression => generateExpression('hasEventPayloadKey', undefined, key);
+const getEventPayloadValueAsStr = (key: string): Expression => generateExpression('getEventPayloadValueAsStr', 'string', key);
+const getEventPayloadValueAsNum = (key: string): Expression => generateExpression('getEventPayloadValueAsNum', 'float', key);
+
 /**
  * Method to access the timestamp for when the participant entered the study
  * @returns timestamp
@@ -597,6 +602,13 @@ export const NativeStudyEngineExpressions = {
   countResponseItems,
   // Old responses
   checkConditionForOldResponses,
+  // Event payload methods:
+  eventPayload: {
+    hasEventPayload,
+    hasEventPayloadKey,
+    getEventPayloadValueAsStr,
+    getEventPayloadValueAsNum,
+  },
   // Participant state:
   participantState: {
     getStudyEntryTime,
