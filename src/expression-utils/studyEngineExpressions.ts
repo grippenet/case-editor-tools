@@ -200,6 +200,15 @@ const getMessageNextTime = (messageType: string) => generateExpression('getMessa
 const getMessageNextTimeForIncoming = (messageType: string) => generateExpression('incomingState:getMessageNextTime', undefined, messageType);
 
 /**
+ * Retrieve the timestamp of the last submission
+ * @param surveyKey - optional - check for this specific survey key. If empty, it would check for all the submissions.
+ * @returns timestamp value or zero
+ */
+const getLastSubmissionDate = (surveyKey?: string) => generateExpression('getLastSubmissionDate', undefined, surveyKey);
+const getLastSubmissionDateForIncoming = (surveyKey?: string) => generateExpression('incomingState:getLastSubmissionDate', undefined, surveyKey);
+
+
+/**
  * Check if the last submission is older than the reference timestamp
  * @param reference look up this flag
  * @param surveyKey - optional - check for this specific survey key. If empty, it would check for all the submissions.
@@ -622,6 +631,7 @@ export const NativeStudyEngineExpressions = {
     hasParticipantFlagKey,
     getParticipantFlagValue,
     getParticipantFlagValueAsNum,
+    getLastSubmissionDate,
     lastSubmissionDateOlderThan,
     hasMessageTypeAssigned,
     getMessageNextTime,
@@ -635,6 +645,7 @@ export const NativeStudyEngineExpressions = {
       hasParticipantFlagKeyAndValue: hasParticipantFlagKeyAndValueForIncoming,
       hasParticipantFlagKey: hasParticipantFlagKeyForIncoming,
       getParticipantFlagValue: getParticipantFlagValueForIncoming,
+      getLastSubmissionDate: getLastSubmissionDateForIncoming,
       lastSubmissionDateOlderThan: lastSubmissionDateOlderThanForIncoming,
       hasMessageTypeAssigned: hasMessageTypeAssignedForIncoming,
       getMessageNextTime: getMessageNextTimeForIncoming,
