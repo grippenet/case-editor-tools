@@ -223,6 +223,9 @@ const lte = (val1: Expression | string | number, val2: Expression | string | num
 const gt = (val1: Expression | string | number, val2: Expression | string | number) => generateExpression('gt', undefined, val1, val2);
 const gte = (val1: Expression | string | number, val2: Expression | string | number) => generateExpression('gte', undefined, val1, val2);
 
+const add = (...values : (Expression | number)[]) => generateExpression('add', "float", ...values);
+const neg = (value: Expression|number) => generateExpression("neg", "float", value);
+
 /**
  * Generate a timestamp value (POSIX timestamp). T = T_ref + delta. If 'reference' is not defined, the current time will be used as a reference.
  * @param delta offset for the timestamp generation
@@ -660,7 +663,8 @@ export const NativeStudyEngineExpressions = {
   or,
   and,
   not,
-
+  add,
+  neg,
   // Other
   timestampWithOffset,
   getISOWeekForTs,
