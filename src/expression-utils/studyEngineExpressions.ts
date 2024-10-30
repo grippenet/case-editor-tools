@@ -223,7 +223,7 @@ const lte = (val1: Expression | string | number, val2: Expression | string | num
 const gt = (val1: Expression | string | number, val2: Expression | string | number) => generateExpression('gt', undefined, val1, val2);
 const gte = (val1: Expression | string | number, val2: Expression | string | number) => generateExpression('gte', undefined, val1, val2);
 
-const add = (...values : (Expression | number)[]) => generateExpression('add', "float", ...values);
+const sum = (...values : (Expression | number)[]) => generateExpression('sum', "float", ...values);
 const neg = (value: Expression|number) => generateExpression("neg", "float", value);
 
 /**
@@ -663,7 +663,7 @@ export const NativeStudyEngineExpressions = {
   or,
   and,
   not,
-  add,
+  sum,
   neg,
   // Other
   timestampWithOffset,

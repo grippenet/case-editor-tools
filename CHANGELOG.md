@@ -5,7 +5,7 @@
 ## Changed
 
 - nex study engine expressions:
-  - `add`
+  - `sum`
   - `neg`
 
 ## 1.6.5 - 2024-01-31
